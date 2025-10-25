@@ -1,0 +1,383 @@
+.section {
+  padding-top: 5rem; /* py-20 */
+  padding-bottom: 5rem;
+  background-color: #f9fafb; /* bg-gray-50 */
+}
+
+.container {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .container {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+
+.textCenter {
+  text-align: center;
+}
+
+.mb16 {
+  margin-bottom: 4rem;
+}
+
+.fadeIn {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.heading {
+  font-size: 2.25rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.subheading {
+  font-size: 1.25rem;
+  color: #4b5563;
+}
+
+.toggleWrapper {
+  margin-top: 2rem;
+  display: inline-flex;
+  background-color: #ffffff;
+  border-radius: 1rem;
+  padding: 0.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.studentToggle {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  background-image: linear-gradient(to right, #fb923c, #ec4899);
+  color: #ffffff;
+  transition: all 0.2s;
+}
+
+.parentToggle {
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.75rem;
+  font-weight: 600;
+  color: #4b5563;
+  transition: all 0.2s;
+}
+
+.parentToggle:hover {
+  color: #111827;
+}
+
+.pricingGrid {
+  display: grid;
+  gap: 2rem;
+  max-width: 64rem;
+  margin: 0 auto;
+}
+
+@media (min-width: 768px) {
+  .pricingGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.glassCard {
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.glassCardBorder {
+  position: relative;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  border-radius: 1.5rem;
+  padding: 2rem;
+  border: 2px solid #fdba74;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.iconWrapperGreen {
+  width: 4rem;
+  height: 4rem;
+  background-image: linear-gradient(to bottom right, #4ade80, #14b8a6);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.iconWrapperOrange {
+  width: 4rem;
+  height: 4rem;
+  background-image: linear-gradient(to bottom right, #fb923c, #ec4899);
+  border-radius: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+}
+
+.iconLarge {
+  width: 2rem;
+  height: 2rem;
+  color: #ffffff;
+}
+
+.planTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.planPrice {
+  font-size: 3rem;
+  font-weight: 700;
+  color: #111827;
+  margin-bottom: 0.5rem;
+}
+
+.planSubtext {
+  color: #4b5563;
+  margin-bottom: 2rem;
+}
+
+.planSubtextOrange {
+  font-size: 0.875rem;
+  color: #ea580c;
+  font-weight: 500;
+  margin-bottom: 2rem;
+}
+
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+
+.featureItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+
+.featureIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #22c55e;
+  margin-right: 0.75rem;
+  margin-top: 0.125rem;
+  flex-shrink: 0;
+}
+
+.freeButton {
+  width: 100%;
+  background-color: #e5e7eb;
+  color: #1f2937;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: background-color 0.2s;
+}
+
+.freeButton:hover {
+  background-color: #d1d5db;
+}
+
+.badgeWrapper {
+  position: absolute;
+  top: -1rem;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.badge {
+  background-image: linear-gradient(to right, #fb923c, #ec4899);
+  color: #ffffff;
+  padding: 0.5rem 1.5rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.tokenBox {
+  background-color: #fff7ed;
+  border-radius: 1rem;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.tokenHeading {
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 1rem;
+}
+
+.tokenFeatures {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  font-size: 0.875rem;
+}
+
+.tokenFeatureRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tokenFeature {
+  color: #374151;
+}
+
+.tokenBadge {
+  background-color: #ffedd5;
+  color: #9a3412;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+}
+
+.tokenButton {
+  width: 100%;
+  background-image: linear-gradient(to right, #fb923c, #ec4899);
+  color: #ffffff;
+  padding: 1rem;
+  border-radius: 1rem;
+  font-weight: 600;
+  font-size: 1.125rem;
+  transition: background 0.2s;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+.tokenButton:hover {
+  background-image: linear-gradient(to right, #f97316, #db2777);
+}
+
+.mt16 {
+  margin-top: 4rem;
+}
+
+.promos {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 1rem;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 1.5rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 640px) {
+  .promos {
+    flex-direction: row;
+  }
+}
+
+.promoRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.badgeRed {
+  background-color: #ef4444;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  animation: pulse 2s infinite;
+}
+
+.badgeBlue {
+  background-color: #3b82f6;
+  color: #ffffff;
+  padding: 0.5rem 1rem;
+  border-radius: 9999px;
+  font-size: 0.875rem;
+  font-weight: 700;
+}
+
+.textDark {
+  color: #1f2937;
+  font-weight: 500;
+}
+
+.textRed {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+.referralBox {
+  margin-top: 1.5rem;
+  background-image: linear-gradient(to right, #faf5ff, #fdf2f8);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  max-width: 42rem;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.referralHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 0.5rem;
+}
+
+.referralIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  color: #9333ea;
+}
+
+.referralHeading {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #581c87;
+}
+
+.referralText {
+  color: #6b21a8;
+}

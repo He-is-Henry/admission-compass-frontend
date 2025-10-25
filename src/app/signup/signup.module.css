@@ -1,0 +1,206 @@
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.6;
+  color: white;
+}
+
+.container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.heroSection {
+  display: flex;
+  flex: 1;
+  background: url("/admissioncompass.jpg") no-repeat center center/cover;
+  background-color: rgba(0, 0, 0, 0.6);
+  background-blend-mode: overlay;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  transition: transform 0.5s ease-out;
+}
+
+.heroSection:hover {
+  transform: scale(1.05);
+  opacity: 1;
+}
+
+.heroContent {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  max-width: 500px;
+}
+
+.heroContent h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 300;
+}
+
+.heroContent p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.formSection {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  background: #fafafa;
+}
+
+.formContainer {
+  width: 100%;
+  max-width: 500px;
+}
+
+.formCard {
+  background: transparent;
+  border-radius: 10px;
+  width: 400px;
+  padding: 1.6rem;
+
+  display: flex;
+  flex-direction: column;
+  animation: pop-up 1s ease-in-out;
+}
+
+@keyframes pop-up {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.formHeader {
+  text-align: center;
+  margin-bottom: 1.5em;
+}
+
+.logo {
+  width: 65px;
+  height: 65px;
+  display: flex;
+  background: rgb(255, 253, 253);
+  margin: 0 auto 1em auto;
+  font-size: 1.2em;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background: url("/admissioncompass.jpg") no-repeat center center/cover;
+}
+
+.formTitle {
+  margin: 0.3em 1em;
+  font-size: 2em;
+  color: black;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+}
+
+.formParagraph {
+  font-size: 1em;
+  color: rgb(27, 23, 23);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.formBody {
+  margin-bottom: 2em;
+}
+
+.inputWrap {
+  position: relative;
+}
+
+.formInput {
+  color: #000000;
+  width: 100%;
+  padding: 1.2em;
+  border: 2px #3e4591;
+  border-radius: 19px;
+  font-size: 0.9rem;
+  background-color: rgb(231, 226, 226);
+  transition: border-color 0.2s;
+}
+
+.formInput:focus {
+  outline: none;
+  border-color: #8f97be;
+  background: rgb(240, 240, 240);
+
+  transform: scale(1.02);
+  transition: ease-in-out all 0.3s;
+}
+
+.formInput:hover {
+  border-color: #504c8b;
+  outline: none;
+  transform: scale(1.04);
+  transition: ease-in-out all 0.3s;
+}
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.submitButton {
+  background-image: linear-gradient(
+    to right,
+    #020014 0%,
+    #030449 51%,
+    #050e41 100%
+  );
+}
+
+.submitButton {
+  width: calc(100% - 15px);
+  margin: 10px;
+  padding: 15px 15px;
+  text-align: center;
+  text-transform: uppercase;
+  transition: 0.5s;
+  background-size: 200% auto;
+  color: white;
+  box-shadow: 0 0 20px #eee;
+  border-radius: 14px;
+  display: block;
+}
+
+.submitButton:hover {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+  animation: 1s ease-out;
+  border-radius: 20px;
+}
+
+.loginLink {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 300;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #161616;
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
+  color: #2e2d2d;
+}
+
+.link:hover {
+  color: #302591;
+  text-decoration: none;
+  transition: ease-in-out all 0.3s;
+}

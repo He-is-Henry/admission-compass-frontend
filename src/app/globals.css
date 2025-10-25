@@ -1,4 +1,4 @@
-:root {
+/* :root {
   --background: #ffffff;
   --foreground: #171717;
 }
@@ -39,4 +39,118 @@ a {
   html {
     color-scheme: dark;
   }
+} */
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background-color: #f9fafb; /* Tailwind's bg-gray-50 */
+  font-size: 16px;
+  line-height: 1.6;
+  scroll-behavior: smooth;
+  margin: 0;
+}
+.gradient-bg {
+  background: linear-gradient(135deg, #ffb457 0%, #ff6f61 100%);
+}
+
+.glass-card {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+.fade-in,
+.fadeIn {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.6s ease;
+}
+
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.hover-lift {
+  transition: transform 0.2s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+}
+
+.compass-icon {
+  background: linear-gradient(45deg, #ffb457, #ff6f61);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #ff5a5f 0%, #ff6f61 100%);
+  border-radius: 16px;
+  min-height: 44px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 90, 95, 0.3);
+}
+
+.btn-secondary {
+  border: 2px solid #ff5a5f;
+  border-radius: 16px;
+  min-height: 44px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: #ff5a5f;
+  color: white;
+}
+
+.input-field {
+  border-radius: 12px;
+  min-height: 44px;
+  border: 2px solid #e5e7eb;
+  transition: all 0.2s ease;
+}
+
+.input-field:focus {
+  border-color: #0b1b3b;
+  box-shadow: 0 0 0 3px rgba(11, 27, 59, 0.1);
+  outline: none;
+}
+
+.success-green {
+  color: #2ecc71;
+}
+.warning-amber {
+  color: #ffb020;
+}
+.trust-navy {
+  color: #0b1b3b;
+}
+.coral-primary {
+  color: #ff5a5f;
+}
+
+.flex {
+  display: flex;
 }
