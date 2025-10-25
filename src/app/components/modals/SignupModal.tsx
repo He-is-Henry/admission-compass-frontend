@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
 import styles from "./modal.module.css";
 
-const SignupModal: React.FC = () => {
-  const [close, setClose] = useState(false);
-  if (close) return null;
+type Props = {
+  closeModal: () => void;
+};
+function SignupModal({ closeModal }: Props) {
   return (
     <div
       id="signupModal"
@@ -19,7 +19,7 @@ const SignupModal: React.FC = () => {
           className={styles.closeBtn}
           aria-label="Close signup modal"
           // todo: implement closeModal('signupModal')
-          onClick={() => setClose(true)}
+          onClick={closeModal}
         >
           <svg
             className={styles.closeIcon}
@@ -85,7 +85,6 @@ const SignupModal: React.FC = () => {
             type="submit"
             className={styles.submitBtn}
             aria-label="Create account"
-            // todo: handle form submission
           >
             Create Account
           </button>
@@ -151,11 +150,7 @@ const SignupModal: React.FC = () => {
 
           <p className={styles.switchText}>
             Already have an account?{" "}
-            <button
-              type="button"
-              className={styles.link}
-              // todo: implement showLogin()
-            >
+            <button type="button" className={styles.link}>
               Login
             </button>
           </p>
@@ -163,6 +158,6 @@ const SignupModal: React.FC = () => {
       </div>
     </div>
   );
-};
+}
 
 export default SignupModal;

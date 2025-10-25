@@ -1,7 +1,6 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from "./header.module.css";
-import { showLogin, showSignup } from "@/lib/modals";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 
@@ -9,30 +8,86 @@ const Header: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
 
+  // Refs to detect outside clicks
+  const loginRef = useRef<HTMLDivElement | null>(null);
+  const signupRef = useRef<HTMLDivElement | null>(null);
+
   const closeAllModals = () => {
     setShowLogin(false);
     setShowSignup(false);
   };
 
+  useEffect(() => {
+    const handleClick = (e: PointerEvent) => {
+      const target = e.target as Node;
+      // Close if click outside both modals
+      if (showLogin && loginRef.current && !loginRef.current.contains(target)) {
+        closeAllModals();
+        console.log("closed login");
+      }
+
+      if (
+        showSignup &&
+        signupRef.current &&
+        !signupRef.current.contains(target)
+      ) {
+        console.log("closed signup");
+
+        closeAllModals();
+      }
+    };
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeAllModals();
+    };
+
+    document.addEventListener("click", handleClick);
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("click", handleClick);
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [showLogin, showSignup]);
+
   const openLogin = () => {
-    if (showLogin) return;
-    closeAllModals();
-    setShowLogin(true);
+    if (!showLogin) {
+      closeAllModals();
+      setShowLogin(true);
+    }
   };
+
   const openSignup = () => {
-    if (showSignup) return;
-    closeAllModals();
-    setShowSignup(true);
+    if (!showSignup) {
+      closeAllModals();
+      setShowSignup(true);
+    }
   };
+
   return (
     <header className={styles.header}>
       <div>
-        {showLogin && <LoginModal />}
-        {showSignup && <SignupModal />}
+        {showLogin && (
+          <div
+            ref={loginRef}
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+          >
+            <LoginModal closeModal={() => setShowLogin(false)} />
+          </div>
+        )}
+        {showSignup && (
+          <div
+            ref={signupRef}
+            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
+          >
+            <SignupModal closeModal={() => setShowSignup(false)} />
+          </div>
+        )}
       </div>
+
       <div className={styles.container}>
         <div className={styles.inner}>
-          {/* Logo section */}
+          {/* Logo */}
           <div className={styles.logoWrapper}>
             <div className={styles.logoCircle}>
               <svg
@@ -47,12 +102,8 @@ const Header: React.FC = () => {
             <span className={styles.brandName}>Admission Compass</span>
           </div>
 
-          {/* Navigation */}
-          <nav
-            className={styles.nav}
-            role="navigation"
-            aria-label="Main navigation"
-          >
+          {/* Nav */}
+          <nav className={styles.nav} aria-label="Main navigation">
             <a href="#features" className={styles.navLink}>
               Features
             </a>
@@ -69,18 +120,10 @@ const Header: React.FC = () => {
 
           {/* Buttons */}
           <div className={styles.buttonGroup}>
-            <button
-              onClick={openLogin}
-              className={styles.loginButton}
-              aria-label="Login to your account"
-            >
+            <button onClick={openLogin} className={styles.loginButton}>
               Login
             </button>
-            <button
-              onClick={openSignup}
-              className={styles.signupButton}
-              aria-label="Create new account"
-            >
+            <button onClick={openSignup} className={styles.signupButton}>
               Sign Up
             </button>
           </div>

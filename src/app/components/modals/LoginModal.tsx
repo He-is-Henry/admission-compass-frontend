@@ -1,10 +1,11 @@
 "use client";
-import { useState } from "react";
 import styles from "./modal.module.css";
 
-export default function LoginModal() {
-  const [close, setClose] = useState(false);
-  if (close) return null;
+type Props = {
+  closeModal: () => void;
+};
+
+export default function LoginModal({ closeModal }: Props) {
   return (
     <div
       id="loginModal"
@@ -17,7 +18,7 @@ export default function LoginModal() {
         <button
           className={styles.closeButton}
           aria-label="Close login modal"
-          onClick={() => setClose(true)}
+          onClick={closeModal}
           // todo: connect to closeModal('loginModal')
         >
           ✕
