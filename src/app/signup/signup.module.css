@@ -1,12 +1,15 @@
 body {
   font-family: Arial, Helvetica, sans-serif;
   line-height: 1.6;
-  color: white;
+  color: rgb(10, 22, 136);
 }
 
 .container {
   display: flex;
   min-height: 100vh;
+  box-sizing: border-box;
+  justify-content: center;
+  align-items: center;
 }
 
 .heroSection {
@@ -57,6 +60,7 @@ body {
 .formContainer {
   width: 100%;
   max-width: 500px;
+
 }
 
 .formCard {
@@ -126,10 +130,10 @@ body {
   color: #000000;
   width: 100%;
   padding: 1.2em;
-  border: 2px #3e4591;
+  border: 2px #000003;
   border-radius: 19px;
   font-size: 0.9rem;
-  background-color: rgb(231, 226, 226);
+  background-color: rgb(211, 0, 0);
   transition: border-color 0.2s;
 }
 
@@ -157,9 +161,9 @@ body {
 .submitButton {
   background-image: linear-gradient(
     to right,
-    #020014 0%,
-    #030449 51%,
-    #050e41 100%
+    #2611df 0%,
+    #4244ca 51%,
+    #020a35 100%
   );
 }
 

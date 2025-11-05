@@ -245,7 +245,7 @@
 }
 
 .form input:focus {
-  border-color: #f97316;
+  border-color: #0c0fa0;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }
 
@@ -263,7 +263,7 @@
 }
 
 .primaryBtn {
-  background: linear-gradient(to right, #f97316, #ec4899);
+  background: linear-gradient(to right, #000000, #ec4899);
   color: white;
   border: none;
   border-radius: 0.75rem;
@@ -414,6 +414,6 @@
 
 select:focus,
 input:focus {
-  border-color: #f97316;
+  border-color: #4a09c4;
   box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
 }

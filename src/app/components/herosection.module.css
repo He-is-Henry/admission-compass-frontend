@@ -1,5 +1,5 @@
 .hero {
-  background: linear-gradient(90deg, #f97316, #ea580c);
+  background: linear-gradient(90deg, #25629b, #080133);
   padding-top: 5rem;
   padding-bottom: 5rem;
 }
@@ -57,7 +57,7 @@
 
 .title {
   font-size: 3rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 1.5rem;
   line-height: 1.2;
 }
@@ -69,14 +69,14 @@
 }
 
 .highlight {
-  color: #fef08a;
+  color: #3eaa4d;
 }
 
 .description {
-  font-size: 1.25rem;
-  color: #ffedd5;
+  font-size: 1rem;
+  color: #fafafa;
   margin-bottom: 2rem;
-  line-height: 1.75;
+  line-height: 1.5;
 }
 
 /* button group */
@@ -94,7 +94,7 @@
 
 .primaryBtn {
   background: #fff;
-  color: #f97316;
+  color: #3ba549;
   padding: 1rem 2rem;
   border-radius: 1rem;
   font-weight: 600;
@@ -115,20 +115,20 @@
   color: #fff;
   padding: 1rem 2rem;
   border-radius: 1rem;
-  font-weight: 600;
-  font-size: 1.125rem;
+  font-weight: 500;
+  font-size: 1.2rem;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .secondaryBtn:hover {
   background: #fff;
-  color: #f97316;
+  color: #3ba549;
 }
 
 /* glass card */
 .glassCard {
-  background: rgba(255, 255, 255, 0.85);
+  background: whitesmoke;
   backdrop-filter: blur(12px);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -151,7 +151,7 @@
 
 .progressTitle {
   font-size: 1.25rem;
-  font-weight: 600;
+  font-weight: 500;
   color: #1f2937;
 }
 
