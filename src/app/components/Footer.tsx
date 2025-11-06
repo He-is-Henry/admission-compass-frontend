@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./footer.module.css";
+import Image from "next/image"
 
 export default function Footer() {
   return (
@@ -9,17 +10,17 @@ export default function Footer() {
         <div className={styles.grid}>
           <div>
             <div className={styles.logoContainer}>
-              <div className={styles.logoIcon}>
-                <svg
-                  className={styles.logoSvg}
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-label="Admission Compass logo"
-                >
-                  <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
-                </svg>
-              </div>
-              <span className={styles.logoText}>Admission Compass</span>
+            
+                    <Image 
+                src ="/admissioncompass.jpg"
+                alt = "Admission Compass Logo"
+                width ={40}
+                height ={40}
+                className= {styles.logoSvg}
+                />
+              
+              
+              <span className={styles.logoText}>ADMISSION COMPASS</span>
             </div>
             <p className={styles.description}>
               Guiding students to their perfect university match with

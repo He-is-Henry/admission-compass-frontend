@@ -44,13 +44,14 @@
   width: 3rem;
   height: 3rem;
   object-fit: contain;
+  border-radius: 50%;
 }
  
-.brandName {
-  color: green;
-  font-weight: 500;
-  font-size: 1rem;
-}
+/* .brandName {
+  color: rgb(3, 3, 20);
+  font-weight: 650;
+  font-size: 1.5rem;
+} */
 
 /* navigation */
 .nav {

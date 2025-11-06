@@ -40,14 +40,16 @@
 }
 
 .logoSvg {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 3rem;
+  height: 3rem;
   color: #fff;
+  border-radius: 50%;
 }
 
 .logoText {
   font-weight: 700;
   font-size: 1.25rem;
+  
 }
 
 .description {

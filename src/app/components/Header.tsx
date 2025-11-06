@@ -91,15 +91,15 @@ const Header: React.FC = () => {
           {/* Logo */}
           <div className={styles.logoWrapper}>
                 <Image 
-                src ="/Admissioncompasslogo.png"
+                src ="/admissioncompass.jpg"
                 alt = "Admission Compass Logo"
                 width ={40}
                 height ={40}
                 className= {styles.logoImage}
                 />
   
-            <span className={styles.brandName}>Admission Compass</span>
-          </div>
+{/*             <span className={styles.brandName}>ADMISSION COMPASS</span>
+ */}          </div>
 
           {/* Nav */}
           <nav className={styles.nav} aria-label="Main navigation">
