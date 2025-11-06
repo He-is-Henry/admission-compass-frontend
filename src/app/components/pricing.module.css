@@ -63,26 +63,28 @@
 .toggleWrapper {
   margin-top: 2rem;
   display: inline-flex;
-  background-color: #ffffff;
+  background: rgba(225, 225, 225, 0.2);
   border-radius: 1rem;
   padding: 0.5rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 15px 20px -2px rgba(90, 89, 89, 0.1);
 }
 
 .studentToggle {
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
-  font-weight: 600;
-  background-image: linear-gradient(to right, #fb923c, #ec4899);
-  color: #ffffff;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  background:white;
+  color:#3ba549 ;
   transition: all 0.2s;
 }
 
 .parentToggle {
   padding: 0.75rem 1.5rem;
   border-radius: 0.75rem;
-  font-weight: 600;
-  color: #4b5563;
+  border: 1px solid;
+  font-weight: 500;
+  color: #030303;
   transition: all 0.2s;
 }
 
@@ -104,7 +106,7 @@
 }
 
 .glassCard {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(225,225,225 0.2);
   backdrop-filter: blur(10px);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -117,7 +119,8 @@
   backdrop-filter: blur(10px);
   border-radius: 1.5rem;
   padding: 2rem;
-  border: 2px solid #fdba74;
+  border: 2px solid #5f2e1d9a;
+;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 }
 
@@ -132,15 +135,19 @@
   margin: 0 auto 1.5rem;
 }
 
-.iconWrapperOrange {
-  width: 4rem;
-  height: 4rem;
-  background-image: linear-gradient(to bottom right, #fb923c, #ec4899);
-  border-radius: 1rem;
+.iconWrapperLogo {
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 1.5rem;
+}
+
+.iconWrapper{
+  width: 4.5rem;
+  height: 4.5rem;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
 }
 
 .iconLarge {
@@ -170,7 +177,7 @@
 
 .planSubtextOrange {
   font-size: 0.875rem;
-  color: #ea580c;
+  color: #010002e1;
   font-weight: 500;
   margin-bottom: 2rem;
 }
@@ -219,8 +226,8 @@
 }
 
 .badge {
-  background-image: linear-gradient(to right, #fb923c, #ec4899);
-  color: #ffffff;
+  background-color: #f3e8c4;
+  color: #5f2e1d9a;
   padding: 0.5rem 1.5rem;
   border-radius: 9999px;
   font-size: 0.875rem;
@@ -229,7 +236,7 @@
 }
 
 .tokenBox {
-  background-color: #fff7ed;
+  background-color: rgba(235, 235, 235, 0.884);
   border-radius: 1rem;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -259,8 +266,8 @@
 }
 
 .tokenBadge {
-  background-color: #ffedd5;
-  color: #9a3412;
+  background-color: #f3e8c4;
+  color: #5f2e1d9a;
   padding: 0.25rem 0.5rem;
   border-radius: 0.5rem;
   font-weight: 500;
@@ -268,8 +275,8 @@
 
 .tokenButton {
   width: 100%;
-  background-image: linear-gradient(to right, #fb923c, #ec4899);
-  color: #ffffff;
+  background-color: white;
+  color: #3ba549;
   padding: 1rem;
   border-radius: 1rem;
   font-weight: 600;
@@ -279,7 +286,8 @@
 }
 
 .tokenButton:hover {
-  background-image: linear-gradient(to right, #f97316, #db2777);
+  background-color: whitesmoke;
+  color:rgba(5, 82, 5, 0.87);
 }
 
 .mt16 {

@@ -1,6 +1,7 @@
 "use client";
 
 import styles from "./pricing.module.css";
+import  Image from "next/image"
 
 export default function Pricing() {
   return (
@@ -58,7 +59,6 @@ export default function Pricing() {
               <ul className={styles.featureList}>
                 {[
                   "Preview admission likelihood percentage",
-                  "1 free alternative school suggestion",
                   "10 free UTME practice questions per subject",
                   "Basic cutoff information",
                 ].map((item, i) => (
@@ -92,15 +92,15 @@ export default function Pricing() {
             </div>
 
             <div className={styles.textCenter}>
-              <div className={styles.iconWrapperOrange}>
-                <svg
-                  className={styles.iconLarge}
-                  fill="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-label="Token plan icon"
-                >
-                  <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
-                </svg>
+              <div className={styles.iconWrapperLogo}>
+                <Image 
+                src ="/admissioncompass.jpg"
+                alt = "Admission Compass Logo"
+                width ={40}
+                height ={40}
+                className= {styles.iconWrapper}
+                />
+        
               </div>
               <h3 className={styles.planTitle}>Token Bundle</h3>
               <div className={styles.planPrice}>₦1,000</div>

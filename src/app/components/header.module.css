@@ -1,9 +1,9 @@
 .header {
-  position: sticky;
+  position: relative;
   top: 0;
   z-index: 50;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(90deg, #f97316, #ea580c);
+  background: linear-gradient(90deg, #ffffff, #e2e2e2)
 }
 
 /* container */
@@ -33,34 +33,25 @@
   padding: 1rem 0;
 }
 
-/* logo section */
+/* * logo section */
 .logoWrapper {
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
-.logoCircle {
-  width: 2.5rem;
-  height: 2.5rem;
-  background: #fff;
-  border-radius: 9999px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+.logoImage {
+  width: 3rem;
+  height: 3rem;
+  object-fit: contain;
+  border-radius: 50%;
 }
-
-.logoIcon {
-  width: 1.5rem;
-  height: 1.5rem;
-  color: #f97316;
-}
-
-.brandName {
-  color: #fff;
-  font-weight: 700;
-  font-size: 1.25rem;
-}
+ 
+/* .brandName {
+  color: rgb(3, 3, 20);
+  font-weight: 650;
+  font-size: 1.5rem;
+} */
 
 /* navigation */
 .nav {
@@ -75,12 +66,13 @@
 }
 
 .navLink {
-  color: #fff;
+  color: #0c0e0c;
   transition: color 0.2s;
+  text-decoration: none;
 }
 
 .navLink:hover {
-  color: #ffedd5;
+  color: #292827;
 }
 
 /* buttons */
@@ -91,7 +83,7 @@
 }
 
 .loginButton {
-  color: #fff;
+  color: #020000;
   background: transparent;
   border: none;
   padding: 0 1rem;
@@ -101,12 +93,12 @@
 }
 
 .loginButton:hover {
-  color: #ffedd5;
+  color: #000000;
 }
 
 .signupButton {
   background: #fff;
-  color: #f97316;
+  color: #000000;
   padding: 0.5rem 1.5rem;
   border-radius: 9999px;
   font-weight: 600;
@@ -117,5 +109,5 @@
 }
 
 .signupButton:hover {
-  background: #fff7ed;
+  background: #979090;
 }

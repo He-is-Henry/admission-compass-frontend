@@ -40,7 +40,7 @@ body {
   margin-bottom: 1.5em;
 }
 
-.logo {
+.logoIcon {
   width: 65px;
   height: 65px;
   display: flex;
@@ -84,8 +84,8 @@ body {
   padding: 1.2em;
   border: 2px #cfd0d4;
   border-radius: 19px;
-  font-size: 0.9rem;
-  background-color: rgb(236, 236, 236);
+  font-size: 0.2rem;
+  background-color: rgb(223, 217, 217);
   transition: border-color 0.2s;
 }
 

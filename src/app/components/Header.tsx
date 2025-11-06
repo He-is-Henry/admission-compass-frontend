@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
+import Image from "next/image";
 
 const Header: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -89,18 +90,16 @@ const Header: React.FC = () => {
         <div className={styles.inner}>
           {/* Logo */}
           <div className={styles.logoWrapper}>
-            <div className={styles.logoCircle}>
-              <svg
-                className={styles.logoIcon}
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-label="Admission Compass logo"
-              >
-                <path d="M12 2L13.09 8.26L22 9L13.09 9.74L12 16L10.91 9.74L2 9L10.91 8.26L12 2Z" />
-              </svg>
-            </div>
-            <span className={styles.brandName}>Admission Compass</span>
-          </div>
+                <Image 
+                src ="/admissioncompass.jpg"
+                alt = "Admission Compass Logo"
+                width ={40}
+                height ={40}
+                className= {styles.logoImage}
+                />
+  
+{/*             <span className={styles.brandName}>ADMISSION COMPASS</span>
+ */}          </div>
 
           {/* Nav */}
           <nav className={styles.nav} aria-label="Main navigation">
