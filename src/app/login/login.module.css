@@ -8,7 +8,7 @@ body {
   justify-content: center;
   align-items: center;
   display: flex;
-  padding: 3rem;
+  padding: 6rem;
 }
 
 .formContainer {
@@ -38,6 +38,10 @@ body {
 .formHeader {
   text-align: center;
   margin-bottom: 1.5em;
+}
+
+.loginTitle{
+  font-weight: 1000;
 }
 
 .logoIcon {

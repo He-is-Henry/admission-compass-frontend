@@ -165,14 +165,14 @@ export default function Pricing() {
             <div className={styles.promoRow}>
               <span className={styles.badgeRed}>50% OFF</span>
               <span className={styles.textDark}>
-                First 500 users get 50% off! Only{" "}
-                <span className={styles.textRed}>247</span> spots left.
+                First 200 users get 50% off! Only{" "}
+                <span className={styles.textRed}>147</span> spots left.
               </span>
             </div>
             <div className={styles.promoRow}>
               <span className={styles.badgeBlue}>EXTRA 20% OFF</span>
               <span className={styles.textDark}>
-                First 200 users get additional 20% off!
+                First 50 users get additional 20% off!
               </span>
             </div>
           </div>

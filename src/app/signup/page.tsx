@@ -7,7 +7,12 @@ export const metadata: Metadata = {
 };
 
 function page() {
-  return <SignUp />;
+  return <div style={{
+    width: '100vw',
+    backgroundColor: "red"
+  }}>
+    <SignUp />
+  </div>;
 }
 
 export default page;
