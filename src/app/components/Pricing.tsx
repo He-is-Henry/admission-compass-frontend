@@ -1,7 +1,8 @@
 "use client";
 
+import Link from "next/link";
 import styles from "./pricing.module.css";
-import  Image from "next/image"
+import Image from "next/image";
 
 export default function Pricing() {
   return (
@@ -93,14 +94,13 @@ export default function Pricing() {
 
             <div className={styles.textCenter}>
               <div className={styles.iconWrapperLogo}>
-                <Image 
-                src ="/admissioncompass.jpg"
-                alt = "Admission Compass Logo"
-                width ={40}
-                height ={40}
-                className= {styles.iconWrapper}
+                <Image
+                  src="/admissioncompass.jpg"
+                  alt="Admission Compass Logo"
+                  width={40}
+                  height={40}
+                  className={styles.iconWrapper}
                 />
-        
               </div>
               <h3 className={styles.planTitle}>Token Bundle</h3>
               <div className={styles.planPrice}>₦1,000</div>
@@ -151,7 +151,12 @@ export default function Pricing() {
                 className={styles.tokenButton}
                 aria-label="Buy token bundle"
               >
-                Buy Tokens Now
+                <Link
+                  style={{ textDecoration: "none", color: "inherit" }}
+                  href={"/pay"}
+                >
+                  Buy Tokens Now
+                </Link>
               </button>
             </div>
           </div>

@@ -4,10 +4,12 @@ import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
+import getCurrentUser from "../lib/getCurrentUser";
 
 const Header: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
 
   // Refs to detect outside clicks
   const loginRef = useRef<HTMLDivElement | null>(null);
@@ -17,8 +19,13 @@ const Header: React.FC = () => {
     setShowLogin(false);
     setShowSignup(false);
   };
+  const getUser = async () => {
+    const userData: User = await getCurrentUser();
+    setUser(userData);
+  };
 
   useEffect(() => {
+    getUser();
     const handleClick = (e: PointerEvent) => {
       const target = e.target as Node;
       // Close if click outside both modals
@@ -64,6 +71,7 @@ const Header: React.FC = () => {
       setShowSignup(true);
     }
   };
+  console.log(user);
 
   return (
     <header className={styles.header}>
@@ -73,7 +81,10 @@ const Header: React.FC = () => {
             ref={loginRef}
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
-            <LoginModal closeModal={() => setShowLogin(false)} />
+            <LoginModal
+              getUser={getUser}
+              closeModal={() => setShowLogin(false)}
+            />
           </div>
         )}
         {showSignup && (
@@ -90,16 +101,16 @@ const Header: React.FC = () => {
         <div className={styles.inner}>
           {/* Logo */}
           <div className={styles.logoWrapper}>
-                <Image 
-                src ="/admissioncompass.jpg"
-                alt = "Admission Compass Logo"
-                width ={40}
-                height ={40}
-                className= {styles.logoImage}
-                />
-  
-{/*             <span className={styles.brandName}>ADMISSION COMPASS</span>
- */}          </div>
+            <Image
+              src="/admissioncompass.jpg"
+              alt="Admission Compass Logo"
+              width={40}
+              height={40}
+              className={styles.logoImage}
+            />
+            {/*             <span className={styles.brandName}>ADMISSION COMPASS</span>
+             */}{" "}
+          </div>
 
           {/* Nav */}
           <nav className={styles.nav} aria-label="Main navigation">
@@ -118,14 +129,18 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Buttons */}
-          <div className={styles.buttonGroup}>
-            <button onClick={openLogin} className={styles.loginButton}>
-              Login
-            </button>
-            <button onClick={openSignup} className={styles.signupButton}>
-              Sign Up
-            </button>
-          </div>
+          {user ? (
+            `Welcome, ${user.username}`
+          ) : (
+            <div className={styles.buttonGroup}>
+              <button onClick={openLogin} className={styles.loginButton}>
+                Login
+              </button>
+              <button onClick={openSignup} className={styles.signupButton}>
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </header>
