@@ -54,7 +54,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.facebook.com/profile.php?id=61583349613509"
                 className={styles.socialLink}
                 aria-label="Follow us on Facebook"
               >

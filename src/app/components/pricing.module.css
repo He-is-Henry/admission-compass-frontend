@@ -71,6 +71,7 @@
 
 .studentToggle {
   padding: 0.75rem 1.5rem;
+ margin-right: 0.55rem;
   border: none;
   border-radius: 0.5rem;
   font-weight: 700;
@@ -81,7 +82,7 @@
 
 .parentToggle {
   padding: 0.75rem 1.5rem;
-  border-radius: 0.75rem;
+  border-radius: 0.5rem;
   border: 1px solid;
   font-weight: 500;
   color: #030303;
@@ -228,8 +229,6 @@
 .badge {
   background-color: #f3e8c4;
   color: #5f2e1d9a;
-  padding: 0.5rem 1.5rem;
-  border-radius: 9999px;
   font-size: 0.875rem;
   font-weight: 600;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -238,14 +237,18 @@
 .tokenBox {
   background-color: rgba(235, 235, 235, 0.884);
   border-radius: 1rem;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
+  padding: 1rem ; 
+  margin: auto;
+  width: 14rem;
+  
 }
+
 
 .tokenHeading {
   font-weight: 600;
   color: #111827;
   margin-bottom: 1rem;
+  line-height: 1.7rem;
 }
 
 .tokenFeatures {
@@ -268,10 +271,13 @@
 .tokenBadge {
   background-color: #f3e8c4;
   color: #5f2e1d9a;
-  padding: 0.25rem 0.5rem;
+  padding:0.25rem;
   border-radius: 0.5rem;
   font-weight: 500;
 }
+
+
+
 
 .tokenButton {
   width: 100%;

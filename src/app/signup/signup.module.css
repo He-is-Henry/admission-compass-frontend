@@ -139,7 +139,7 @@ body {
 
 .formInput:focus {
   outline: none;
-  border-color: #8f97be;
+  border-color: #0a0a0a;
   background: rgb(240, 240, 240);
 
   transform: scale(1.02);

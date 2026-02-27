@@ -1,25 +1,52 @@
 .modalOverlay {
-  position: fixed;
+  backdrop-filter:blur(4px) ;
+  position:fixed;
+  top: 0;
+  left:0 ;
+  bottom: 0;
+width:100% ;
+height: 100%;
   inset: 0;
-  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   z-index: 50;
   animation: fadeIn 0.3s ease forwards;
-}
+} 
 
-.modalContent {
-  position: relative;
-  background: rgba(255, 255, 255, 0.85);
+ .modalContent {
+  /* z-index: 60;
+  backdrop-filter: blur(7px);
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  min-height: 50px;
+  transform: translate(-50% -50%);
+background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(12px);
+  border-radius: 0.5rem;
+  padding: 2rem;
+  max-width: 420px;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  animation: scaleUp 0.4s ease forwards; */
+  z-index: 60;
+   position: absolute;
+  background: white;
+  backdrop-filter: blur(20px);
   border-radius: 1.5rem;
   padding: 2rem;
-  max-width: 28rem;
-  width: 100%;
-  margin: 0 1rem;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  animation: scaleUp 0.4s ease forwards;
-}
+  max-width: 420px;
+  width: 90%;
+  overflow-y: auto;
+  max-height: calc(100vh - 100px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: slideUp 0.3s forwards;
+} 
 
 .header {
   text-align: center;
@@ -38,18 +65,19 @@
 }
 
 .form {
+  box-sizing: border-box;
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  
+  gap: 1rem;
 }
 
 .input {
-  width: 100%;
-  padding: 0.75rem 1rem;
+  
+  padding: 0.25rem 0.5rem;
   border-radius: 0.75rem;
-  border: 1px solid #d1d5db;
+  border: 3px solid #2c2c2c;
   outline: none;
-  font-size: 1rem;
+  font-size: 0.25rem;
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 
@@ -60,11 +88,11 @@
 
 .submitBtn {
   width: 100%;
-  background: linear-gradient(to right, #fb923c, #f472b6);
+  background: linear-gradient(to right, #050129, #3520ac);
   color: #fff;
   padding: 0.75rem;
   border-radius: 0.75rem;
-  font-weight: 600;
+  font-weight: 400;
   font-size: 1rem;
   border: none;
   cursor: pointer;
@@ -72,7 +100,7 @@
 }
 
 .submitBtn:hover {
-  background: linear-gradient(to right, #f97316, #ec4899);
+  background: linear-gradient(to right, #120370, #3712dd);
 }
 
 .divider {
@@ -140,7 +168,7 @@
 }
 
 .link {
-  color: #f97316;
+  color: #070616;
   font-weight: 600;
   text-decoration: none;
 }
@@ -194,18 +222,27 @@
 }
 
 .overlay {
-  position: fixed;
+ backdrop-filter:blur(4px) ;
+  position:fixed;
+  top: 0;
+  left:0 ;
+  bottom: 0;
+width:100% ;
+height: 100%;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
   align-items: center;
   justify-content: center;
   z-index: 50;
-  animation: fadeIn 0.3s forwards;
+  animation: fadeIn 0.3s ease forwards;
 }
 
 .modal {
-  position: relative;
-  background: rgba(255, 255, 255, 0.8);
+
+  position: absolute;
+  background: white;
   backdrop-filter: blur(20px);
   border-radius: 1.5rem;
   padding: 2rem;
@@ -217,14 +254,15 @@
 
 .header h2 {
   font-size: 1.8rem;
-  font-weight: 700;
-  color: #222;
+  font-weight: 650;
+  color: #0e0d0d;
   margin-bottom: 0.5rem;
   text-align: center;
 }
 
 .header p {
-  color: #666;
+  color: #3f3e3e;
+  font-size: 0.85rem;
   text-align: center;
   margin-bottom: 2rem;
 }
@@ -237,16 +275,15 @@
 
 .form input {
   padding: 0.75rem;
-  border-radius: 0.75rem;
-  border: 1px solid #ccc;
-  font-size: 1rem;
+  border: 1px solid #ebe7e7;
+  font-size: 0.90rem;
   outline: none;
   transition: border-color 0.2s ease;
 }
 
 .form input:focus {
-  border-color: #0c0fa0;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
+  border-color: #383838;
+  box-shadow: 0 0 0 1px rgba(189, 186, 186, 0.1);
 }
 
 .options {
@@ -263,10 +300,15 @@
 }
 
 .primaryBtn {
-  background: linear-gradient(to right, #000000, #ec4899);
+   background-image: linear-gradient(
+    to right,
+    #020014 0%,
+    #030449 51%,
+    #050e41 100%
+  );
   color: white;
   border: none;
-  border-radius: 0.75rem;
+  border-radius: 0.5;
   padding: 0.75rem;
   font-weight: 600;
   cursor: pointer;
@@ -336,9 +378,14 @@
 .link {
   background: none;
   border: none;
-  color: #f97316;
+  color:  #f97316;
   font-weight: 600;
   cursor: pointer;
+}
+
+.link:hover{
+  text-decoration: none;
+  color: #020014;
 }
 
 .closeButton {
