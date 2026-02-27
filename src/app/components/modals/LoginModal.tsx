@@ -1,19 +1,20 @@
 "use client";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import axios from "@/app/api/axios";
 import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
+import toast from "react-hot-toast";
+import { useRouter } from "next/navigation";
 
 type Props = {
   closeModal: () => void;
-  getUser: () => void;
 };
 
-export default function LoginModal({ closeModal, getUser }: Props) {
+export default function LoginModal({ closeModal }: Props) {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
+  const router = useRouter();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -21,8 +22,10 @@ export default function LoginModal({ closeModal, getUser }: Props) {
     try {
       const res = await axios.post("/login", { id, password });
       console.log(res.data);
+      router.refresh();
       // todo: store user / redirect
-      getUser();
+
+      toast.success("User sucessfully logged in");
       closeModal(); // optional
     } catch (err) {
       const axiosErr = err as AxiosError<{ error: string }>;

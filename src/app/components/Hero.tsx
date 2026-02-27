@@ -1,8 +1,9 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./herosection.module.css";
+import { getAllSubjects } from "../lib/subject";
 
-const HeroSection: React.FC = () => {
+const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -33,6 +34,14 @@ const HeroSection: React.FC = () => {
                 Practice 10 Free Questions
               </button>
             </div>
+            {subjects.length && (
+              <div>
+                Available subjects{" "}
+                {subjects.map((s) => (
+                  <p key={s.code}>{s.name}</p>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Right card column */}

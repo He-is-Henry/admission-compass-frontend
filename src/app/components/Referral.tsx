@@ -1,8 +1,27 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import getCurrentUser from "../lib/getCurrentUser";
 import styles from "./referral.module.css";
+import toast from "react-hot-toast";
 
 export default function Referral() {
+  const [user, setUser] = useState<null | User>(null);
+  const getUser = async () => {
+    const userData: User = await getCurrentUser();
+    setUser(userData);
+  };
+
+  useEffect(() => {
+    getUser();
+  }, []);
+  const username = user?.username;
+
+  const copy = (text: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`Username ${username} copied`);
+  };
+
   return (
     <section className={styles.section}>
       <div className={styles.container}>
@@ -45,11 +64,11 @@ export default function Referral() {
                         Your unique username
                       </p>
                       <p className={styles.username} id="userReferralCode">
-                        student_sarah2024
+                        {user?.username}
                       </p>
                     </div>
                     <button
-                      // TODO: Add copyReferralLink() logic
+                      onClick={() => copy(username ?? "")}
                       className={styles.copyButton}
                       aria-label="Copy referral link"
                     >
