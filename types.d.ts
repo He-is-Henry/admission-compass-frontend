@@ -39,3 +39,23 @@ type Question = {
 type NewQuestion = Omit<Question, "_id"> & { _tempId: number };
 
 type UpdateQuestion = Partial<Question>;
+
+type LeaderboardEntry = {
+  referrer: {
+    _id: string;
+    firstName: string;
+    username: string;
+  };
+  count: number;
+};
+
+type ReferralHistory = {
+  _id: string;
+  referred: {
+    _id: string;
+    firstName: string;
+    username: string;
+  };
+  paid: boolean;
+  createdAt: string;
+};

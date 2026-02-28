@@ -3,41 +3,32 @@ import React, { useEffect, useState } from "react";
 import styles from "./herosection.module.css";
 import { useRouter } from "next/navigation";
 import axios from "../api/axios";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-
-type LeaderboardEntry = {
-  referrer: { _id: string; firstName: string; username: string };
-  count: number;
-};
 
 const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
 
-const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
+type Props = {
+  subjects: Subject[];
+};
+
+const HeroSection = ({ subjects }: Props) => {
   const router = useRouter();
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
       try {
-        console.log("Getting lb");
         const res = await axios.get("/leaderboard");
-        console.log("Got lb");
-        setLeaderboard(res.data);
-        console.log(res.data)
-      } catch (err) {
-        const axiosErr = err as AxiosError<{ error: string }>;
-        toast.error(axiosErr.message + " Failed to load leaderboard");
+        setLeaderboard(res.data.lead);
+      } catch {
+        // fail silently
       }
     };
     fetchLeaderboard();
   }, []);
-
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
         <div className={styles.grid}>
-          {/* Left text column */}
           <div className={`${styles.textArea} ${styles.fadeIn} fade-in`}>
             <h1 className={styles.title}>
               Find Your Admission Path with{" "}
@@ -74,7 +65,6 @@ const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
             )}
           </div>
 
-          {/* Right card column */}
           <div className={`${styles.fadeIn} fade-in`}>
             <div className={styles.glassCard}>
               <div className={styles.cardContent}>
@@ -118,7 +108,6 @@ const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
           </div>
         </div>
 
-        {/* Leaderboard */}
         {leaderboard.length > 0 && (
           <div
             className={`${styles.fadeIn} fade-in`}

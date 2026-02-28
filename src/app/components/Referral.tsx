@@ -4,25 +4,55 @@ import { useEffect, useState } from "react";
 import getCurrentUser from "../lib/getCurrentUser";
 import styles from "./referral.module.css";
 import toast from "react-hot-toast";
+import axios from "../api/axios";
+
+type ReferralHistory = {
+  _id: string;
+  referred: {
+    _id: string;
+    firstName: string;
+    username: string;
+  };
+  paid: boolean;
+  createdAt: string;
+};
 
 export default function Referral() {
   const [user, setUser] = useState<null | User>(null);
+  const [history, setHistory] = useState<ReferralHistory[]>([]);
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      try {
+        const res = await axios.get("/leaderboard");
+        setHistory(res.data.history);
+      } catch {
+        // fail silently
+      }
+    };
+    fetchHistory();
+  }, []);
   const getUser = async () => {
     const userData: User = await getCurrentUser();
     setUser(userData);
+    return userData;
   };
 
   useEffect(() => {
     getUser();
   }, []);
-  const username = user?.username;
 
-  const copy = async (text: string) => {
-    await getUser();
-    if (!user) return toast.error("Not logged in!");
-    navigator.clipboard.writeText(text);
-    toast.success(`Referral link ${username} copied`);
+  const copy = async () => {
+    const freshUser = await getUser();
+    if (!freshUser) return toast.error("Not logged in!");
+    const link = `${window.location.origin}?ref=${freshUser.username}`;
+    navigator.clipboard.writeText(link);
+    toast.success("Referral link copied");
   };
+
+  const paidCount = history.filter((h) => h.paid).length;
+  const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
+  const freeTokensEarned = Math.floor(paidCount / 3);
 
   return (
     <section className={styles.section}>
@@ -66,13 +96,11 @@ export default function Referral() {
                         Your unique username
                       </p>
                       <p className={styles.username} id="userReferralCode">
-                        {user?.username}
+                        {user?.username ?? "—"}
                       </p>
                     </div>
                     <button
-                      onClick={() =>
-                        copy(window.location.href + "?ref=" + username || "")
-                      }
+                      onClick={copy}
                       className={styles.copyButton}
                       aria-label="Copy referral link"
                     >
@@ -92,103 +120,124 @@ export default function Referral() {
                 <div className={styles.progressContainer}>
                   <div className={styles.progressHeader}>
                     <span>Progress to Free Token</span>
-                    <span>3/3 referrals</span>
+                    <span>{paidCount % 3}/3 referrals</span>
                   </div>
                   <div
                     className={styles.progressBar}
                     role="progressbar"
-                    aria-valuenow={100}
+                    aria-valuenow={progress}
                     aria-valuemin={0}
                     aria-valuemax={100}
-                    aria-label="Referral progress 100 percent complete"
+                    aria-label={`Referral progress ${Math.round(progress)} percent`}
                   >
                     <div
                       className={styles.progressFill}
-                      style={{ width: "100%" }}
+                      style={{ width: `${progress}%` }}
                     ></div>
                   </div>
-                  <p className={styles.progressCongrats}>
-                    🎉 Congratulations! You&apos;ve earned 1 free token!
-                  </p>
+                  {freeTokensEarned > 0 && (
+                    <p className={styles.progressCongrats}>
+                      🎉 You&apos;ve earned {freeTokensEarned} free token
+                      {freeTokensEarned > 1 ? "s" : ""}!
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div>
                 <h4 className={styles.historyHeading}>Referral History</h4>
                 <div className={styles.historyList}>
-                  {[
-                    {
-                      name: "Michael O.",
-                      status: "+₦100 discount",
-                      time: "2 days ago",
-                    },
-                    {
-                      name: "Fatima A.",
-                      status: "+₦100 discount",
-                      time: "1 week ago",
-                    },
-                  ].map((ref, i) => (
-                    <div key={i} className={styles.historySuccess}>
-                      <div className={styles.historyItem}>
-                        <div className={styles.historyUser}>
-                          <div className={styles.successIconWrap}>
-                            <svg
-                              className={styles.successIcon}
-                              fill="currentColor"
-                              viewBox="0 0 24 24"
-                              aria-label="Success icon"
-                            >
-                              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
-                            </svg>
+                  {history.length === 0 && (
+                    <p style={{ color: "#888", fontSize: "0.9rem" }}>
+                      No referrals yet. Share your link to get started!
+                    </p>
+                  )}
+
+                  {history
+                    .filter((h) => h.paid)
+                    .map((h) => (
+                      <div key={h._id} className={styles.historySuccess}>
+                        <div className={styles.historyItem}>
+                          <div className={styles.historyUser}>
+                            <div className={styles.successIconWrap}>
+                              <svg
+                                className={styles.successIcon}
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-label="Success icon"
+                              >
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className={styles.historyName}>
+                                {h.referred.firstName}
+                              </p>
+                              <p className={styles.historyDesc}>
+                                Joined & purchased tokens
+                              </p>
+                            </div>
                           </div>
-                          <div>
-                            <p className={styles.historyName}>{ref.name}</p>
-                            <p className={styles.historyDesc}>
-                              Joined & purchased tokens
+                          <div className={styles.historyRight}>
+                            <p className={styles.historyReward}>
+                              +₦100 discount
+                            </p>
+                            <p className={styles.historyTime}>
+                              {new Date(h.createdAt).toLocaleDateString(
+                                "en-GB",
+                              )}{" "}
                             </p>
                           </div>
                         </div>
-                        <div className={styles.historyRight}>
-                          <p className={styles.historyReward}>{ref.status}</p>
-                          <p className={styles.historyTime}>{ref.time}</p>
-                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
 
-                  <div className={styles.historyPending}>
-                    <div className={styles.historyItem}>
-                      <div className={styles.historyUser}>
-                        <div className={styles.pendingIconWrap}>
-                          <svg
-                            className={styles.pendingIcon}
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            aria-label="Pending icon"
-                          >
-                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
-                          </svg>
-                        </div>
-                        <div>
-                          <p className={styles.historyName}>David K.</p>
-                          <p className={styles.historyDesc}>
-                            Signed up (pending purchase)
-                          </p>
+                  {history
+                    .filter((h) => !h.paid)
+                    .map((h) => (
+                      <div key={h._id} className={styles.historyPending}>
+                        <div className={styles.historyItem}>
+                          <div className={styles.historyUser}>
+                            <div className={styles.pendingIconWrap}>
+                              <svg
+                                className={styles.pendingIcon}
+                                fill="currentColor"
+                                viewBox="0 0 24 24"
+                                aria-label="Pending icon"
+                              >
+                                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" />
+                              </svg>
+                            </div>
+                            <div>
+                              <p className={styles.historyName}>
+                                {h.referred.firstName}
+                              </p>
+                              <p className={styles.historyDesc}>
+                                Signed up (pending purchase)
+                              </p>
+                            </div>
+                          </div>
+                          <div className={styles.historyRight}>
+                            <p className={styles.historyPendingText}>Pending</p>
+                            <p className={styles.historyTime}>
+                              {new Date(h.createdAt).toLocaleDateString()}
+                            </p>
+                          </div>
                         </div>
                       </div>
-                      <div className={styles.historyRight}>
-                        <p className={styles.historyPendingText}>Pending</p>
-                        <p className={styles.historyTime}>3 days ago</p>
-                      </div>
-                    </div>
-                  </div>
+                    ))}
                 </div>
 
                 <div className={styles.earningsBox}>
                   <div className={styles.textCenter}>
-                    <p className={styles.earningsLabel}>Total Earnings</p>
-                    <p className={styles.earningsValue}>₦200</p>
-                    <p className={styles.earningsExtra}>+ 1 Free Token</p>
+                    <p className={styles.earningsLabel}>Total Paid Referrals</p>
+                    <p className={styles.earningsValue}>{paidCount}</p>
+                    {freeTokensEarned > 0 && (
+                      <p className={styles.earningsExtra}>
+                        + {freeTokensEarned} Free Token
+                        {freeTokensEarned > 1 ? "s" : ""}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>

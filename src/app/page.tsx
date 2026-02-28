@@ -8,20 +8,16 @@ import Pricing from "./components/Pricing";
 import Referral from "./components/Referral";
 import Footer from "./components/Footer";
 import Hooks from "./page.client";
-import getCurrentUser from "./lib/getCurrentUser";
 import { getAllSubjects } from "./lib/subject";
+import { getLeaderboard } from "./lib/leaderboard";
 
 export const metadata: Metadata = {
   title: "Admission compass",
   description: "Find Your Admission Path with Confidence",
 };
 
-const getSubjects = async () => {
-  const subjectsData = await getAllSubjects();
-  return subjectsData;
-};
 export default async function Home() {
-  const subjects: Subject[] = await getSubjects();
+  const subjects = await getAllSubjects();
   return (
     <>
       <Hooks />
