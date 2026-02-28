@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import styles from "./herosection.module.css";
 import { getAllSubjects } from "../lib/subject";
+import { useRouter } from "next/navigation";
 
 const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
+  const router = useRouter();
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -30,8 +32,9 @@ const HeroSection = ({ subjects }: { subjects: Subject[] }) => {
               <button
                 className={styles.secondaryBtn}
                 aria-label="Try free features"
+                onClick={() => router.push("/exam")}
               >
-                Practice 10 Free Questions
+                Practice Past Questions
               </button>
             </div>
             {subjects.length && (
