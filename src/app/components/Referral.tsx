@@ -17,9 +17,11 @@ export default function Referral() {
   }, []);
   const username = user?.username;
 
-  const copy = (text: string) => {
+  const copy = async (text: string) => {
+    await getUser();
+    if (!user) return toast.error("Not logged in!");
     navigator.clipboard.writeText(text);
-    toast.success(`Username ${username} copied`);
+    toast.success(`Referral link ${username} copied`);
   };
 
   return (
@@ -68,7 +70,9 @@ export default function Referral() {
                       </p>
                     </div>
                     <button
-                      onClick={() => copy(username ?? "")}
+                      onClick={() =>
+                        copy(window.location.href + "?ref=" + username || "")
+                      }
                       className={styles.copyButton}
                       aria-label="Copy referral link"
                     >
@@ -201,15 +205,15 @@ export default function Referral() {
                   {num === 1
                     ? "Share Your Username"
                     : num === 2
-                    ? "They Sign Up & Buy"
-                    : "Earn Rewards"}
+                      ? "They Sign Up & Buy"
+                      : "Earn Rewards"}
                 </h3>
                 <p className={styles.stepDesc}>
                   {num === 1
                     ? "Send your unique username to friends who need admission guidance"
                     : num === 2
-                    ? "When they purchase tokens using your referral, you both benefit"
-                    : "Get 10% discount on next purchase + free tokens every 3 referrals"}
+                      ? "When they purchase tokens using your referral, you both benefit"
+                      : "Get 10% discount on next purchase + free tokens every 3 referrals"}
                 </p>
               </div>
             ))}

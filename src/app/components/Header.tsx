@@ -7,6 +7,7 @@ import Image from "next/image";
 import getCurrentUser from "../lib/getCurrentUser";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
+import { useSearchParams } from "next/navigation";
 
 const Header: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
@@ -14,10 +15,14 @@ const Header: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [verifying, setVerifying] = useState<boolean>(true);
 
+  const searchParams = useSearchParams();
+  const ref = searchParams.get("ref");
   // Refs to detect outside clicks
   const loginRef = useRef<HTMLDivElement | null>(null);
   const signupRef = useRef<HTMLDivElement | null>(null);
-
+  useEffect(() => {
+    if (ref) setShowSignup(true);
+  }, [ref]);
   const closeAllModals = () => {
     setShowLogin(false);
     setShowSignup(false);
@@ -30,7 +35,7 @@ const Header: React.FC = () => {
     } catch (error) {
       const err = error as AxiosError<{ error: string }>;
       toast.error(
-        err?.response?.data?.error || err.message || "Failed to verify user"
+        err?.response?.data?.error || err.message || "Failed to verify user",
       );
     }
   };

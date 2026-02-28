@@ -5,6 +5,7 @@ import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import getCurrentUser from "@/app/lib/getCurrentUser";
 
 type Props = {
   closeModal: () => void;
@@ -22,11 +23,11 @@ export default function LoginModal({ closeModal }: Props) {
     try {
       const res = await axios.post("/login", { id, password });
       console.log(res.data);
-      router.refresh();
       // todo: store user / redirect
 
       toast.success("User sucessfully logged in");
-      closeModal(); // optional
+      closeModal();
+      getCurrentUser();
     } catch (err) {
       const axiosErr = err as AxiosError<{ error: string }>;
       setError(axiosErr.response?.data?.error || "Login failed");
