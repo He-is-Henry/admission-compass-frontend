@@ -50,10 +50,33 @@ function AddQuestionPage({ subjects }: { subjects: Subject[] }) {
     }
   };
 
-  if (!subjects) return <p>Add at least one subject before adding questions</p>;
+  if (!subjects.length)
+    return <p>Add at least one subject before adding questions</p>;
 
   return (
     <div>
+      <textarea
+        name="question"
+        id="questions"
+        onChange={(e) => {
+          try {
+            const parsed: NewQuestion[] = JSON.parse(e.target.value);
+            const resolved = parsed.map((q) => {
+              const match = subjects.find(
+                (s) => s.name.toLowerCase() === q.subject.name.toLowerCase(),
+              );
+              alert(JSON.stringify(match));
+              return match
+                ? { ...q, subject: { name: match.name, _id: match._id } }
+                : q;
+            });
+            setQuestions(resolved);
+          } catch {
+            // ignore invalid JSON while typing
+          }
+        }}
+        value={JSON.stringify(questions)}
+      />
       {questions.map((q, i) => (
         <QuestionDisplay
           key={q._tempId}

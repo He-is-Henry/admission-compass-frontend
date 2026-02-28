@@ -2,7 +2,6 @@ import React from "react";
 import AddQuestionPage from "./page.client";
 import { Metadata } from "next";
 import { getAllSubjects } from "@/app/lib/subject";
-import { AxiosError } from "axios";
 
 export const metadata: Metadata = {
   title: "Add questions",
