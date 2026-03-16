@@ -59,3 +59,11 @@ type ReferralHistory = {
   paid: boolean;
   createdAt: string;
 };
+
+type University = {
+  id: string;
+  name: string;
+  requires_post_utme: boolean;
+  requires_olevel_grades: boolean;
+  requires_sittings: boolean;
+};

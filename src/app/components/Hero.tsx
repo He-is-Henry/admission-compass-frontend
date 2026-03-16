@@ -41,7 +41,7 @@ const HeroSection = ({ subjects }: Props) => {
             </p>
             <div className={styles.buttonGroup}>
               <button
-                onClick={() => console.log("Prediction Flow")}
+                onClick={() => router.push("/predict")}
                 className={styles.primaryBtn}
                 aria-label="Check your admission chances"
               >
