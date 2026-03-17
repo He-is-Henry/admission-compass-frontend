@@ -3,7 +3,7 @@
   top: 0;
   z-index: 50;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  background: linear-gradient(90deg, #ffffff, #e2e2e2)
+  background: linear-gradient(90deg, #ffffff, #e2e2e2);
 }
 
 /* container */
@@ -46,7 +46,7 @@
   object-fit: contain;
   border-radius: 50%;
 }
- 
+
 /* .brandName {
   color: rgb(3, 3, 20);
   font-weight: 650;
@@ -110,4 +110,35 @@
 
 .signupButton:hover {
   background: #979090;
+}
+
+.userPill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.userPill:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #659377;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+}
+
+.username {
+  font-size: 14px;
+  font-weight: 500;
 }

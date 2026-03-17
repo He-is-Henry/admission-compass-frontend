@@ -4,16 +4,16 @@ import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
-import getCurrentUser from "../lib/getCurrentUser";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../hooks/useAuth";
+import AccountModal from "./modals/AccountModal";
 
 const Header: React.FC = () => {
   const [showLogin, setShowLogin] = useState(false);
   const [showSignup, setShowSignup] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [verifying, setVerifying] = useState<boolean>(true);
+  const [showAccount, setShowAccount] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
 
   const searchParams = useSearchParams();
   const ref = searchParams.get("ref");
@@ -27,21 +27,8 @@ const Header: React.FC = () => {
     setShowLogin(false);
     setShowSignup(false);
   };
-  const getUser = async () => {
-    try {
-      const userData: User = await getCurrentUser();
-      setUser(userData);
-      setVerifying(false);
-    } catch (error) {
-      const err = error as AxiosError<{ error: string }>;
-      toast.error(
-        err?.response?.data?.error || err.message || "Failed to verify user",
-      );
-    }
-  };
 
   useEffect(() => {
-    getUser();
     const handleClick = (e: PointerEvent) => {
       const target = e.target as Node;
       // Close if click outside both modals
@@ -108,12 +95,16 @@ const Header: React.FC = () => {
             <SignupModal closeModal={() => setShowSignup(false)} />
           </div>
         )}
+
+        {showAccount && (
+          <AccountModal closeModal={() => setShowAccount(false)} />
+        )}
       </div>
 
       <div className={styles.container}>
         <div className={styles.inner}>
           {/* Logo */}
-          <div className={styles.logoWrapper}>
+          <div className={styles.logoWrapper} onClick={() => router.push("/")}>
             <Image
               src="/admissioncompass.jpg"
               alt="Admission Compass Logo"
@@ -143,9 +134,18 @@ const Header: React.FC = () => {
 
           {/* Buttons */}
           {user ? (
-            `Welcome, ${user.username} (${user.tokens} tokens)`
-          ) : verifying ? (
-            "Getting user info..."
+            <div
+              className={styles.userPill}
+              onClick={() => setShowAccount(true)}
+            >
+              <div className={styles.avatar}>
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+
+              <span className={styles.username}>{user.username}</span>
+            </div>
+          ) : loading ? (
+            "Loading..."
           ) : (
             <div className={styles.buttonGroup}>
               <button onClick={openLogin} className={styles.loginButton}>

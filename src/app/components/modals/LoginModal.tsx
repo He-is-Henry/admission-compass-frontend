@@ -1,21 +1,23 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import axios from "@/app/api/axios";
 import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import getCurrentUser from "@/app/lib/getCurrentUser";
+import { tokenStore } from "@/app/lib/tokenStore";
 
 type Props = {
   closeModal: () => void;
 };
 
 export default function LoginModal({ closeModal }: Props) {
+  const router = useRouter();
+  const { refreshUser } = useAuth();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -23,11 +25,12 @@ export default function LoginModal({ closeModal }: Props) {
     try {
       const res = await axios.post("/login", { id, password });
       console.log(res.data);
-      // todo: store user / redirect
-
+      tokenStore.set(res.data.accessToken);
+      console.log(res.data.user.sessions);
       toast.success("User sucessfully logged in");
       closeModal();
-      getCurrentUser();
+      refreshUser();
+      router.refresh();
     } catch (err) {
       const axiosErr = err as AxiosError<{ error: string }>;
       setError(axiosErr.response?.data?.error || "Login failed");

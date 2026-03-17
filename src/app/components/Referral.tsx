@@ -5,6 +5,7 @@ import getCurrentUser from "../lib/getCurrentUser";
 import styles from "./referral.module.css";
 import toast from "react-hot-toast";
 import axios from "../api/axios";
+import { useAuth } from "../hooks/useAuth";
 
 type ReferralHistory = {
   _id: string;
@@ -18,9 +19,8 @@ type ReferralHistory = {
 };
 
 export default function Referral() {
-  const [user, setUser] = useState<null | User>(null);
   const [history, setHistory] = useState<ReferralHistory[]>([]);
-
+  const { user } = useAuth();
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -32,20 +32,10 @@ export default function Referral() {
     };
     fetchHistory();
   }, []);
-  const getUser = async () => {
-    const userData: User = await getCurrentUser();
-    setUser(userData);
-    return userData;
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
 
   const copy = async () => {
-    const freshUser = await getUser();
-    if (!freshUser) return toast.error("Not logged in!");
-    const link = `${window.location.origin}?ref=${freshUser.username}`;
+    if (!user) return toast.error("Not logged in!");
+    const link = `${window.location.origin}?ref=${user.username}`;
     navigator.clipboard.writeText(link);
     toast.success("Referral link copied");
   };

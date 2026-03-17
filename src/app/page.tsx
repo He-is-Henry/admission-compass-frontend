@@ -21,9 +21,7 @@ export default async function Home() {
   return (
     <>
       <Hooks />
-      <Header />
       <main>
-        {" "}
         <HeroSection subjects={subjects} />
         <FeaturesSection />
         <HowItWorks />

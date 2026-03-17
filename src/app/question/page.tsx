@@ -4,6 +4,8 @@ import { Metadata } from "next";
 import { getAllQuestions } from "../lib/question";
 import { getAllSubjects } from "../lib/subject";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "See All Questions",
 };
