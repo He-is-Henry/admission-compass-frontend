@@ -3,8 +3,26 @@ import styles from "./referral.module.css";
 import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
 
-export default function Referral({ history }: { history: ReferralHistory[] }) {
+type ReferralProps = {
+  history: {
+    data: ReferralHistory[];
+    total: number;
+    hasMore: boolean;
+  };
+  onLoadMore: () => void;
+  loadingMore?: boolean;
+};
+
+export default function Referral({
+  history,
+  onLoadMore,
+  loadingMore,
+}: ReferralProps) {
   const { user } = useAuth();
+
+  const paidCount = history.data.filter((h) => h.paid).length;
+  const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
+  const freeTokensEarned = Math.floor(paidCount / 3);
 
   const copy = async () => {
     if (!user) return toast.error("Not logged in!");
@@ -12,10 +30,6 @@ export default function Referral({ history }: { history: ReferralHistory[] }) {
     navigator.clipboard.writeText(link);
     toast.success("Referral link copied");
   };
-
-  const paidCount = history.filter((h) => h.paid).length;
-  const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
-  const freeTokensEarned = Math.floor(paidCount / 3);
 
   return (
     <section className={styles.section}>
@@ -110,13 +124,13 @@ export default function Referral({ history }: { history: ReferralHistory[] }) {
               <div>
                 <h4 className={styles.historyHeading}>Referral History</h4>
                 <div className={styles.historyList}>
-                  {history.length === 0 && (
+                  {history.data.length === 0 && (
                     <p style={{ color: "#888", fontSize: "0.9rem" }}>
                       No referrals yet. Share your link to get started!
                     </p>
                   )}
 
-                  {history
+                  {history.data
                     .filter((h) => h.paid)
                     .map((h) => (
                       <div key={h._id} className={styles.historySuccess}>
@@ -155,7 +169,7 @@ export default function Referral({ history }: { history: ReferralHistory[] }) {
                       </div>
                     ))}
 
-                  {history
+                  {history.data
                     .filter((h) => !h.paid)
                     .map((h) => (
                       <div key={h._id} className={styles.historyPending}>
@@ -190,7 +204,15 @@ export default function Referral({ history }: { history: ReferralHistory[] }) {
                       </div>
                     ))}
                 </div>
-
+                {history.hasMore && (
+                  <button
+                    onClick={onLoadMore}
+                    disabled={loadingMore}
+                    className={styles.loadMoreBtn}
+                  >
+                    {loadingMore ? "Loading..." : "Load more"}
+                  </button>
+                )}
                 <div className={styles.earningsBox}>
                   <div className={styles.textCenter}>
                     <p className={styles.earningsLabel}>Total Paid Referrals</p>

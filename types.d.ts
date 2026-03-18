@@ -64,6 +64,8 @@ type LeaderboardEntry = {
     firstName: string;
     username: string;
   };
+  position: number | null;
+  isCurrentUser: boolean;
   count: number;
 };
 
