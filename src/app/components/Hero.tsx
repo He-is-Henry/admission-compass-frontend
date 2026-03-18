@@ -8,23 +8,12 @@ const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
 
 type Props = {
   subjects: Subject[];
+  leaderboard: LeaderboardEntry[];
 };
 
-const HeroSection = ({ subjects }: Props) => {
+const HeroSection = ({ subjects, leaderboard }: Props) => {
   const router = useRouter();
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
 
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const res = await axios.get("/leaderboard");
-        setLeaderboard(res.data.lead);
-      } catch {
-        // fail silently
-      }
-    };
-    fetchLeaderboard();
-  }, []);
   return (
     <section className={styles.hero}>
       <div className={styles.container}>

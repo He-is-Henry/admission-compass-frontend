@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import Hooks from "./page.client";
 import { getAllSubjects } from "./lib/subject";
 import { getLeaderboard } from "./lib/leaderboard";
+import RequireLeaderboard from "./components/RequireLeaderboard";
 
 export const metadata: Metadata = {
   title: "Admission compass",
@@ -18,16 +19,17 @@ export const metadata: Metadata = {
 
 export default async function Home() {
   const subjects = await getAllSubjects();
+
   return (
     <>
       <Hooks />
       <main>
-        <HeroSection subjects={subjects} />
-        <FeaturesSection />
-        <HowItWorks />
-        <StatsSection />
-        <Pricing />
-        <Referral />
+        <RequireLeaderboard subjects={subjects}>
+          <FeaturesSection />
+          <HowItWorks />
+          <StatsSection />
+          <Pricing />
+        </RequireLeaderboard>
         <Footer />
       </main>
     </>

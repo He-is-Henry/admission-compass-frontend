@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "@/app/api/axios";
+import api from "@/app/api/axios";
 import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
@@ -10,9 +10,10 @@ import { tokenStore } from "@/app/lib/tokenStore";
 
 type Props = {
   closeModal: () => void;
+  showSignup: () => void;
 };
 
-export default function LoginModal({ closeModal }: Props) {
+export default function LoginModal({ closeModal, showSignup }: Props) {
   const router = useRouter();
   const { refreshUser } = useAuth();
   const [id, setId] = useState("");
@@ -23,7 +24,7 @@ export default function LoginModal({ closeModal }: Props) {
     setError("");
 
     try {
-      const res = await axios.post("/login", { id, password });
+      const res = await api.post("/login", { id, password });
       console.log(res.data);
       tokenStore.set(res.data.accessToken);
       console.log(res.data.user.sessions);
@@ -146,7 +147,7 @@ export default function LoginModal({ closeModal }: Props) {
           </div>
           <p className={styles.footerText}>
             New here?{" "}
-            <button type="button" className={styles.link}>
+            <button type="button" className={styles.link} onClick={showSignup}>
               Create an account
             </button>
           </p>

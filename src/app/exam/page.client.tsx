@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import axios from "@/app/api/axios";
+import api from "@/app/api/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 
@@ -19,7 +19,7 @@ export default function ExamPage({ subjects }: Props) {
     if (!subjectId) return toast.error("Please select a subject");
     setLoading(true);
     try {
-      await axios.get(`/exam/start?subject=${subjectId}`);
+      await api.get(`/exam/start?subject=${subjectId}`);
       router.push(`/exam/${subjectId}`);
     } catch (err) {
       const error = err as AxiosError<{ error: string }>;

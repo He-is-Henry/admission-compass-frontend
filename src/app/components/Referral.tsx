@@ -1,37 +1,10 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import getCurrentUser from "../lib/getCurrentUser";
 import styles from "./referral.module.css";
 import toast from "react-hot-toast";
-import axios from "../api/axios";
 import { useAuth } from "../hooks/useAuth";
 
-type ReferralHistory = {
-  _id: string;
-  referred: {
-    _id: string;
-    firstName: string;
-    username: string;
-  };
-  paid: boolean;
-  createdAt: string;
-};
-
-export default function Referral() {
-  const [history, setHistory] = useState<ReferralHistory[]>([]);
+export default function Referral({ history }: { history: ReferralHistory[] }) {
   const { user } = useAuth();
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const res = await axios.get("/leaderboard");
-        setHistory(res.data.history);
-      } catch {
-        // fail silently
-      }
-    };
-    fetchHistory();
-  }, []);
 
   const copy = async () => {
     if (!user) return toast.error("Not logged in!");

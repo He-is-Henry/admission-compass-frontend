@@ -5,7 +5,7 @@ import { createContext, Dispatch, SetStateAction } from "react";
 type AuthContextType = {
   user: User | null;
   loading: boolean;
-  setUser: (user: User | null) => void;
+  setUser: Dispatch<SetStateAction<User | null>>;
   refreshUser: () => Promise<void>;
   logout: () => Promise<void>;
   deleteAccount: () => Promise<void>;

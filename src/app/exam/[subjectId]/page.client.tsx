@@ -2,10 +2,10 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
-import axios from "@/app/api/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import ExamQuestion from "@/app/components/ExamQuestion";
+import api from "@/app/api/axios";
 
 type Draft = {
   _id: string;
@@ -27,7 +27,7 @@ export default function ExamSession() {
   useEffect(() => {
     const fetchDraft = async () => {
       try {
-        const res = await axios.get("/exam/draft");
+        const res = await api.get("/exam/draft");
         const d: Draft = res.data;
         setDraft(d);
         setAnswers(d.answers);
@@ -60,7 +60,7 @@ export default function ExamSession() {
 
   const saveDraft = useCallback(async (updatedAnswers: (number | null)[]) => {
     try {
-      await axios.patch("/exam/draft", { answers: updatedAnswers });
+      await api.patch("/exam/draft", { answers: updatedAnswers });
     } catch {}
   }, []);
 
@@ -78,7 +78,7 @@ export default function ExamSession() {
     if (submitting) return;
     setSubmitting(true);
     try {
-      const res = await axios.post("/exam/submit");
+      const res = await api.post("/exam/submit");
       router.push(
         `/exam/result?score=${res.data.score}&total=${res.data.total}&percentage=${res.data.percentage}`,
       );

@@ -5,6 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./globals.css";
 import { AuthProvider } from "./context/AuthProvider";
 import Header from "./components/Header";
+import { Suspense } from "react";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,7 +31,9 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Toaster position="bottom-center" />
         <AuthProvider>
-          <Header />
+          <Suspense fallback={null}>
+            <Header />
+          </Suspense>
           {children}
         </AuthProvider>
       </body>

@@ -1,4 +1,6 @@
 type Session = {
+  _id: string;
+  current: boolean;
   device: string; // e.g., "Chrome on Android"
   location: string; // e.g., "Lagos, Nigeria"
   ipAddress: string; // from req.ip or headers

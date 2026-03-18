@@ -1,11 +1,11 @@
-import axios from "../api/axios";
+import api from "../api/axios";
 
 export const getLeaderboard = async (): Promise<{
   lead: LeaderboardEntry[];
   history: ReferralHistory[];
 }> => {
   try {
-    const res = await axios.get("/leaderboard");
+    const res = await api.get("/leaderboard");
     console.log(res.data);
     return res.data;
   } catch (err) {

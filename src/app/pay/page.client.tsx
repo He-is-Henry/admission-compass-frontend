@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import axios from "../api/axios";
+import api from "../api/axios";
 
 const Pay = () => {
   const [quantity, setQuantity] = useState(1);
@@ -11,7 +11,7 @@ const Pay = () => {
     setLoading(true);
     setError("");
     try {
-      const response = await axios.post(`/pay`, { quantity });
+      const response = await api.post(`/pay`, { quantity });
       if (response?.data?.url) {
         window.location.href = response.data.url;
       } else {

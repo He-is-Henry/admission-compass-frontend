@@ -4,7 +4,7 @@ import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
-import { useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import AccountModal from "./modals/AccountModal";
 
@@ -14,6 +14,8 @@ const Header: React.FC = () => {
   const [showAccount, setShowAccount] = useState(false);
   const { user, loading } = useAuth();
   const router = useRouter();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
 
   const searchParams = useSearchParams();
   const ref = searchParams.get("ref");
@@ -84,7 +86,13 @@ const Header: React.FC = () => {
             ref={loginRef}
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
-            <LoginModal closeModal={() => setShowLogin(false)} />
+            <LoginModal
+              showSignup={() => {
+                setShowLogin(false);
+                setShowSignup(true);
+              }}
+              closeModal={() => setShowLogin(false)}
+            />
           </div>
         )}
         {showSignup && (
@@ -92,7 +100,13 @@ const Header: React.FC = () => {
             ref={signupRef}
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
-            <SignupModal closeModal={() => setShowSignup(false)} />
+            <SignupModal
+              showLogin={() => {
+                setShowSignup(false);
+                setShowLogin(true);
+              }}
+              closeModal={() => setShowSignup(false)}
+            />
           </div>
         )}
 
@@ -117,20 +131,22 @@ const Header: React.FC = () => {
           </div>
 
           {/* Nav */}
-          <nav className={styles.nav} aria-label="Main navigation">
-            <a href="#features" className={styles.navLink}>
-              Features
-            </a>
-            <a href="#pricing" className={styles.navLink}>
-              Pricing
-            </a>
-            <a href="#about" className={styles.navLink}>
-              About
-            </a>
-            <a href="#contact" className={styles.navLink}>
-              Contact
-            </a>
-          </nav>
+          {isHome && (
+            <nav className={styles.nav} aria-label="Main navigation">
+              <a href="#features" className={styles.navLink}>
+                Features
+              </a>
+              <a href="#pricing" className={styles.navLink}>
+                Pricing
+              </a>
+              <a href="#about" className={styles.navLink}>
+                About
+              </a>
+              <a href="#contact" className={styles.navLink}>
+                Contact
+              </a>
+            </nav>
+          )}
 
           {/* Buttons */}
           {user ? (

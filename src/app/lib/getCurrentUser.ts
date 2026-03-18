@@ -1,9 +1,9 @@
 import { AxiosError } from "axios";
-import axios from "../api/axios";
+import api from "../api/axios";
 
 export default async function getCurrentUser() {
   try {
-    const response = await axios.get("/current");
+    const response = await api.get("/current");
     const user = response.data;
     console.log(user);
     return user;

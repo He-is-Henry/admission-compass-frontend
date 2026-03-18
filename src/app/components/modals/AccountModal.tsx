@@ -4,13 +4,14 @@ import { useEffect, useRef, useState } from "react";
 import styles from "./modal.module.css";
 import { useAuth } from "@/app/hooks/useAuth";
 import toast from "react-hot-toast";
+import SessionsPanel from "./SessionsPanel";
 
 type Props = {
   closeModal: () => void;
 };
 
 export default function AccountModal({ closeModal }: Props) {
-  const { user, logout, deleteAccount } = useAuth();
+  const { user, logout, deleteAccount, setUser } = useAuth();
   const modalRef = useRef<HTMLDivElement | null>(null);
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmText, setConfirmText] = useState("");
@@ -59,38 +60,48 @@ export default function AccountModal({ closeModal }: Props) {
         <button className={styles.closeButton} onClick={closeModal}>
           ✕
         </button>
-
         {/* Header */}
         <div className={styles.header}>
-          <h2>{user?.firstName} {user?.lastName}</h2>
+          <h2>
+            {user?.firstName} {user?.lastName}
+          </h2>
           <p>@{user?.username}</p>
         </div>
-
         {/* Info */}
         <div className={styles.section}>
-          <p><strong>Email:</strong> {user?.email}</p>
-          <p><strong>Tokens:</strong> {user?.tokens}</p>
+          <p>
+            <strong>Email:</strong> {user?.email}
+          </p>
+          <p>
+            <strong>Tokens:</strong> {user?.tokens}
+          </p>
         </div>
-
         {/* O’Level */}
         {user && user?.oLevel?.length > 0 && (
           <div className={styles.section}>
             <h4>O’Level Results</h4>
             <ul className={styles.list}>
               {user.oLevel.map((item, i) => (
-                <li key={i}>{item.subject} — {item.grade}</li>
+                <li key={i}>
+                  {item.subject} — {item.grade}
+                </li>
               ))}
             </ul>
           </div>
         )}
-
-        {/* Actions */}
+        <SessionsPanel
+          sessions={user?.sessions ?? []}
+          onRevoke={(updated) => {
+            setUser((prev: User | null) =>
+              prev ? { ...prev, sessions: updated } : null,
+            );
+          }}
+        />
         <div className={styles.actions}>
           <button className={styles.primaryBtn} onClick={handleLogoutClick}>
             Logout
           </button>
         </div>
-
         {/* Danger Zone */}
         <div className={styles.dangerZone}>
           <h4>Danger Zone</h4>

@@ -1,4 +1,3 @@
-// lib/tokenStore.ts
 let accessToken: string | null = null;
 
 export const tokenStore = {

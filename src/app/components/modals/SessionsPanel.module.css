@@ -1,0 +1,155 @@
+.panel {
+  margin-top: 20px;
+  border-top: 1px solid #f0f0f0;
+  padding-top: 16px;
+}
+
+.panelHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.panelTitle {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #888;
+  margin: 0;
+}
+
+.revokeAllBtn {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #e53935;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity 0.2s;
+}
+
+.revokeAllBtn:hover {
+  opacity: 0.7;
+}
+
+.revokeAllBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: #fafafa;
+  border: 1px solid #f0f0f0;
+  transition: background 0.15s;
+}
+
+.current {
+  background: #f0f4ff;
+  border-color: #d0d9f7;
+}
+
+.iconCol {
+  flex-shrink: 0;
+}
+
+.deviceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #efefef;
+  color: #555;
+}
+
+.current .deviceIcon {
+  background: #dde4fb;
+  color: #3520ac;
+}
+
+.info {
+  flex: 1;
+  min-width: 0;
+}
+
+.topRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.device {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #1a1a1a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #3520ac;
+  background: #dde4fb;
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.meta {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.75rem;
+  color: #999;
+  margin-top: 2px;
+}
+
+.dot {
+  color: #ccc;
+}
+
+.revokeBtn {
+  flex-shrink: 0;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #e53935;
+  background: none;
+  border: 1px solid #fcc;
+  border-radius: 6px;
+  padding: 4px 10px;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    color 0.15s;
+  white-space: nowrap;
+}
+
+.revokeBtn:hover {
+  background: #fff0f0;
+}
+
+.revokeBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

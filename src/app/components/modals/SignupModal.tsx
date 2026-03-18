@@ -2,14 +2,15 @@
 import type { AxiosError } from "axios";
 import styles from "./modal.module.css";
 import { useState } from "react";
-import axios from "@/app/api/axios";
+import api from "@/app/api/axios";
 import { useSearchParams } from "next/navigation";
 
 type Props = {
   closeModal: () => void;
+  showLogin: () => void;
 };
 
-function SignupModal({ closeModal }: Props) {
+function SignupModal({ closeModal, showLogin }: Props) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -40,7 +41,7 @@ function SignupModal({ closeModal }: Props) {
     }
 
     try {
-      const response = await axios.post(
+      const response = await api.post(
         `/signup${referral ? `?ref=${referral.trim()}` : ""}`,
         {
           firstName,
@@ -246,7 +247,7 @@ function SignupModal({ closeModal }: Props) {
           </p>
           <p className={styles.switchText}>
             Already have an account?{" "}
-            <button type="button" className={styles.link}>
+            <button type="button" className={styles.link} onClick={showLogin}>
               Login
             </button>
           </p>
