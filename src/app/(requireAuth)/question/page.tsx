@@ -1,8 +1,8 @@
 import React from "react";
 import Questions from "./page.client";
 import { Metadata } from "next";
-import { getAllQuestions } from "../lib/question";
-import { getAllSubjects } from "../lib/subject";
+import { getAllQuestions } from "../../lib/question";
+import { getAllSubjects } from "../../lib/subject";
 
 export const dynamic = "force-dynamic";
 

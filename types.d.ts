@@ -23,6 +23,7 @@ type User = {
   email: string;
   oLevel: { subject: string; grade: string }[];
   tokens: number;
+  role: "admin" | "user" | "parent";
   sessions: Session[];
 };
 

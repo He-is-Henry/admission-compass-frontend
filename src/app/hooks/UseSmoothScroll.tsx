@@ -5,11 +5,10 @@ import { useEffect } from "react";
 export default function useSmoothScroll() {
   useEffect(() => {
     const anchors = document.querySelectorAll('a[href^="#"]');
-    console.log(anchors);
     const handleClick = (e: Event) => {
       e.preventDefault();
       const target = document.querySelector(
-        (e.currentTarget as HTMLAnchorElement).getAttribute("href") || ""
+        (e.currentTarget as HTMLAnchorElement).getAttribute("href") || "",
       );
       if (target) {
         target.scrollIntoView({
@@ -23,7 +22,7 @@ export default function useSmoothScroll() {
 
     return () => {
       anchors.forEach((anchor) =>
-        anchor.removeEventListener("click", handleClick)
+        anchor.removeEventListener("click", handleClick),
       );
     };
   }, []);

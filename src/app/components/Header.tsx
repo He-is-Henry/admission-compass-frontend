@@ -9,16 +9,27 @@ import { useAuth } from "../hooks/useAuth";
 import AccountModal from "./modals/AccountModal";
 
 const Header: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
+  const searchParams = useSearchParams();
+  const ref = searchParams.get("ref");
+  const modal = searchParams.get("modal");
+  console.log(modal);
+
+  const [showLogin, setShowLogin] = useState(modal === "login");
+  const [showSignup, setShowSignup] = useState(modal === "signup");
   const [showAccount, setShowAccount] = useState(false);
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname === "/";
-
-  const searchParams = useSearchParams();
-  const ref = searchParams.get("ref");
+  useEffect(() => {
+    if (modal === "login") {
+      setShowLogin(true);
+      setShowSignup(false);
+    } else if (modal === "signup") {
+      setShowSignup(true);
+      setShowLogin(false);
+    }
+  }, [modal]);
   // Refs to detect outside clicks
   const loginRef = useRef<HTMLDivElement | null>(null);
   const signupRef = useRef<HTMLDivElement | null>(null);
@@ -28,6 +39,8 @@ const Header: React.FC = () => {
   const closeAllModals = () => {
     setShowLogin(false);
     setShowSignup(false);
+    setShowAccount(false);
+    router.replace(pathname);
   };
 
   useEffect(() => {
@@ -91,7 +104,7 @@ const Header: React.FC = () => {
                 setShowLogin(false);
                 setShowSignup(true);
               }}
-              closeModal={() => setShowLogin(false)}
+              closeModal={closeAllModals}
             />
           </div>
         )}
@@ -105,14 +118,12 @@ const Header: React.FC = () => {
                 setShowSignup(false);
                 setShowLogin(true);
               }}
-              closeModal={() => setShowSignup(false)}
+              closeModal={closeAllModals}
             />
           </div>
         )}
 
-        {showAccount && (
-          <AccountModal closeModal={() => setShowAccount(false)} />
-        )}
+        {showAccount && <AccountModal closeModal={closeAllModals} />}
       </div>
 
       <div className={styles.container}>

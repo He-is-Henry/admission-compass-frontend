@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import { universities } from "../data/universities";
+import { universities } from "../../data/universities";
 import PredictionForm from "./page.client";
 export const metadata: Metadata = {
   title: "Admission compass  - Predict",

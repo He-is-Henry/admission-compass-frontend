@@ -53,7 +53,7 @@ export default function AccountModal({ closeModal }: Props) {
       document.removeEventListener("keydown", handleKey);
     };
   }, [closeModal]);
-
+  if (!user) return null;
   return (
     <div className={styles.overlay}>
       <div ref={modalRef} className={styles.modal}>

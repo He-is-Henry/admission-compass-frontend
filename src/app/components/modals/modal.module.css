@@ -299,6 +299,12 @@
   transition: opacity 0.3s ease;
 }
 
+.primaryBtn:disabled {
+  background-image: none;
+  background-color: #ddd;
+  color: black;
+}
+
 .primaryBtn:hover {
   opacity: 0.9;
 }

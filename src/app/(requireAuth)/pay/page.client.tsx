@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import api from "../api/axios";
+import api from "../../api/axios";
 
 const Pay = () => {
   const [quantity, setQuantity] = useState(1);

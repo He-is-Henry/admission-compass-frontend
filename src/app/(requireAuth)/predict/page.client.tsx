@@ -1,17 +1,9 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import api from "@/app/api/axios"; // your axios instance
+import api from "@/app/api/axios";
 import { isAxiosError } from "axios";
 import styles from "./PredictionForm.module.css";
-import { faculties } from "../data/faculties";
-
-type University = {
-  id: (typeof faculties)[number]["name"];
-  name: string;
-  requires_post_utme: boolean;
-  requires_olevel_grades: boolean;
-  requires_sittings: boolean;
-};
+import { faculties } from "../../data/faculties";
 
 type OlevelGrade = "A1" | "B2" | "B3" | "C4" | "C5" | "C6" | "D7" | "E8" | "F9";
 
@@ -49,11 +41,11 @@ const SUBJECTS = [
 ];
 
 type OlevelEntry = { subject: string; grade: OlevelGrade | "" };
-
+type Faculty = keyof (typeof faculties)[number]["faculties"];
 type FormData = {
   utme_score: string;
   post_utme_score: string;
-  faculty: keyof (typeof faculties)[number]["faculties"];
+  faculty: Faculty;
   department: string;
   sittings: string;
   olevel_entries: OlevelEntry[];
@@ -87,9 +79,7 @@ const PredictionForm = ({ universities }: Props) => {
   const [form, setForm] = useState<FormData>({
     utme_score: "",
     post_utme_score: "",
-    faculty: Object.keys(
-      faculties[0].faculties,
-    )[0] as keyof (typeof faculties)[number]["faculties"],
+    faculty: Object.keys(faculties[0].faculties)[0] as Faculty,
     department: "",
     sittings: "1",
     olevel_entries: Array.from({ length: 5 }, emptyEntry),
@@ -97,18 +87,30 @@ const PredictionForm = ({ universities }: Props) => {
 
   useEffect(() => {
     if (!selectedUniversity) return;
+    console.log(selectedUniversity);
     const foundFaculties = faculties.find(
       (f) => f.name === selectedUniversity?.id,
     )!;
+    console.log(foundFaculties.faculties);
 
     setSelectedFaculty(foundFaculties?.faculties);
     const defaultFacultyKey = Object.keys(
       foundFaculties?.faculties,
-    )[0] as keyof (typeof faculties)[number]["faculties"];
+    )[0] as Faculty;
     const defaultDepartment = foundFaculties.faculties[defaultFacultyKey]?.[0];
+    console.log(defaultDepartment);
     if (!defaultDepartment) return;
+    updateField("faculty", defaultFacultyKey);
     updateField("department", defaultDepartment);
   }, [selectedUniversity]);
+
+  useEffect(() => {
+    if (!selectedFaculty) return;
+    const defaultFacultyKey = form.faculty;
+    const defaultDepartment = selectedFaculty[defaultFacultyKey]?.[0];
+    if (!defaultDepartment) return;
+    updateField("department", defaultDepartment);
+  }, [form.faculty, selectedFaculty]);
 
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
@@ -333,11 +335,14 @@ const PredictionForm = ({ universities }: Props) => {
                 >
                   {selectedFaculty &&
                     form.faculty &&
-                    selectedFaculty[form.faculty]?.map((dept) => (
-                      <option key={dept} value={dept}>
-                        {dept}
-                      </option>
-                    ))}
+                    selectedFaculty[form.faculty]?.map((dept) => {
+                      console.log(dept);
+                      return (
+                        <option key={dept} value={dept}>
+                          {dept}
+                        </option>
+                      );
+                    })}
                 </select>
               </div>
             </div>
