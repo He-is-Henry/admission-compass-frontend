@@ -8,6 +8,7 @@ import Referral from "./components/Referral";
 import Hooks from "./page.client";
 import { getAllSubjects } from "./lib/subject";
 import { getLeaderboard } from "./lib/leaderboard";
+import RequireLeaderboard from "./components/RequireLeaderboard";
 
 
 /* export const metadata: Metadata = {
@@ -17,10 +18,12 @@ import { getLeaderboard } from "./lib/leaderboard";
 
 export default async function Home() {
   const subjects = await getAllSubjects();
+
   return (
     <>
       <Hooks />
       <main>
+<<<<<<< HEAD
         {" "}
         <HeroSection subjects={subjects} />
         <FeaturesSection />
@@ -28,6 +31,15 @@ export default async function Home() {
         <StatsSection />
         <Pricing />
         <Referral />
+=======
+        <RequireLeaderboard subjects={subjects}>
+          <FeaturesSection />
+          <HowItWorks />
+          <StatsSection />
+          <Pricing />
+        </RequireLeaderboard>
+        <Footer />
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
       </main>
     </>
   );

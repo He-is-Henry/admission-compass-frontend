@@ -1,38 +1,51 @@
 "use client";
-import { Dispatch, SetStateAction, useState } from "react";
-import axios from "@/app/api/axios";
+import { useEffect, useState } from "react";
+import api from "@/app/api/axios";
 import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import { useAuth } from "@/app/hooks/useAuth";
 import { useRouter } from "next/navigation";
-import getCurrentUser from "@/app/lib/getCurrentUser";
+import { tokenStore } from "@/app/lib/tokenStore";
 
 type Props = {
   closeModal: () => void;
+  showSignup: () => void;
 };
 
-export default function LoginModal({ closeModal }: Props) {
+export default function LoginModal({ closeModal, showSignup }: Props) {
+  const router = useRouter();
+  const { refreshUser } = useAuth();
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
 
     try {
-      const res = await axios.post("/login", { id, password });
+      setLoading(true);
+      const res = await api.post("/login", { id, password });
       console.log(res.data);
-      // todo: store user / redirect
-
+      tokenStore.set(res.data.accessToken);
+      console.log(res.data.user.sessions);
       toast.success("User sucessfully logged in");
       closeModal();
-      getCurrentUser();
+      refreshUser();
+      router.refresh();
     } catch (err) {
       const axiosErr = err as AxiosError<{ error: string }>;
       setError(axiosErr.response?.data?.error || "Login failed");
+    } finally {
+      setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setError("");
+  }, [password, id]);
 
   return (
     <div
@@ -67,13 +80,25 @@ export default function LoginModal({ closeModal }: Props) {
           />
 
           <input
-            type="password"
+            type={showPassword ? "text" : "password"}
             placeholder="Password"
             required
             className={styles.input}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
+          <div className={styles.options}>
+            <label htmlFor="show">
+              <input
+                type="checkbox"
+                name="show"
+                id="show"
+                checked={showPassword}
+                onChange={(e) => setShowPassword(e.target.checked)}
+              />
+              Show password
+            </label>
+          </div>
 
           <div className={styles.options}>
             <label>
@@ -84,8 +109,12 @@ export default function LoginModal({ closeModal }: Props) {
 
           {error && <p style={{ color: "red", marginTop: "-8px" }}>{error}</p>}
 
-          <button type="submit" className={styles.primaryBtn}>
-            Login
+          <button
+            disabled={loading}
+            type="submit"
+            className={styles.primaryBtn}
+          >
+            {loading ? "Logging in" : "Login"}
           </button>
 
           <div className={styles.divider}>
@@ -143,7 +172,7 @@ export default function LoginModal({ closeModal }: Props) {
           </div>
           <p className={styles.footerText}>
             New here?{" "}
-            <button type="button" className={styles.link}>
+            <button type="button" className={styles.link} onClick={showSignup}>
               Create an account
             </button>
           </p>

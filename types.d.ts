@@ -1,3 +1,20 @@
+type Session = {
+  _id: string;
+  current: boolean;
+  device: string; // e.g., "Chrome on Android"
+  location: string; // e.g., "Lagos, Nigeria"
+  ipAddress: string; // from req.ip or headers
+  accessToken?: string; // optional: for tracing
+  refreshToken: string; // the only session identifier needed
+  userAgent: string; // raw user-agent string
+  browser?: string; // parsed (optional)
+  os?: string; // parsed (optional)
+  platform: "mobile" | "desktop";
+  isMobile?: boolean; // optional
+  lastUsed: Date; // update on refresh
+  createdAt: Date;
+};
+
 type User = {
   _id: string;
   firstName: string;
@@ -6,6 +23,8 @@ type User = {
   email: string;
   oLevel: { subject: string; grade: string }[];
   tokens: number;
+  role: "admin" | "user" | "parent";
+  sessions: Session[];
 };
 
 type UserLogin = {
@@ -46,6 +65,8 @@ type LeaderboardEntry = {
     firstName: string;
     username: string;
   };
+  position: number | null;
+  isCurrentUser: boolean;
   count: number;
 };
 
@@ -58,4 +79,12 @@ type ReferralHistory = {
   };
   paid: boolean;
   createdAt: string;
+};
+
+type University = {
+  id: string;
+  name: string;
+  requires_post_utme: boolean;
+  requires_olevel_grades: boolean;
+  requires_sittings: boolean;
 };

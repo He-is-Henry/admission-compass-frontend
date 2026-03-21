@@ -1,14 +1,19 @@
 "use client";
+<<<<<<< HEAD
 import SignupModal from "./modals/SignupModal";
 import React, { useEffect, useState } from "react";
+=======
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 import styles from "./herosection.module.css";
 import { useRouter } from "next/navigation";
-import axios from "../api/axios";
 
 type Props = {
   subjects: Subject[];
+  leaderboard: LeaderboardEntry[];
+  currentUser: LeaderboardEntry | null;
 };
 
+<<<<<<< HEAD
 const HeroSection: React.FC<Props> = ({ subjects }) => {
   const router = useRouter();
   const [showSignup, setShowSignup] = useState(false);
@@ -27,6 +32,11 @@ const HeroSection: React.FC<Props> = ({ subjects }) => {
     };
     fetchLeaderboard();
   }, []);
+=======
+const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
+  const router = useRouter();
+
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -43,6 +53,7 @@ const HeroSection: React.FC<Props> = ({ subjects }) => {
             </p>
             <div className={styles.buttonGroup}>
               <button
+<<<<<<< HEAD
                 onClick={() => {
                   const token = localStorage.getItem("token");
 
@@ -52,6 +63,9 @@ const HeroSection: React.FC<Props> = ({ subjects }) => {
                     router.push("/dashboard");
                   }
                 }}
+=======
+                onClick={() => router.push("/predict")}
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
                 className={styles.primaryBtn}
                 aria-label="Check your admission chances"
               >
@@ -146,51 +160,193 @@ const HeroSection: React.FC<Props> = ({ subjects }) => {
                 margin: "0 auto",
               }}
             >
-              {leaderboard.map((entry, i) => (
+              {(leaderboard.length > 0 || currentUser) && (
                 <div
-                  key={entry.referrer._id}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    padding: "14px 20px",
-                    borderRadius: "12px",
-                    background: i === 0 ? "#fffbe6" : "#fff",
-                    boxShadow: "0 1px 6px rgba(0,0,0,0.07)",
-                    border: i === 0 ? "1px solid #ffe066" : "1px solid #f0f0f0",
-                  }}
+                  className={`${styles.fadeIn} fade-in`}
+                  style={{ marginTop: "48px" }}
                 >
+                  <h2
+                    style={{
+                      textAlign: "center",
+                      marginBottom: "24px",
+                      fontSize: "1.4rem",
+                      fontWeight: 700,
+                    }}
+                  >
+                    🏆 Top Referrers
+                  </h2>
                   <div
                     style={{
                       display: "flex",
-                      alignItems: "center",
+                      flexDirection: "column",
                       gap: "12px",
+                      maxWidth: "480px",
+                      margin: "0 auto",
                     }}
                   >
-                    <span style={{ fontSize: "1.4rem" }}>{medals[i]}</span>
-                    <div>
-                      <p style={{ fontWeight: 600, margin: 0 }}>
-                        @{entry.referrer.username}
-                      </p>
-                      <p
+                    {currentUser && (
+                      <div
                         style={{
-                          fontSize: "0.85rem",
-                          color: "#888",
-                          margin: 0,
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          padding: "14px 20px",
+                          borderRadius: "12px",
+                          background: "#f0f4ff",
+                          border: "2px solid #d0d9f7",
+                          boxShadow: "0 1px 6px rgba(0,0,0,0.07)",
                         }}
                       >
-                        {entry.referrer.firstName}
-                      </p>
-                    </div>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <p style={{ fontWeight: 700, margin: 0 }}>{entry.count}</p>
-                    <p style={{ fontSize: "0.8rem", color: "#888", margin: 0 }}>
-                      referrals
-                    </p>
+                        <div
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "12px",
+                          }}
+                        >
+                          <span
+                            style={{
+                              fontSize: "1.1rem",
+                              minWidth: "28px",
+                              textAlign: "center",
+                              fontWeight: 700,
+                              color: "#3520ac",
+                            }}
+                          >
+                            {currentUser.position
+                              ? `#${currentUser.position}`
+                              : "—"}
+                          </span>
+                          <div>
+                            <p style={{ fontWeight: 600, margin: 0 }}>
+                              @{currentUser.referrer.username}{" "}
+                              <span
+                                style={{
+                                  fontSize: "0.72rem",
+                                  background: "#3520ac",
+                                  color: "#fff",
+                                  padding: "1px 6px",
+                                  borderRadius: "20px",
+                                  fontWeight: 500,
+                                }}
+                              >
+                                you
+                              </span>
+                            </p>
+                            <p
+                              style={{
+                                fontSize: "0.85rem",
+                                color: "#888",
+                                margin: 0,
+                              }}
+                            >
+                              {currentUser.referrer.firstName}
+                            </p>
+                          </div>
+                        </div>
+                        <div style={{ textAlign: "right" }}>
+                          <p style={{ fontWeight: 700, margin: 0 }}>
+                            {currentUser.count}
+                          </p>
+                          <p
+                            style={{
+                              fontSize: "0.8rem",
+                              color: "#888",
+                              margin: 0,
+                            }}
+                          >
+                            referrals
+                          </p>
+                        </div>
+                      </div>
+                    )}
+
+                    {leaderboard.map((entry, i) => {
+                      const isYou =
+                        currentUser &&
+                        entry.referrer._id === currentUser.referrer._id;
+                      return (
+                        <div
+                          key={entry.referrer._id}
+                          style={{
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "space-between",
+                            padding: "14px 20px",
+                            borderRadius: "12px",
+                            background: isYou
+                              ? "#f0f4ff"
+                              : i === 0
+                                ? "#fffbe6"
+                                : "#fff",
+                            boxShadow: "0 1px 6px rgba(0,0,0,0.07)",
+                            border: isYou
+                              ? "2px solid #d0d9f7"
+                              : i === 0
+                                ? "1px solid #ffe066"
+                                : "1px solid #f0f0f0",
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              gap: "12px",
+                            }}
+                          >
+                            <span style={{ fontSize: "1.4rem" }}>
+                              {medals[i]}
+                            </span>
+                            <div>
+                              <p style={{ fontWeight: 600, margin: 0 }}>
+                                @{entry.referrer.username}
+                                {isYou && (
+                                  <span
+                                    style={{
+                                      fontSize: "0.72rem",
+                                      background: "#3520ac",
+                                      color: "#fff",
+                                      padding: "1px 6px",
+                                      borderRadius: "20px",
+                                      fontWeight: 500,
+                                      marginLeft: "6px",
+                                    }}
+                                  >
+                                    you
+                                  </span>
+                                )}
+                              </p>
+                              <p
+                                style={{
+                                  fontSize: "0.85rem",
+                                  color: "#888",
+                                  margin: 0,
+                                }}
+                              >
+                                {entry.referrer.firstName}
+                              </p>
+                            </div>
+                          </div>
+                          <div style={{ textAlign: "right" }}>
+                            <p style={{ fontWeight: 700, margin: 0 }}>
+                              {entry.count}
+                            </p>
+                            <p
+                              style={{
+                                fontSize: "0.8rem",
+                                color: "#888",
+                                margin: 0,
+                              }}
+                            >
+                              referrals
+                            </p>
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 </div>
-              ))}
+              )}
             </div>
           </div>
         )}

@@ -4,20 +4,40 @@ import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
+<<<<<<< HEAD
 import getCurrentUser from "../lib/getCurrentUser";
 import Link from "next/link";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import { useSearchParams } from "next/navigation";
+=======
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useAuth } from "../hooks/useAuth";
+import AccountModal from "./modals/AccountModal";
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 
 const Header: React.FC = () => {
-  const [showLogin, setShowLogin] = useState(false);
-  const [showSignup, setShowSignup] = useState(false);
-  const [user, setUser] = useState<User | null>(null);
-  const [verifying, setVerifying] = useState<boolean>(true);
-
   const searchParams = useSearchParams();
   const ref = searchParams.get("ref");
+  const modal = searchParams.get("modal");
+  console.log(modal);
+
+  const [showLogin, setShowLogin] = useState(modal === "login");
+  const [showSignup, setShowSignup] = useState(modal === "signup");
+  const [showAccount, setShowAccount] = useState(false);
+  const { user, loading } = useAuth();
+  const router = useRouter();
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  useEffect(() => {
+    if (modal === "login") {
+      setShowLogin(true);
+      setShowSignup(false);
+    } else if (modal === "signup") {
+      setShowSignup(true);
+      setShowLogin(false);
+    }
+  }, [modal]);
   // Refs to detect outside clicks
   const loginRef = useRef<HTMLDivElement | null>(null);
   const signupRef = useRef<HTMLDivElement | null>(null);
@@ -27,22 +47,11 @@ const Header: React.FC = () => {
   const closeAllModals = () => {
     setShowLogin(false);
     setShowSignup(false);
-  };
-  const getUser = async () => {
-    try {
-      const userData: User = await getCurrentUser();
-      setUser(userData);
-      setVerifying(false);
-    } catch (error) {
-      const err = error as AxiosError<{ error: string }>;
-      toast.error(
-        err?.response?.data?.error || err.message || "Failed to verify user",
-      );
-    }
+    setShowAccount(false);
+    router.replace(pathname);
   };
 
   useEffect(() => {
-    getUser();
     const handleClick = (e: PointerEvent) => {
       const target = e.target as Node;
       // Close if click outside both modals
@@ -98,7 +107,13 @@ const Header: React.FC = () => {
             ref={loginRef}
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
-            <LoginModal closeModal={() => setShowLogin(false)} />
+            <LoginModal
+              showSignup={() => {
+                setShowLogin(false);
+                setShowSignup(true);
+              }}
+              closeModal={closeAllModals}
+            />
           </div>
         )}
         {showSignup && (
@@ -106,15 +121,23 @@ const Header: React.FC = () => {
             ref={signupRef}
             onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
           >
-            <SignupModal closeModal={() => setShowSignup(false)} />
+            <SignupModal
+              showLogin={() => {
+                setShowSignup(false);
+                setShowLogin(true);
+              }}
+              closeModal={closeAllModals}
+            />
           </div>
         )}
+
+        {showAccount && <AccountModal closeModal={closeAllModals} />}
       </div>
 
       <div className={styles.container}>
         <div className={styles.inner}>
           {/* Logo */}
-          <div className={styles.logoWrapper}>
+          <div className={styles.logoWrapper} onClick={() => router.push("/")}>
             <Image
               src="/Admission.png"
               alt="Admission Compass Logo"
@@ -126,6 +149,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Nav */}
+<<<<<<< HEAD
           <nav className={styles.nav} aria-label="Main navigation">
             <a href="#features" className={styles.navLink}>
               Features
@@ -141,12 +165,39 @@ const Header: React.FC = () => {
               Contact
             </a>
           </nav>
+=======
+          {isHome && (
+            <nav className={styles.nav} aria-label="Main navigation">
+              <a href="#features" className={styles.navLink}>
+                Features
+              </a>
+              <a href="#pricing" className={styles.navLink}>
+                Pricing
+              </a>
+              <a href="#about" className={styles.navLink}>
+                About
+              </a>
+              <a href="#contact" className={styles.navLink}>
+                Contact
+              </a>
+            </nav>
+          )}
+>>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 
           {/* Buttons */}
           {user ? (
-            `Welcome, ${user.username} (${user.tokens} tokens)`
-          ) : verifying ? (
-            "Getting user info..."
+            <div
+              className={styles.userPill}
+              onClick={() => setShowAccount(true)}
+            >
+              <div className={styles.avatar}>
+                {user.username.charAt(0).toUpperCase()}
+              </div>
+
+              <span className={styles.username}>{user.username}</span>
+            </div>
+          ) : loading ? (
+            "Loading..."
           ) : (
             <div className={styles.buttonGroup}>
               <button onClick={openLogin} className={styles.loginButton}>

@@ -1,58 +1,35 @@
 "use client";
-
-import { useEffect, useState } from "react";
-import getCurrentUser from "../lib/getCurrentUser";
 import styles from "./referral.module.css";
 import toast from "react-hot-toast";
-import axios from "../api/axios";
+import { useAuth } from "../hooks/useAuth";
 
-type ReferralHistory = {
-  _id: string;
-  referred: {
-    _id: string;
-    firstName: string;
-    username: string;
+type ReferralProps = {
+  history: {
+    data: ReferralHistory[];
+    total: number;
+    hasMore: boolean;
   };
-  paid: boolean;
-  createdAt: string;
+  onLoadMore: () => void;
+  loadingMore?: boolean;
 };
 
-export default function Referral() {
-  const [user, setUser] = useState<null | User>(null);
-  const [history, setHistory] = useState<ReferralHistory[]>([]);
+export default function Referral({
+  history,
+  onLoadMore,
+  loadingMore,
+}: ReferralProps) {
+  const { user } = useAuth();
 
-  useEffect(() => {
-    const fetchHistory = async () => {
-      try {
-        const res = await axios.get("/leaderboard");
-        setHistory(res.data.history);
-      } catch {
-        // fail silently
-      }
-    };
-    fetchHistory();
-  }, []);
-  const getUser = async () => {
-    const userData: User = await getCurrentUser();
-    setUser(userData);
-    return userData;
-  };
-
-  useEffect(() => {
-    getUser();
-  }, []);
+  const paidCount = history.data.filter((h) => h.paid).length;
+  const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
+  const freeTokensEarned = Math.floor(paidCount / 3);
 
   const copy = async () => {
-    const freshUser = await getUser();
-    if (!freshUser) return toast.error("Not logged in!");
-    const link = `${window.location.origin}?ref=${freshUser.username}`;
+    if (!user) return toast.error("Not logged in!");
+    const link = `${window.location.origin}?ref=${user.username}`;
     navigator.clipboard.writeText(link);
     toast.success("Referral link copied");
   };
-
-  const paidCount = history.filter((h) => h.paid).length;
-  const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
-  const freeTokensEarned = Math.floor(paidCount / 3);
 
   return (
     <section className={styles.section}>
@@ -147,13 +124,13 @@ export default function Referral() {
               <div>
                 <h4 className={styles.historyHeading}>Referral History</h4>
                 <div className={styles.historyList}>
-                  {history.length === 0 && (
+                  {history.data.length === 0 && (
                     <p style={{ color: "#888", fontSize: "0.9rem" }}>
                       No referrals yet. Share your link to get started!
                     </p>
                   )}
 
-                  {history
+                  {history.data
                     .filter((h) => h.paid)
                     .map((h) => (
                       <div key={h._id} className={styles.historySuccess}>
@@ -192,7 +169,7 @@ export default function Referral() {
                       </div>
                     ))}
 
-                  {history
+                  {history.data
                     .filter((h) => !h.paid)
                     .map((h) => (
                       <div key={h._id} className={styles.historyPending}>
@@ -227,7 +204,15 @@ export default function Referral() {
                       </div>
                     ))}
                 </div>
-
+                {history.hasMore && (
+                  <button
+                    onClick={onLoadMore}
+                    disabled={loadingMore}
+                    className={styles.loadMoreBtn}
+                  >
+                    {loadingMore ? "Loading..." : "Load more"}
+                  </button>
+                )}
                 <div className={styles.earningsBox}>
                   <div className={styles.textCenter}>
                     <p className={styles.earningsLabel}>Total Paid Referrals</p>

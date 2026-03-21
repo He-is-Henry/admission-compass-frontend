@@ -1,14 +1,14 @@
-import axios from "../api/axios";
+import api from "../api/axios";
 
 export async function createSubject(
   name: string,
-  code: string
+  code: string,
 ): Promise<Subject> {
-  const response = await axios.post("/pq", { name, code });
+  const response = await api.post("/pq", { name, code });
   return response.data;
 }
 
 export async function getAllSubjects(): Promise<Subject[]> {
-  const response = await axios.get("/pq");
+  const response = await api.get("/pq");
   return response.data;
 }

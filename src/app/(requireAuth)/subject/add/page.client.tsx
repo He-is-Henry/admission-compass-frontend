@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from "react";
-import { createSubject } from "../../lib/subject";
+import { createSubject } from "../../../lib/subject";
 import styles from "./subject.module.css";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";

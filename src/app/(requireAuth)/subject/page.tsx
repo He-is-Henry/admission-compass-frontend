@@ -1,6 +1,6 @@
 import React from "react";
 import SubjectsList from "./page.client";
-import { getAllSubjects } from "../lib/subject";
+import { getAllSubjects } from "../../lib/subject";
 
 export default async function page() {
   async function loadAllSubjects() {

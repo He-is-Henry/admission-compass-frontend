@@ -40,29 +40,29 @@ a {
     color-scheme: dark;
   }
 } */
- @keyframes popIn {
+@keyframes popIn {
   0% {
     opacity: 0;
     transform: scale(0.95) translateY(20px);
   }
 
-  100%{
+  100% {
     opacity: 1;
     transform: scale(1) translateY(0);
   }
- }
+}
 
- .scroll-element {
+.scroll-element {
   opacity: 0;
   transform: scale(0.95) translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease ;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
+}
 
- }
-
- .scroll-element.visible{
+.scroll-element.visible {
   animation: popIn 0.6s ease forwards;
- }
-
+}
 
 html,
 body {
@@ -122,7 +122,6 @@ body {
 }
 
 .compass-icon {
-  
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -182,4 +181,13 @@ body {
 
 .flex {
   display: flex;
+}
+
+.compass-spin {
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }
