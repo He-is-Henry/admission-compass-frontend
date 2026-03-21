@@ -50,20 +50,6 @@ type FormData = {
   sittings: string;
   olevel_entries: OlevelEntry[];
 };
-
-type PredictionResult = {
-  university: string;
-  decision: string;
-  admission_probability: string;
-  chance_label?: string;
-  aggregate_score?: number;
-  screening_score?: number;
-  olevel_avg_points?: number;
-  explanation?: string[];
-  reason?: string;
-  error?: string;
-};
-
 interface Props {
   universities: University[];
 }
@@ -84,7 +70,10 @@ const PredictionForm = ({ universities }: Props) => {
     sittings: "1",
     olevel_entries: Array.from({ length: 5 }, emptyEntry),
   });
-
+  const [paid, setPaid] = useState<Boolean>(false);
+  const [result, setResult] = useState<PredictionResult | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   useEffect(() => {
     if (!selectedUniversity) return;
     console.log(selectedUniversity);
@@ -111,10 +100,6 @@ const PredictionForm = ({ universities }: Props) => {
     if (!defaultDepartment) return;
     updateField("department", defaultDepartment);
   }, [form.faculty, selectedFaculty]);
-
-  const [result, setResult] = useState<PredictionResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
 
   const onUniversityChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const id = e.target.value;
@@ -221,6 +206,7 @@ const PredictionForm = ({ universities }: Props) => {
     if (selectedUniversity!.requires_sittings) {
       payload.sittings = Number(form.sittings);
     }
+    payload.paid = paid;
     console.log(
       "Trying " + selectedUniversity?.id + " ",
       new Date().toISOString(),
@@ -242,10 +228,11 @@ const PredictionForm = ({ universities }: Props) => {
     }
   };
 
+  const percentage = Number(result?.admission_probability.slice(0, -1));
   const decisionColor =
-    result?.decision === "Admitted"
+    percentage > 50
       ? styles.admitted
-      : result?.decision === "Not Admitted"
+      : percentage < 50
         ? styles.notAdmitted
         : styles.notEligible;
 
@@ -429,6 +416,16 @@ const PredictionForm = ({ universities }: Props) => {
                 )}
               </div>
             )}
+            <label htmlFor="paid">
+              <input
+                type="checkbox"
+                name="paid"
+                id="paid"
+                value={paid}
+                onChange={(e) => setPaid(e.target.checked)}
+              />
+              Use a token?
+            </label>
 
             {error && <p className={styles.errorMsg}>{error}</p>}
 
@@ -451,7 +448,12 @@ const PredictionForm = ({ universities }: Props) => {
       {result && (
         <div className={styles.result}>
           <div className={`${styles.decision} ${decisionColor}`}>
-            {result.decision}
+            {percentage >= 70
+              ? "High "
+              : percentage >= 50
+                ? "Moderate"
+                : "Low "}{" "}
+            chance
           </div>
 
           <div className={styles.probability}>

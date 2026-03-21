@@ -4,17 +4,9 @@ import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
-<<<<<<< HEAD
-import getCurrentUser from "../lib/getCurrentUser";
-import Link from "next/link";
-import toast from "react-hot-toast";
-import { AxiosError } from "axios";
-import { useSearchParams } from "next/navigation";
-=======
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import AccountModal from "./modals/AccountModal";
->>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 
 const Header: React.FC = () => {
   const searchParams = useSearchParams();
@@ -100,7 +92,10 @@ const Header: React.FC = () => {
   console.log(user);
 
   return (
-    <header className={styles.header}>
+    <header
+      className={styles.header}
+      style={showAccount ? { zIndex: 1000 } : {}}
+    >
       <div>
         {showLogin && (
           <div
@@ -149,23 +144,6 @@ const Header: React.FC = () => {
           </div>
 
           {/* Nav */}
-<<<<<<< HEAD
-          <nav className={styles.nav} aria-label="Main navigation">
-            <a href="#features" className={styles.navLink}>
-              Features
-            </a>
-            <a href="#pricing" className={styles.navLink}>
-              Pricing
-            </a>
-
-            <Link href="/about" className={styles.navLink}>
-              About
-            </Link>
-            <a href="#contact" className={styles.navLink}>
-              Contact
-            </a>
-          </nav>
-=======
           {isHome && (
             <nav className={styles.nav} aria-label="Main navigation">
               <a href="#features" className={styles.navLink}>
@@ -174,7 +152,7 @@ const Header: React.FC = () => {
               <a href="#pricing" className={styles.navLink}>
                 Pricing
               </a>
-              <a href="#about" className={styles.navLink}>
+              <a href="/about" className={styles.navLink}>
                 About
               </a>
               <a href="#contact" className={styles.navLink}>
@@ -182,7 +160,6 @@ const Header: React.FC = () => {
               </a>
             </nav>
           )}
->>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 
           {/* Buttons */}
           {user ? (
@@ -197,7 +174,7 @@ const Header: React.FC = () => {
               <span className={styles.username}>{user.username}</span>
             </div>
           ) : loading ? (
-            "Loading..."
+            <p style={{ color: "white" }}>Loading...</p>
           ) : (
             <div className={styles.buttonGroup}>
               <button onClick={openLogin} className={styles.loginButton}>

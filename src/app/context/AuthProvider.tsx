@@ -17,6 +17,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const refreshUser = async () => {
     try {
       const data = await getCurrentUser();
+      console.log("User data available");
       setUser(data);
     } catch {
       setUser(null); // not logged in

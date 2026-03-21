@@ -1,9 +1,4 @@
 "use client";
-<<<<<<< HEAD
-import SignupModal from "./modals/SignupModal";
-import React, { useEffect, useState } from "react";
-=======
->>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
 import styles from "./herosection.module.css";
 import { useRouter } from "next/navigation";
 
@@ -13,30 +8,10 @@ type Props = {
   currentUser: LeaderboardEntry | null;
 };
 
-<<<<<<< HEAD
-const HeroSection: React.FC<Props> = ({ subjects }) => {
-  const router = useRouter();
-  const [showSignup, setShowSignup] = useState(false);
-  const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-
-  const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
-
-  useEffect(() => {
-    const fetchLeaderboard = async () => {
-      try {
-        const res = await axios.get("/leaderboard");
-        setLeaderboard(res.data.lead);
-      } catch {
-        // fail silently
-      }
-    };
-    fetchLeaderboard();
-  }, []);
-=======
 const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
   const router = useRouter();
+  const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
 
->>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -53,27 +28,12 @@ const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
             </p>
             <div className={styles.buttonGroup}>
               <button
-<<<<<<< HEAD
-                onClick={() => {
-                  const token = localStorage.getItem("token");
-
-                  if (!token) {
-                    setShowSignup(true);
-                  } else {
-                    router.push("/dashboard");
-                  }
-                }}
-=======
                 onClick={() => router.push("/predict")}
->>>>>>> 6daf1e933e8f8dfb0f491582b47fb29d9f375ce0
                 className={styles.primaryBtn}
                 aria-label="Check your admission chances"
               >
                 Check Your Chances
               </button>
-              {showSignup && (
-                <SignupModal closeModal={() => setShowSignup(false)} />
-              )}
 
               <button
                 className={styles.secondaryBtn}

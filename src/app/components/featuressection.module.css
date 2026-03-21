@@ -9,12 +9,7 @@
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-
 }
-
-  
-
-
 
 @media (min-width: 640px) {
   .container {
@@ -74,7 +69,9 @@
   border-radius: 1rem;
   padding: 2rem;
   box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: transform 3s ease-in-out, box-shadow 0.25s ease;
+  transition:
+    transform 3s ease-in-out,
+    box-shadow 0.25s ease;
 }
 
 .card:hover {

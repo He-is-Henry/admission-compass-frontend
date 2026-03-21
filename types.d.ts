@@ -88,3 +88,15 @@ type University = {
   requires_olevel_grades: boolean;
   requires_sittings: boolean;
 };
+
+type PredictionResult = {
+  university: string;
+  admission_probability: string;
+  chance_label?: string;
+  aggregate_score?: number;
+  screening_score?: number;
+  olevel_avg_points?: number;
+  explanation?: string[];
+  reason?: string;
+  error?: string;
+};
