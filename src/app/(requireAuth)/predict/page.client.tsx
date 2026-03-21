@@ -422,7 +422,7 @@ const PredictionForm = ({ universities }: Props) => {
                 name="paid"
                 id="paid"
                 checked={paid}
-                onChange={(e) => setPaid(e.target.checked)}
+                onChange={(e) => setPaid(e.target.checked ?? false)}
               />
               Use a token?
             </label>

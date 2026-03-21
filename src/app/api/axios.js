@@ -5,7 +5,6 @@ const api = axios.create({
   // baseURL: "http://localhost:5000",
   baseURL: "https://admission-compass-backend.onrender.com",
   withCredentials: true,
-  timeout: 30000,
 });
 
 let isRefreshing = false;
