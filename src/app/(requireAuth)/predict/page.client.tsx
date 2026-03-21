@@ -70,7 +70,7 @@ const PredictionForm = ({ universities }: Props) => {
     sittings: "1",
     olevel_entries: Array.from({ length: 5 }, emptyEntry),
   });
-  const [paid, setPaid] = useState<Boolean>(false);
+  const [paid, setPaid] = useState<boolean>(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -421,7 +421,7 @@ const PredictionForm = ({ universities }: Props) => {
                 type="checkbox"
                 name="paid"
                 id="paid"
-                value={paid}
+                checked={paid}
                 onChange={(e) => setPaid(e.target.checked)}
               />
               Use a token?
