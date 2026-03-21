@@ -421,7 +421,7 @@ const PredictionForm = ({ universities }: Props) => {
                 type="checkbox"
                 name="paid"
                 id="paid"
-                value={paid}
+                checked={paid}
                 onChange={(e) => setPaid(e.target.checked)}
               />
               Use a token?
