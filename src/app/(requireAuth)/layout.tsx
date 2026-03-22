@@ -18,7 +18,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     { icon: "✨", label: "New Prediction", path: "/predict" },
     // { icon: "📜", label: "My Predictions", path: "/dashboard/predictions" },
     { icon: "💰", label: "Token Wallet", path: "/pay" },
-    { icon: "📚", label: "Past Questions", path: "/dashboard/past-questions" },
+    { icon: "📚", label: "Past Questions", path: "/past-questions" },
     {
       icon: "💡",
       label: "Recommendations",

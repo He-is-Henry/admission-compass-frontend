@@ -6,6 +6,7 @@ import Pricing from "./components/Pricing";
 import Hooks from "./page.client";
 import { getAllSubjects } from "./lib/subject";
 import RequireLeaderboard from "./components/RequireLeaderboard";
+import subjectStore from "./lib/subjectStore";
 
 export const metadata: Metadata = {
   title: "Admission compass",
@@ -13,7 +14,8 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const subjects = await getAllSubjects();
+  const cached = subjectStore.get();
+  const subjects = cached ? cached : await getAllSubjects();
 
   return (
     <>
