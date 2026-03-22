@@ -1,0 +1,59 @@
+ 
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .heading {
+      color: #38bdf8;
+    }
+
+    .heading {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .heading {
+      margin-top: 40px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 5px;
+    }
+
+    .heading {
+      margin-top: 20px;
+    }
+
+    .text {
+      margin: 10px 0;
+      color: #cbd5f5;
+    }
+
+   
+
+    .list {
+      margin-bottom: 8px;
+    }
+
+    .toc {
+      background: #020617;
+      padding: 20px;
+      border-radius: 10px;
+      margin-bottom: 30px;
+    }
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .highlight {
+      color: #facc15;
+    }
+
+    .contact-box {
+      background: #020617;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
