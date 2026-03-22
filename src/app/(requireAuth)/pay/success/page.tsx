@@ -1,78 +1,95 @@
 "use client";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
+import api from "@/app/api/axios";
+import styles from "./PaySuccess.module.css";
 
-export default function PaymentSuccessPage() {
-  const [reference, setReference] = useState<string | null>(null);
+type Status = "loading" | "success" | "failed";
+
+const CheckIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+  </svg>
+);
+
+const XIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor">
+    <path strokeLinecap="round" strokeLinejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+  </svg>
+);
+
+const WalletIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={{ width: "1rem", height: "1rem" }}>
+    <path strokeLinecap="round" strokeLinejoin="round" d="M21 12a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 12m18 0v6a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 18v-6m18 0V9M3 12V9m18-3H3m18 0a2.25 2.25 0 0 0-2.25-2.25H5.25A2.25 2.25 0 0 0 3 6" />
+  </svg>
+);
+
+export default function PaySuccess() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [status, setStatus] = useState<Status>("loading");
 
   useEffect(() => {
-    const ref = new URLSearchParams(window.location.search).get("reference");
-    setReference(ref);
+    const reference = searchParams.get("reference");
+    if (!reference) return void router.push("/pay");
+
+    api
+      .get(`/pay/verify?reference=${reference}`)
+      .then((res) => setStatus(res.data.verified ? "success" : "failed"))
+      .catch(() => setStatus("failed"));
   }, []);
 
-  return (
-    <div style={styles.container}>
-      <div style={styles.card}>
-        <h1 style={styles.title}>Payment Completed</h1>
-        <p style={styles.text}>
-          Thank you for your payment. We are confirming your transaction.
-        </p>
+  if (status === "loading") {
+    return (
+      <div className={styles.page}>
+        <div className={styles.loadingWrap}>
+          <div className={styles.spinner} />
+          <p>Verifying your payment…</p>
+        </div>
+      </div>
+    );
+  }
 
-        {reference && (
-          <p style={styles.reference}>
-            Reference: <strong>{reference}</strong>
+  if (status === "failed") {
+    return (
+      <div className={styles.page}>
+        <div className={`${styles.card} ${styles.cardFailed}`}>
+          <div className={`${styles.iconWrap} ${styles.iconWrapFailed}`}>
+            <XIcon />
+          </div>
+          <h1 className={styles.title}>Payment Failed</h1>
+          <p className={styles.subtitle}>
+            We couldn't verify your payment. If you were charged, please contact support with your reference.
           </p>
-        )}
+          <button className={styles.btnOutline} onClick={() => router.push("/pay")}>
+            Try Again
+          </button>
+        </div>
+      </div>
+    );
+  }
 
-        <Link href="/" style={styles.button}>
-          Return Home
-        </Link>
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <div className={styles.iconWrap}>
+          <CheckIcon />
+        </div>
+        <h1 className={styles.title}>Payment Successful 🎉</h1>
+        <p className={styles.subtitle}>
+          Your tokens have been credited to your wallet and are ready to use.
+        </p>
+        <div className={styles.tokenBadge}>
+          <WalletIcon />
+          Tokens added to your wallet
+        </div>
+        <button className={styles.btnPrimary} onClick={() => router.push("/dashboard")}>
+          Go to Dashboard
+        </button>
+        <button className={styles.btnOutline} onClick={() => router.push("/pay")}>
+          Buy More Tokens
+        </button>
       </div>
     </div>
   );
 }
-
-const styles: { [key: string]: React.CSSProperties } = {
-  container: {
-    minHeight: "100vh",
-    background: "linear-gradient(135deg, #1E3A8A, #FFFFFF, #1E9965)", // blue → white → green
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: "20px",
-  },
-  card: {
-    background: "white",
-    borderRadius: "10px",
-    width: "100%",
-    maxWidth: "420px",
-    padding: "28px 32px",
-    boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-    textAlign: "center",
-  },
-  title: {
-    color: "#1E3A8A",
-    fontSize: "28px",
-    marginBottom: "12px",
-    fontWeight: 700,
-  },
-  text: {
-    fontSize: "16px",
-    color: "#093238",
-    marginBottom: "16px",
-  },
-  reference: {
-    marginBottom: "24px",
-    fontSize: "15px",
-    color: "#1E9965",
-  },
-  button: {
-    display: "inline-block",
-    backgroundColor: "#1E9965",
-    padding: "10px 20px",
-    borderRadius: "6px",
-    color: "white",
-    textDecoration: "none",
-    fontWeight: 600,
-  },
-};

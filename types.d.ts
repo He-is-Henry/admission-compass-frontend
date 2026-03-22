@@ -100,3 +100,21 @@ type PredictionResult = {
   reason?: string;
   error?: string;
 };
+
+type PredictionHistory = {
+  _id: string;
+  university: string;
+  user: Types.ObjectId;
+  course: string;
+  probability: number;
+  createdAt: string;
+};
+
+type Payment = {
+  _id: string;
+  reference: string;
+  status: string;
+  quantity: number;
+  used: number;
+  createdAt: string;
+};

@@ -419,7 +419,7 @@
 
 /* Sidebar */
 .sidebar {
-  width: 16rem;
+  width: 250px;
   background-color: #ffffff;
   border-right: 1px solid #e5e7eb;
   min-height: calc(100vh - 4rem);

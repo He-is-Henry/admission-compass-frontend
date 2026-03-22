@@ -1,46 +1,30 @@
 "use client";
 import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./dashboard.module.css";
-
-interface Prediction {
-  id: string;
-  course: string;
-  university: string;
-  probability: number;
-  status: "high" | "medium" | "low";
-  date: string;
-}
-
-interface User {
-  name: string;
-}
+import getAllPredictions from "@/app/lib/getAllPredictions";
+import { useEffect, useState } from "react";
 
 function DashboardHome() {
   // Dummy data
   const { user } = useAuth();
   const tokenBalance = user?.tokens;
-  const predictions: Prediction[] = [
-    {
-      id: "1",
-      course: "Computer Science",
-      university: "LASU",
-      probability: 78,
-      status: "high",
-      date: "2026-03-01",
-    },
-    {
-      id: "2",
-      course: "Economics",
-      university: "UI",
-      probability: 55,
-      status: "medium",
-      date: "2026-02-28",
-    },
-  ];
-
+  const [predictions, setPredictions] = useState<PredictionHistory[]>([]);
   const latestPrediction = predictions[0];
   const readinessScore = latestPrediction ? latestPrediction.probability : 0;
-  console.log("Rendering...");
+
+  useEffect(() => {
+    const fetchPredictions = async () => {
+      const res = await getAllPredictions();
+      setPredictions(res);
+    };
+
+    fetchPredictions();
+  }, []);
+
+  const getStatus = (probablility: number) => {
+    return probablility >= 70 ? "high" : probablility >= 50 ? "medium" : "low";
+  };
+
   return (
     <div className={styles.container}>
       {/* Welcome Header */}
@@ -94,11 +78,11 @@ function DashboardHome() {
                   {latestPrediction.probability}%
                 </div>
                 <div
-                  className={`${styles.badge} ${styles[latestPrediction.status]}`}
+                  className={`${styles.badge} ${styles[getStatus(latestPrediction.probability)]}`}
                 >
-                  {latestPrediction.status === "high"
+                  {latestPrediction.probability >= 70
                     ? "High Chance"
-                    : latestPrediction.status === "medium"
+                    : latestPrediction.probability >= 50
                       ? "Medium Chance"
                       : "Low Chance"}
                 </div>
@@ -228,7 +212,7 @@ function DashboardHome() {
                 </div>
                 <div className={styles.cardContent}>
                   {predictions.slice(0, 3).map((prediction) => (
-                    <div key={prediction.id} className={styles.predictionRow}>
+                    <div key={prediction._id} className={styles.predictionRow}>
                       <div className={styles.predictionDetails}>
                         <div className={styles.courseName}>
                           {prediction.course}
@@ -237,7 +221,7 @@ function DashboardHome() {
                           {prediction.university}
                         </div>
                         <div className={styles.predictionDate}>
-                          {prediction.date}
+                          {prediction.createdAt.split("T")[0]}
                         </div>
                       </div>
                       <div className={styles.predictionStatus}>
@@ -246,13 +230,13 @@ function DashboardHome() {
                             {prediction.probability}%
                           </div>
                           <div
-                            className={`${styles.status} ${styles[prediction.status]}`}
+                            className={`${styles.status} ${styles[getStatus(prediction.probability)]}`}
                           >
-                            {prediction.status === "high"
-                              ? "High"
-                              : prediction.status === "medium"
-                                ? "Medium"
-                                : "Low"}
+                            {prediction.probability >= 70
+                              ? "High Chance"
+                              : prediction.probability >= 50
+                                ? "Medium Chance"
+                                : "Low Chance"}
                           </div>
                         </div>
                         <div className={styles.statusIcon}>

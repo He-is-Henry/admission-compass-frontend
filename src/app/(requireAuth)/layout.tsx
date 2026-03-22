@@ -15,9 +15,9 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   // Mock nav items
   const navItems = [
     { icon: "🏠", label: "Dashboard", path: "/dashboard" },
-    { icon: "✨", label: "New Prediction", path: "/dashboard/new-prediction" },
-    { icon: "📜", label: "My Predictions", path: "/dashboard/predictions" },
-    { icon: "💰", label: "Token Wallet", path: "/dashboard/tokens" },
+    { icon: "✨", label: "New Prediction", path: "/predict" },
+    // { icon: "📜", label: "My Predictions", path: "/dashboard/predictions" },
+    { icon: "💰", label: "Token Wallet", path: "/pay" },
     { icon: "📚", label: "Past Questions", path: "/dashboard/past-questions" },
     {
       icon: "💡",
@@ -124,7 +124,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
 
         <main
           className={styles.mainContent}
-          style={!isMobile ? { marginLeft: "250px" } : {}}
+          style={!isMobile ? { marginLeft: "256px" } : {}}
         >
           {children}
         </main>

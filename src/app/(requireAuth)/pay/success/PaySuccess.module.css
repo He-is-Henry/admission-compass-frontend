@@ -1,0 +1,152 @@
+/* PaySuccess.module.css */
+
+.page {
+  padding: 2rem;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  min-height: 60vh;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .page {
+    padding: 1rem;
+  }
+}
+
+/* ── Card ─────────────────────────────────────── */
+.card {
+  width: 100%;
+  max-width: 32rem;
+  border: 2px solid #bfdbfe;
+  border-radius: 1rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdfa 100%);
+  padding: 2.5rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+
+.cardFailed {
+  border-color: #fecaca;
+  background: linear-gradient(135deg, #fff1f2 0%, #fff7ed 100%);
+}
+
+/* ── Icon ─────────────────────────────────────── */
+.iconWrap {
+  background: linear-gradient(135deg, #2563eb, #0d9488);
+  padding: 1.25rem;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconWrapFailed {
+  background: linear-gradient(135deg, #dc2626, #ea580c);
+}
+
+.iconWrap svg,
+.iconWrapFailed svg {
+  width: 2.5rem;
+  height: 2.5rem;
+  color: #fff;
+}
+
+/* ── Text ─────────────────────────────────────── */
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.subtitle {
+  font-size: 0.9375rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* ── Token badge ──────────────────────────────── */
+.tokenBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: linear-gradient(90deg, #2563eb, #0d9488);
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.4rem 1rem;
+  border-radius: 9999px;
+}
+
+/* ── Loading ──────────────────────────────────── */
+.loadingWrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  color: #6b7280;
+}
+
+.spinner {
+  width: 2.5rem;
+  height: 2.5rem;
+  border: 3px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 9999px;
+  animation: spin 0.75s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ── Buttons ──────────────────────────────────── */
+.btnPrimary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #fff;
+  background: linear-gradient(90deg, #2563eb, #0d9488);
+  border: none;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+  justify-content: center;
+}
+
+.btnPrimary:hover {
+  opacity: 0.88;
+}
+
+.btnOutline {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #374151;
+  background: #fff;
+  border: 1px solid #d1d5db;
+  border-radius: 0.625rem;
+  cursor: pointer;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+.btnOutline:hover {
+  border-color: #93c5fd;
+}
