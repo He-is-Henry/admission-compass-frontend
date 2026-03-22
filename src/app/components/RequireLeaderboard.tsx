@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { getLeaderboard } from "@/app/lib/leaderboard";
 import Referral from "./Referral";
 import HeroSection from "./Hero";
+import subjectStore from "../lib/subjectStore";
 
 type Props = {
   subjects: Subject[];
@@ -13,6 +14,9 @@ type Props = {
 const emptyHistory = { data: [], total: 0, hasMore: false };
 
 export default function RequireLeaderboard({ children, subjects }: Props) {
+  if (!subjectStore.get()) {
+    subjectStore.set(subjects);
+  }
   const [historyPage, setHistoryPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
   const [data, setData] = useState<{
