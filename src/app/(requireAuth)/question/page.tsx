@@ -2,7 +2,6 @@ import React from "react";
 import Questions from "./page.client";
 import { Metadata } from "next";
 import { getAllQuestions } from "../../lib/question";
-import { getAllSubjects } from "../../lib/subject";
 
 export const dynamic = "force-dynamic";
 
@@ -12,6 +11,5 @@ export const metadata: Metadata = {
 
 export default async function page() {
   const questions: Question[] = await getAllQuestions();
-  const subjects = await getAllSubjects();
-  return <Questions questions={questions} subjects={subjects} />;
+  return <Questions questions={questions} />;
 }

@@ -19,12 +19,12 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     // { icon: "📜", label: "My Predictions", path: "/dashboard/predictions" },
     { icon: "💰", label: "Token Wallet", path: "/pay" },
     { icon: "📚", label: "Past Questions", path: "/past-questions" },
-    {
-      icon: "💡",
-      label: "Recommendations",
-      path: "/dashboard/recommendations",
-    },
-    { icon: "👤", label: "Profile", path: "/dashboard/profile" },
+    // {
+    //   icon: "💡",
+    //   label: "Recommendations",
+    //   path: "/dashboard/recommendations",
+    // },
+    { icon: "👤", label: "Profile", path: "/profile" },
     { icon: "❓", label: "Support", path: "/dashboard/support" },
   ];
 

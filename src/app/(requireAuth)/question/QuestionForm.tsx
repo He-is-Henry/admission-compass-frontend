@@ -1,16 +1,22 @@
-import React from "react";
+"use client";
+import React, { useEffect, useState } from "react";
 import Options from "./add/Options";
+import subjectStore from "@/app/lib/subjectStore";
 
 type Props = {
   question: NewQuestion;
-  subjects: Subject[];
   onChange: (updated: NewQuestion) => void;
 };
 
-const QuestionForm: React.FC<Props> = ({ question, subjects, onChange }) => {
+const QuestionForm: React.FC<Props> = ({ question, onChange }) => {
   const set = <K extends keyof NewQuestion>(field: K, value: NewQuestion[K]) =>
     onChange({ ...question, [field]: value });
 
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  useEffect(() => {
+    subjectStore.get().then(setSubjects);
+  }, []);
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
       <select

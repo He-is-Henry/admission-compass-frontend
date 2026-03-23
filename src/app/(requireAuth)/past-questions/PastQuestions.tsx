@@ -5,6 +5,7 @@ import api from "@/app/api/axios";
 import { getAllSubjects } from "@/app/lib/subject";
 import subjectStore from "@/app/lib/subjectStore";
 import styles from "./PastQuestions.module.css";
+import { useRouter } from "next/navigation";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
@@ -77,18 +78,14 @@ export default function PastQuestions() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  const router = useRouter();
+
   // ── Load subjects (store first) ──────────────────────────────────────────
 
   useEffect(() => {
     const load = async () => {
-      const cached = subjectStore.get();
-      if (cached) {
-        setSubjects(cached);
-        return;
-      }
-      const data = await getAllSubjects();
-      subjectStore.set(data);
-      setSubjects(data);
+      const cached = await subjectStore.get();
+      setSubjects(cached);
     };
     load();
   }, []);
@@ -205,7 +202,12 @@ export default function PastQuestions() {
                 </p>
               </div>
             </div>
-            <button className={styles.btnPrimary} onClick={() => {}}>
+            <button
+              className={styles.btnPrimary}
+              onClick={() => {
+                router.push("/exam");
+              }}
+            >
               Practice Now
             </button>
           </div>

@@ -6,7 +6,6 @@ import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
-import AccountModal from "./modals/AccountModal";
 
 const Header: React.FC = () => {
   const searchParams = useSearchParams();
@@ -16,11 +15,12 @@ const Header: React.FC = () => {
 
   const [showLogin, setShowLogin] = useState(modal === "login");
   const [showSignup, setShowSignup] = useState(modal === "signup");
-  const [showAccount, setShowAccount] = useState(false);
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname === "/";
+  const isDashboard = pathname === "/dashboard";
+
   useEffect(() => {
     if (modal === "login") {
       setShowLogin(true);
@@ -39,7 +39,6 @@ const Header: React.FC = () => {
   const closeAllModals = () => {
     setShowLogin(false);
     setShowSignup(false);
-    setShowAccount(false);
     router.replace(pathname);
   };
 
@@ -92,10 +91,7 @@ const Header: React.FC = () => {
   console.log(user);
 
   return (
-    <header
-      className={styles.header}
-      style={showAccount ? { zIndex: 1000 } : {}}
-    >
+    <header className={styles.header}>
       <div>
         {showLogin && (
           <div
@@ -125,8 +121,6 @@ const Header: React.FC = () => {
             />
           </div>
         )}
-
-        {showAccount && <AccountModal closeModal={closeAllModals} />}
       </div>
 
       <div className={styles.container}>
@@ -162,17 +156,15 @@ const Header: React.FC = () => {
           )}
 
           {/* Buttons */}
-          {user ? (
-            <div
-              className={styles.userPill}
-              onClick={() => setShowAccount(true)}
+          {user && isDashboard ? (
+            ""
+          ) : user && !isDashboard ? (
+            <button
+              className={styles.dashboardButton}
+              onClick={() => router.push("/dashboard")}
             >
-              <div className={styles.avatar}>
-                {user.username.charAt(0).toUpperCase()}
-              </div>
-
-              <span className={styles.username}>{user.username}</span>
-            </div>
+              Dashboard
+            </button>
           ) : loading ? (
             <p style={{ color: "white" }}>Loading...</p>
           ) : (
