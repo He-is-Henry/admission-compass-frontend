@@ -5,10 +5,14 @@ import Loading from "../loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./dashboard/dashboard.module.css";
+import toast from "react-hot-toast";
+import ConfirmModal from "../components/modals/ConfirmModal";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const { logout } = useAuth();
 
   const { user } = useAuth();
 
@@ -25,7 +29,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     //   path: "/dashboard/recommendations",
     // },
     { icon: "👤", label: "Profile", path: "/profile" },
-    { icon: "❓", label: "Support", path: "/dashboard/support" },
+    { icon: "❓", label: "Support", path: "/support" },
   ];
 
   useEffect(() => {
@@ -40,8 +44,26 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   }, []);
   const avatar = user?.username.charAt(0);
 
+  const handleLogout = async () => {
+    try {
+      await logout();
+      toast.success("Logged out successfully");
+    } catch {
+      toast.error("Logout failed");
+    }
+  };
   return (
     <div className={styles.dashboardWrapper}>
+      {showModal && (
+        <ConfirmModal
+          title="Logout?"
+          description="You'll have to log back onto this device to access your account again"
+          confirmLabel="Logout"
+          cancelLabel="Back"
+          onConfirm={logout}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
       {/* Top Bar */}
       <header className={styles.topBar}>
         <div className={styles.topBarContent}>
@@ -85,7 +107,12 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                   <span className={styles.navLabel}>{item.label}</span>
                 </Link>
               ))}
-              <button className={styles.logoutButton}>Logout</button>
+              <button
+                className={styles.logoutButton}
+                onClick={() => setShowModal(true)}
+              >
+                Logout
+              </button>
             </nav>
           </aside>
         )}
@@ -116,7 +143,12 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                     <span className={styles.navLabel}>{item.label}</span>
                   </Link>
                 ))}
-                <button className={styles.logoutButton}>Logout</button>
+                <button
+                  className={styles.logoutButton}
+                  onClick={() => setShowModal(true)}
+                >
+                  Logout
+                </button>
               </nav>
             </aside>
           </div>

@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 import SessionsPanel from "./SessionsPanel";
 import api from "@/app/api/axios";
 import { AxiosError } from "axios";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
 
 export default function ProfilePage() {
   const { user, logout, deleteAccount, setUser } = useAuth();
@@ -25,6 +26,7 @@ export default function ProfilePage() {
   const [showCurrentPw, setShowCurrentPw] = useState(false);
   const [showNewPw, setShowNewPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   // ── Danger zone ──────────────────────────────
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -96,6 +98,16 @@ export default function ProfilePage() {
 
   return (
     <div className={styles.page}>
+      {showModal && (
+        <ConfirmModal
+          title="Logout?"
+          description="You'll have to log back onto this device to access your account again"
+          confirmLabel="Logout"
+          cancelLabel="Back"
+          onConfirm={logout}
+          onCancel={() => setShowModal(false)}
+        />
+      )}
       {/* Header */}
       <div>
         <h1 className={styles.heading}>Profile</h1>
@@ -257,7 +269,7 @@ export default function ProfilePage() {
       />
 
       {/* Logout */}
-      <button className={styles.logoutBtn} onClick={handleLogout}>
+      <button className={styles.logoutBtn} onClick={() => setShowModal(true)}>
         Logout
       </button>
 
