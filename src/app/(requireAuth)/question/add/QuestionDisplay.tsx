@@ -41,11 +41,7 @@ const QuestionDisplay: React.FC<Props> = ({
         </span>
       </div>
 
-      <QuestionForm
-        question={question}
-        subjects={subjects}
-        onChange={onChange}
-      />
+      <QuestionForm question={question} onChange={onChange} />
     </div>
   );
 };
