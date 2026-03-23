@@ -1,8 +1,17 @@
 "use client";
-
+import Link from "next/link";
 import styles from "./footer.module.css";
-import Image from "next/image"
+import Image from "next/image";
 
+//Esther: footer pages. Added about us and privacy policy
+
+/* type FooterLink = {
+  name: string;
+  path: string;
+};
+ */
+const companyLinks = [{ name: "About Us", path: "/about" }];
+const legalLinks = [{ name: "Privacy policy", path: "/Privacypolicy" }];
 export default function Footer() {
   return (
     <footer className={styles.footer}>
@@ -10,16 +19,14 @@ export default function Footer() {
         <div className={styles.grid}>
           <div>
             <div className={styles.logoContainer}>
-            
-                    <Image 
-                src ="/admissioncompass.jpg"
-                alt = "Admission Compass Logo"
-                width ={40}
-                height ={40}
-                className= {styles.logoSvg}
-                />
-              
-              
+              <Image
+                src="/admissioncompass.jpg"
+                alt="Admission Compass Logo"
+                width={40}
+                height={40}
+                className={styles.logoSvg}
+              />
+
               <span className={styles.logoText}>ADMISSION COMPASS</span>
             </div>
             <p className={styles.description}>
@@ -72,11 +79,11 @@ export default function Footer() {
           <div>
             <h3 className={styles.sectionTitle}>Company</h3>
             <ul className={styles.linkList}>
-              {["About Us", "How It Works", "Careers", "Blog"].map((item) => (
-                <li key={item}>
-                  <a href="#" className={styles.link}>
-                    {item}
-                  </a>
+              {companyLinks.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.path} className={styles.link}>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -92,7 +99,7 @@ export default function Footer() {
                       {item}
                     </a>
                   </li>
-                )
+                ),
               )}
             </ul>
           </div>
@@ -100,16 +107,11 @@ export default function Footer() {
           <div>
             <h3 className={styles.sectionTitle}>Legal</h3>
             <ul className={styles.linkList}>
-              {[
-                "Privacy Policy",
-                "Terms of Service",
-                "Cookie Policy",
-                "Data Protection",
-              ].map((item) => (
-                <li key={item}>
-                  <a href="#" className={styles.link}>
-                    {item}
-                  </a>
+              {legalLinks.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.path} className={styles.link}>
+                    {item.name}
+                  </Link>
                 </li>
               ))}
             </ul>
