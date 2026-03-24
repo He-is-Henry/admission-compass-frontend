@@ -10,8 +10,14 @@ import Image from "next/image";
   path: string;
 };
  */
+const supportLinks = [
+  { name: "FAQ", path: "/support" },
+  { name: "Contact Us", path: "/support" },
+  { name: "Help Center", path: "/support" },
+  { name: "Student Guide", path: "/support" },
+];
 const companyLinks = [{ name: "About Us", path: "/about" }];
-const legalLinks = [{ name: "Privacy policy", path: "/Privacypolicy" }];
+const legalLinks = [{ name: "Privacy policy", path: "/privacy-policy" }];
 export default function Footer() {
   return (
     <footer className={styles.footer}>
@@ -92,15 +98,13 @@ export default function Footer() {
           <div>
             <h3 className={styles.sectionTitle}>Support</h3>
             <ul className={styles.linkList}>
-              {["FAQ", "Contact Us", "Help Center", "Student Guide"].map(
-                (item) => (
-                  <li key={item}>
-                    <a href="#" className={styles.link}>
-                      {item}
-                    </a>
-                  </li>
-                ),
-              )}
+              {supportLinks.map((item) => (
+                <li key={item.name}>
+                  <Link href={item.path} className={styles.link}>
+                    {item.name}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 
