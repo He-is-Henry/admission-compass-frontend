@@ -15,8 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Home() {
-  const cached = subjectStore.get();
-  const subjects = cached ? cached : await getAllSubjects();
+  const subjects = await getAllSubjects();
 
   return (
     <>

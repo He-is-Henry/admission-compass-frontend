@@ -5,10 +5,9 @@ import ListQuestion from "./ListQuestion";
 
 type Props = {
   questions: Question[];
-  subjects: Subject[];
 };
 
-const Questions = ({ questions: initialQuestions, subjects }: Props) => {
+const Questions = ({ questions: initialQuestions }: Props) => {
   const [questions, setQuestions] = useState<Question[]>(initialQuestions);
 
   const handleDeleted = (id: string) => {
@@ -29,7 +28,6 @@ const Questions = ({ questions: initialQuestions, subjects }: Props) => {
         <ListQuestion
           key={q._id}
           question={q}
-          subjects={subjects}
           onDeleted={handleDeleted}
           onUpdated={handleUpdated}
         />

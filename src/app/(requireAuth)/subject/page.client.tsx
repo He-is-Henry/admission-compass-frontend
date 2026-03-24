@@ -1,7 +1,14 @@
 "use client";
+import subjectStore from "@/app/lib/subjectStore";
 import styles from "./subjectList.module.css";
 import Link from "next/link";
-const SubjectsList = ({ subjects }: { subjects: Subject[] }) => {
+import { useEffect, useState } from "react";
+const SubjectsList = () => {
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  useEffect(() => {
+    subjectStore.get().then(setSubjects);
+  }, []);
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>Available Subjects</h2>

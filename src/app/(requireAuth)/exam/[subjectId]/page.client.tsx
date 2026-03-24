@@ -6,6 +6,7 @@ import { AxiosError } from "axios";
 import toast from "react-hot-toast";
 import ExamQuestion from "@/app/components/ExamQuestion";
 import api from "@/app/api/axios";
+import ConfirmModal from "@/app/components/modals/ConfirmModal";
 
 type Draft = {
   _id: string;
@@ -13,6 +14,13 @@ type Draft = {
   answers: (number | null)[];
   startTime: string;
   duration: number;
+};
+
+type ExamResult = {
+  score: number;
+  total: number;
+  percentage: number;
+  expired?: boolean;
 };
 
 export default function ExamSession() {
@@ -23,6 +31,7 @@ export default function ExamSession() {
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useEffect(() => {
     const fetchDraft = async () => {
@@ -45,10 +54,36 @@ export default function ExamSession() {
     fetchDraft();
   }, []);
 
+  const handleSubmit = useCallback(
+    async (currentAnswers: (number | null)[]) => {
+      if (submitting) return;
+      setSubmitting(true);
+      try {
+        // Flush latest answers before submitting
+        await api.patch("/exam/draft", { answers: currentAnswers });
+        const res = await api.post("/exam/submit");
+        const { score, total, percentage, expired } = res.data as ExamResult;
+        if (expired) {
+          toast.error("Time's up! Your exam was auto-submitted.");
+        }
+
+        sessionStorage.setItem("examResult", JSON.stringify(res.data));
+        router.push("/exam/result");
+      } catch (err) {
+        const error = err as AxiosError<{ error: string }>;
+        // Draft already scored via updateDraft expiry
+        if (error?.response?.status === 404) return router.push("/exam");
+        toast.error(error?.response?.data?.error || "Failed to submit exam");
+        setSubmitting(false);
+      }
+    },
+    [submitting, router],
+  );
+
   useEffect(() => {
     if (timeLeft === null) return;
     if (timeLeft <= 0) {
-      handleSubmit();
+      handleSubmit(answers);
       return;
     }
     const interval = setInterval(
@@ -56,13 +91,22 @@ export default function ExamSession() {
       1000,
     );
     return () => clearInterval(interval);
-  }, [timeLeft]);
+  }, [timeLeft, answers, handleSubmit]);
 
-  const saveDraft = useCallback(async (updatedAnswers: (number | null)[]) => {
-    try {
-      await api.patch("/exam/draft", { answers: updatedAnswers });
-    } catch {}
-  }, []);
+  const saveDraft = useCallback(
+    async (updatedAnswers: (number | null)[]) => {
+      try {
+        const res = await api.patch("/exam/draft", { answers: updatedAnswers });
+        if (res.data?.expired) {
+          const { score, total, percentage } = res.data;
+
+          sessionStorage.setItem("examResult", JSON.stringify(res.data));
+          router.push("/exam/result");
+        }
+      } catch {}
+    },
+    [router],
+  );
 
   const handleAnswer = (questionIndex: number, optionIndex: number) => {
     setAnswers((prev) => {
@@ -72,21 +116,6 @@ export default function ExamSession() {
       saveDraft(updated);
       return updated;
     });
-  };
-
-  const handleSubmit = async () => {
-    if (submitting) return;
-    setSubmitting(true);
-    try {
-      const res = await api.post("/exam/submit");
-      router.push(
-        `/exam/result?score=${res.data.score}&total=${res.data.total}&percentage=${res.data.percentage}`,
-      );
-    } catch (err) {
-      const error = err as AxiosError<{ error: string }>;
-      toast.error(error?.response?.data?.error || "Failed to submit exam");
-      setSubmitting(false);
-    }
   };
 
   const formatTime = (seconds: number) => {
@@ -120,12 +149,24 @@ export default function ExamSession() {
           {timeLeft !== null ? formatTime(timeLeft) : "--:--"}
         </span>
       </div>
+      {showConfirm && (
+        <ConfirmModal
+          title="Submit Exam?"
+          description={`You've answered ${answered} of ${draft.questions.length} questions. This cannot be undone.`}
+          confirmLabel="Submit"
+          loading={submitting}
+          onConfirm={() => handleSubmit(answers)}
+          onCancel={() => setShowConfirm(false)}
+        />
+      )}
+
       <ExamQuestion
         question={draft.questions[current]}
         questionIndex={current}
         selectedAnswer={answers[current]}
         onAnswer={handleAnswer}
       />
+
       <div style={styles.nav}>
         <button
           style={styles.navBtn}
@@ -147,6 +188,7 @@ export default function ExamSession() {
           Next
         </button>
       </div>
+
       <div style={styles.grid}>
         {draft.questions.map((_, i) => (
           <div
@@ -167,8 +209,9 @@ export default function ExamSession() {
           </div>
         ))}
       </div>
+
       <button
-        onClick={handleSubmit}
+        onClick={() => setShowConfirm(true)}
         disabled={submitting}
         style={{ ...styles.submitBtn, opacity: submitting ? 0.6 : 1 }}
       >

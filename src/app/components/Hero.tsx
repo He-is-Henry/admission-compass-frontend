@@ -47,7 +47,7 @@ const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
               <div>
                 Available subjects{" "}
                 {subjects.map((s) => (
-                  <p key={s.code}>{s.name}</p>
+                  <p key={s._id}>{s.name}</p>
                 ))}
               </div>
             )}

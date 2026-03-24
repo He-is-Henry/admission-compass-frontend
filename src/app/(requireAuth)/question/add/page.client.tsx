@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";
 import QuestionDisplay from "./QuestionDisplay";
 import { createQuestions } from "@/app/lib/question";
+import subjectStore from "@/app/lib/subjectStore";
 
 const makeBlank = (tempId: number): NewQuestion => ({
   text: "",
@@ -17,10 +18,15 @@ const makeBlank = (tempId: number): NewQuestion => ({
   _tempId: tempId,
 });
 
-function AddQuestionPage({ subjects }: { subjects: Subject[] }) {
+function AddQuestionPage() {
   const [questions, setQuestions] = useState<NewQuestion[]>([makeBlank(1)]);
   const [nextId, setNextId] = useState(2);
 
+  const [subjects, setSubjects] = useState<Subject[]>([]);
+
+  useEffect(() => {
+    subjectStore.get().then(setSubjects);
+  }, []);
   const addQuestion = () => {
     setQuestions((prev) => [...prev, makeBlank(nextId)]);
     setNextId((prev) => prev + 1);

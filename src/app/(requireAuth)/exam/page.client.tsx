@@ -1,20 +1,20 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/app/api/axios";
 import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import subjectStore from "@/app/lib/subjectStore";
 
-type Props = {
-  subjects: Subject[];
-};
-
-export default function ExamPage({ subjects }: Props) {
+export default function ExamPage() {
   const [subjectId, setSubjectId] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  const [subjects, setSubjects] = useState<Subject[]>([]);
 
+  useEffect(() => {
+    subjectStore.get().then(setSubjects);
+  }, []);
   const handleStart = async () => {
     if (!subjectId) return toast.error("Please select a subject");
     setLoading(true);
@@ -33,18 +33,19 @@ export default function ExamPage({ subjects }: Props) {
     <div style={styles.container}>
       <div style={styles.card}>
         <h2 style={styles.title}>Start Exam</h2>
-        <p style={styles.sub}>30 questions · 45 minutes · 1 token</p>
+        <p style={styles.sub}>30 questions · 45 minutes</p>
         <select
           value={subjectId}
           onChange={(e) => setSubjectId(e.target.value)}
           style={styles.select}
         >
           <option value="">Choose a subject</option>
-          {subjects.map((s) => (
-            <option key={s._id} value={s._id}>
-              {s.name}
-            </option>
-          ))}
+          {subjects &&
+            subjects.map((s) => (
+              <option key={s._id} value={s._id}>
+                {s.name}
+              </option>
+            ))}
         </select>
         <button
           onClick={handleStart}

@@ -8,17 +8,11 @@ import { AxiosError } from "axios";
 
 type Props = {
   question: Question;
-  subjects: Subject[];
   onDeleted: (id: string) => void;
   onUpdated: (updated: Question) => void;
 };
 
-const ListQuestion: React.FC<Props> = ({
-  question,
-  subjects,
-  onDeleted,
-  onUpdated,
-}) => {
+const ListQuestion: React.FC<Props> = ({ question, onDeleted, onUpdated }) => {
   const [isEditing, setIsEditing] = useState(false);
 
   // Convert Question -> NewQuestion shape for the form
@@ -59,11 +53,7 @@ const ListQuestion: React.FC<Props> = ({
   if (isEditing) {
     return (
       <div className={styles.questionCard}>
-        <QuestionForm
-          question={draft}
-          subjects={subjects}
-          onChange={setDraft}
-        />
+        <QuestionForm question={draft} onChange={setDraft} />
         <div className={styles.actions}>
           <button
             className={`${styles.button} ${styles.edit}`}
