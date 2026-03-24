@@ -1,4 +1,10 @@
+import { Metadata } from "next";
 import styles from "./privacy-policy.module.css";
+
+export const metadata: Metadata = {
+  title: "Admission Compass | Our privacy policy",
+};
+
 export default function PrivacyPolicy() {
   return (
     <div className={styles.container}>

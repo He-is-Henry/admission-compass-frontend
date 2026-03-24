@@ -13,20 +13,20 @@ export default function ExamPage() {
   const [subjects, setSubjects] = useState<Subject[]>([]);
 
   useEffect(() => {
-    subjectStore.get().then(setSubjects);
+    const loadSubjects = async () => {
+      const subjects = await subjectStore.get();
+      setSubjects(subjects);
+    };
+    loadSubjects();
   }, []);
   const handleStart = async () => {
-    if (!subjectId) return toast.error("Please select a subject");
     setLoading(true);
-    try {
-      await api.get(`/exam/start?subject=${subjectId}`);
-      router.push(`/exam/${subjectId}`);
-    } catch (err) {
-      const error = err as AxiosError<{ error: string }>;
-      toast.error(error?.response?.data?.error || "Failed to start exam");
-    } finally {
-      setLoading(false);
-    }
+    if (!subjectId) return toast.error("Please select a subject");
+    const subject = subjects.find((s) => s._id === subjectId);
+    // Simply navigate to session page with subjectId
+    router.push(
+      `/exam/start?subject=${subjectId}&name=${encodeURIComponent(subject?.name || "")}`,
+    );
   };
 
   return (

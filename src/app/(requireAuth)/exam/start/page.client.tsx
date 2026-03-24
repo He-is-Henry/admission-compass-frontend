@@ -8,6 +8,12 @@ import ExamQuestion from "@/app/components/ExamQuestion";
 import api from "@/app/api/axios";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
 
+type ExamResult = {
+  score: number;
+  total: number;
+  percentage: number;
+  expired?: boolean;
+};
 type Draft = {
   _id: string;
   questions: Question[];
@@ -16,15 +22,7 @@ type Draft = {
   duration: number;
 };
 
-type ExamResult = {
-  score: number;
-  total: number;
-  percentage: number;
-  expired?: boolean;
-};
-
-export default function ExamSession() {
-  const [draft, setDraft] = useState<Draft | null>(null);
+export default function ExamSession({ subject }: { subject: string }) {
   const [answers, setAnswers] = useState<(number | null)[]>([]);
   const [timeLeft, setTimeLeft] = useState<number | null>(null);
   const [current, setCurrent] = useState(0);
@@ -32,27 +30,40 @@ export default function ExamSession() {
   const [submitting, setSubmitting] = useState(false);
   const router = useRouter();
   const [showConfirm, setShowConfirm] = useState(false);
+  const [draft, setDraft] = useState<Draft | null>(null);
 
   useEffect(() => {
     const fetchDraft = async () => {
       try {
-        const res = await api.get("/exam/draft");
-        const d: Draft = res.data;
+        const res = await api.get(
+          `/exam/start?subject=${encodeURIComponent(subject)}`,
+        );
+
+        const data = res.data;
+
+        const d = data.draft ?? data;
+
+        if (data.message === "ongoing exam exists") {
+          toast.success("Previous exam existing... Resuming");
+        }
+
         setDraft(d);
+
         setAnswers(d.answers);
+
         const elapsed = (Date.now() - new Date(d.startTime).getTime()) / 1000;
         const remaining = Math.max(0, d.duration - elapsed);
         setTimeLeft(Math.floor(remaining));
       } catch (err) {
-        const error = err as AxiosError<{ error: string }>;
-        toast.error(error?.response?.data?.error || "Failed to load exam");
+        toast.error("Failed to load exam draft.");
         router.push("/exam");
       } finally {
         setLoading(false);
       }
     };
+
     fetchDraft();
-  }, []);
+  }, [subject, router]);
 
   const handleSubmit = useCallback(
     async (currentAnswers: (number | null)[]) => {
