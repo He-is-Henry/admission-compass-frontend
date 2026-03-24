@@ -11,7 +11,7 @@ import Image from "next/image";
 };
  */
 const companyLinks = [{ name: "About Us", path: "/about" }];
-const legalLinks = [{ name: "Privacy policy", path: "/Privacypolicy" }];
+const legalLinks = [{ name: "Privacy policy", path: "/privacy-policy" }];
 export default function Footer() {
   return (
     <footer className={styles.footer}>

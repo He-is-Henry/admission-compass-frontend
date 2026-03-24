@@ -30,6 +30,8 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     // },
     { icon: "👤", label: "Profile", path: "/profile" },
     { icon: "❓", label: "Support", path: "/support" },
+    { icon: "💬", label: "Messages", path: "/messages", admin: true },
+    { icon: "🔒", label: "Admins", path: "/admins", admin: true },
   ];
 
   useEffect(() => {
@@ -97,16 +99,18 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         {!isMobile && (
           <aside className={styles.sidebar}>
             <nav>
-              {navItems.map((item) => (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  className={styles.navItem}
-                >
-                  <span className={styles.navIcon}>{item.icon}</span>
-                  <span className={styles.navLabel}>{item.label}</span>
-                </Link>
-              ))}
+              {navItems
+                .filter((item) => !item.admin || user?.role === "admin")
+                .map((item) => (
+                  <Link
+                    key={item.path}
+                    href={item.path}
+                    className={styles.navItem}
+                  >
+                    <span className={styles.navIcon}>{item.icon}</span>
+                    <span className={styles.navLabel}>{item.label}</span>
+                  </Link>
+                ))}
               <button
                 className={styles.logoutButton}
                 onClick={() => setShowModal(true)}
