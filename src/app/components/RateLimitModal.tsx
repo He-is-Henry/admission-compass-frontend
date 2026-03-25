@@ -23,36 +23,36 @@ const formatTime = (seconds: number): string => {
 
 export const RateLimitModal = () => {
   const { isOpen, resource, resetTime, close } = useRateLimit();
-  const [secondsLeft, setSecondsLeft] = useState<number>(0);
+  const [secondsLeft, setSecondsLeft] = useState<number>(() => {
+    if (!resetTime) return 0;
+    return Math.max(0, Math.floor((resetTime - Date.now()) / 1000));
+  });
   const [isDone, setIsDone] = useState(false);
   const [message] = useState(getRandomMessage);
 
   useEffect(() => {
-    if (!resetTime) return;
-    console.log(resetTime);
-    const diff = Math.max(0, Math.floor((resetTime - Date.now()) / 1000));
+    if (!isOpen || !resetTime) return;
 
-    console.log(diff);
-  }, [isOpen]);
-  useEffect(() => {
-    if (isOpen) {
-      setIsDone(false);
-      if (resetTime) {
-        const diff = Math.max(0, Math.floor((resetTime - Date.now()) / 1000));
-        setSecondsLeft(diff);
-      }
-    }
+    const diff = Math.max(0, Math.floor((resetTime - Date.now()) / 1000));
+    setSecondsLeft(diff);
+    setIsDone(diff <= 0);
   }, [isOpen, resetTime]);
 
   useEffect(() => {
-    if (!isOpen || isDone) return;
-    if (secondsLeft <= 0) {
-      setIsDone(true);
-      return;
-    }
-    const timer = setTimeout(() => setSecondsLeft((s) => s - 1), 1000);
+    if (!isOpen || isDone || !resetTime) return;
+
+    const timer = setTimeout(() => {
+      setSecondsLeft((prev) => {
+        if (prev <= 1) {
+          setIsDone(true);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
     return () => clearTimeout(timer);
-  }, [secondsLeft, isOpen, isDone]);
+  }, [isOpen, isDone, resetTime]);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {

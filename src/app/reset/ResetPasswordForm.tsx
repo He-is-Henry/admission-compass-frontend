@@ -3,19 +3,36 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "../api/axios";
+import { useRateLimit } from "../hooks/UseRateLimit";
 
 type Props = {
-  firstName: string | null;
+  result:
+    | { type: "OK"; firstName: string }
+    | { type: "RATE_LIMITED"; resetTime: number }
+    | { type: "INVALID" };
+
   token: string;
 };
 
-export default function ResetPasswordForm({ firstName, token }: Props) {
+export default function ResetPasswordForm({ result, token }: Props) {
   const router = useRouter();
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { trigger } = useRateLimit();
+
+  useEffect(() => {
+    if (result.type === "RATE_LIMITED") {
+      trigger("password reset", result.resetTime);
+    } else if (result.type === "INVALID") {
+      const timeout = setTimeout(() => router.push("/?modal=login"), 3000);
+      return () => clearTimeout(timeout);
+    }
+  }, [result, router, trigger]);
+
+  const firstName = result.type === "OK" ? result.firstName : null;
 
   // Invalid/expired token — show message then redirect
   useEffect(() => {
