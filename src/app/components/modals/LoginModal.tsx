@@ -26,14 +26,25 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
   const [message, setMessage] = useState("");
   const modalRef = useRef<HTMLDivElement>(null);
 
+  const handleClose = () => {
+    setId("");
+    setPassword("");
+    setEmail("");
+    setError("");
+    setMessage("");
+    setShowForgot(false);
+    setShowPassword(false);
+    closeModal();
+  };
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape") handleClose();
     };
 
     const handleClickOutside = (e: MouseEvent) => {
       if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
-        closeModal();
+        handleClose();
       }
     };
 
@@ -57,7 +68,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
       tokenStore.set(res.data.accessToken);
       console.log(res.data.user.sessions);
       toast.success("User sucessfully logged in");
-      closeModal();
+      handleClose();
       refreshUser();
       router.refresh();
     } catch (err) {
@@ -87,7 +98,8 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
 
   useEffect(() => {
     setError("");
-  }, [password, id]);
+    setMessage("");
+  }, [password, id, email]);
 
   return (
     <div
@@ -101,7 +113,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
         <button
           className={styles.closeButton}
           aria-label="Close login modal"
-          onClick={closeModal}
+          onClick={handleClose}
         >
           ✕
         </button>
@@ -157,6 +169,9 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
                 style={{ cursor: "pointer" }}
                 onClick={() => {
                   setShowForgot(true);
+                  setError("");
+                  setId("");
+                  setPassword("");
                 }}
               >
                 Forgot password?
@@ -265,7 +280,16 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
             {message && (
               <p style={{ color: "green", marginTop: "-8px" }}>{message}</p>
             )}
-            <p onClick={() => setShowForgot(false)}>Back to login</p>
+            <p
+              onClick={() => {
+                setShowForgot(false);
+                setError("");
+                setEmail("");
+                setMessage("");
+              }}
+            >
+              Back to login
+            </p>
 
             <p className={styles.footerText}>
               New here?{" "}
