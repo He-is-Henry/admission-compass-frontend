@@ -39,20 +39,21 @@ export const RateLimitModal = () => {
   }, [isOpen, resetTime]);
 
   useEffect(() => {
-    if (!isOpen || isDone || !resetTime) return;
+    if (!isOpen || !resetTime) return;
 
-    const timer = setTimeout(() => {
-      setSecondsLeft((prev) => {
-        if (prev <= 1) {
-          setIsDone(true);
-          return 0;
-        }
-        return prev - 1;
-      });
+    const interval = setInterval(() => {
+      const diff = Math.max(0, Math.floor((resetTime - Date.now()) / 1000));
+
+      setSecondsLeft(diff);
+
+      if (diff <= 0) {
+        setIsDone(true);
+        clearInterval(interval);
+      }
     }, 1000);
 
-    return () => clearTimeout(timer);
-  }, [isOpen, isDone, resetTime]);
+    return () => clearInterval(interval);
+  }, [isOpen, resetTime]);
 
   const handleBackdropClick = useCallback(
     (e: React.MouseEvent<HTMLDivElement>) => {
