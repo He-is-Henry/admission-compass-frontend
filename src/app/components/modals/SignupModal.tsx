@@ -1,7 +1,7 @@
 "use client";
 import type { AxiosError } from "axios";
 import styles from "./modal.module.css";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import api from "@/app/api/axios";
 import { useSearchParams } from "next/navigation";
 
@@ -64,6 +64,28 @@ function SignupModal({ closeModal, showLogin }: Props) {
     }
   };
 
+  const modalRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeModal();
+    };
+
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
+        closeModal();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("mousedown", handleClickOutside);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div
       id="signupModal"
@@ -72,7 +94,7 @@ function SignupModal({ closeModal, showLogin }: Props) {
       aria-labelledby="signupTitle"
       aria-modal="true"
     >
-      <div className={styles.modalContent}>
+      <div className={styles.modalContent} ref={modalRef}>
         <button
           className={styles.closeBtn}
           aria-label="Close signup modal"

@@ -31,8 +31,7 @@ const Header: React.FC = () => {
     }
   }, [modal]);
   // Refs to detect outside clicks
-  const loginRef = useRef<HTMLDivElement | null>(null);
-  const signupRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     if (ref) setShowSignup(true);
   }, [ref]);
@@ -41,39 +40,6 @@ const Header: React.FC = () => {
     setShowSignup(false);
     router.replace(pathname);
   };
-
-  useEffect(() => {
-    const handleClick = (e: PointerEvent) => {
-      const target = e.target as Node;
-      // Close if click outside both modals
-      if (showLogin && loginRef.current && !loginRef.current.contains(target)) {
-        closeAllModals();
-        console.log("closed login");
-      }
-
-      if (
-        showSignup &&
-        signupRef.current &&
-        !signupRef.current.contains(target)
-      ) {
-        console.log("closed signup");
-
-        closeAllModals();
-      }
-    };
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeAllModals();
-    };
-
-    document.addEventListener("click", handleClick);
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("click", handleClick);
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [showLogin, showSignup]);
 
   const openLogin = () => {
     if (!showLogin) {
@@ -94,32 +60,22 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <div>
         {showLogin && (
-          <div
-            ref={loginRef}
-            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
-          >
-            <LoginModal
-              showSignup={() => {
-                setShowLogin(false);
-                setShowSignup(true);
-              }}
-              closeModal={closeAllModals}
-            />
-          </div>
+          <LoginModal
+            showSignup={() => {
+              setShowLogin(false);
+              setShowSignup(true);
+            }}
+            closeModal={closeAllModals}
+          />
         )}
         {showSignup && (
-          <div
-            ref={signupRef}
-            onClick={(e) => e.stopPropagation()} // prevent closing when clicking inside
-          >
-            <SignupModal
-              showLogin={() => {
-                setShowSignup(false);
-                setShowLogin(true);
-              }}
-              closeModal={closeAllModals}
-            />
-          </div>
+          <SignupModal
+            showLogin={() => {
+              setShowSignup(false);
+              setShowLogin(true);
+            }}
+            closeModal={closeAllModals}
+          />
         )}
       </div>
 
