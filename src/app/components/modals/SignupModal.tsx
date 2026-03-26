@@ -21,6 +21,7 @@ function SignupModal({ closeModal, showLogin }: Props) {
   const [utme, setUtme] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [googleOnly, setGoogleOnly] = useState(false);
 
   const searchParams = useSearchParams();
   const [referral, setReferral] = useState(searchParams.get("ref") ?? "");
@@ -61,14 +62,18 @@ function SignupModal({ closeModal, showLogin }: Props) {
       const err = error as AxiosError<{ error: string }>;
       console.log(err);
       const errorMsg = err?.response?.data?.error || "Signup failed";
-      if (errorMsg === "googleOnly")
+      if (errorMsg === "googleOnly") {
         setError(
           "This email is linked to a Google account. Use the Google button below",
         );
-      else setError(errorMsg);
+        setGoogleOnly(true);
+      } else setError(errorMsg);
     }
   };
-
+  const handleGoogleWithPassword = () => {
+    sessionStorage.setItem("wantsPassword", "true");
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/google`;
+  };
   const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -196,6 +201,18 @@ function SignupModal({ closeModal, showLogin }: Props) {
           {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
           {success && (
             <p style={{ color: "green", fontSize: "0.9rem" }}>{success}</p>
+          )}
+          {googleOnly && (
+            <p style={{ fontSize: "0.85rem", marginTop: "8px" }}>
+              Want a password too?{" "}
+              <button
+                type="button"
+                className={styles.link}
+                onClick={handleGoogleWithPassword}
+              >
+                Sign in with Google to add one
+              </button>
+            </p>
           )}
 
           <div style={{ display: "flex", flexDirection: "row" }}>

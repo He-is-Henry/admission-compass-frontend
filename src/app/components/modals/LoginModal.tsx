@@ -193,6 +193,18 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
             {error && (
               <p style={{ color: "red", marginTop: "-8px" }}>{error}</p>
             )}
+            {googleOnly && (
+              <p style={{ fontSize: "0.85rem", marginTop: "8px" }}>
+                Want a password too?{" "}
+                <button
+                  type="button"
+                  className={styles.link}
+                  onClick={handleGoogleWithPassword}
+                >
+                  Sign in with Google to add one
+                </button>
+              </p>
+            )}
 
             <button
               disabled={loading}
@@ -258,18 +270,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
                 </svg>{" "}
               </button>{" "}
             </div>
-            {googleOnly && (
-              <p style={{ fontSize: "0.85rem", marginTop: "8px" }}>
-                Want a password too?{" "}
-                <button
-                  type="button"
-                  className={styles.link}
-                  onClick={handleGoogleWithPassword}
-                >
-                  Sign in with Google to add one
-                </button>
-              </p>
-            )}
+
             <p className={styles.footerText}>
               New here?{" "}
               <button
