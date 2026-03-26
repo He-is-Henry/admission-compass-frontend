@@ -28,9 +28,11 @@ export default function ProfilePage() {
   const [showNewPw, setShowNewPw] = useState(false);
   const [showConfirmPw, setShowConfirmPw] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showUnlinkConfirm, setShowUnlinkConfirm] = useState(false);
 
   const [username, setUsername] = useState(user?.username ?? "");
   const [usernameLoading, setUsernameLoading] = useState(false);
+  const [unlinkLoading, setUnlinkLoading] = useState(false);
 
   // ── Danger zone ──────────────────────────────
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
@@ -93,6 +95,28 @@ export default function ProfilePage() {
     }
   };
 
+  const handleUnlinkGoogle = async () => {
+    setUnlinkLoading(true);
+    try {
+      await api.patch("/unlink");
+      setUser((prev: User | null) =>
+        prev
+          ? {
+              ...prev,
+              googleId: null,
+              googleEmail: null,
+              providers: prev.providers.filter((p: string) => p !== "google"),
+            }
+          : null,
+      );
+      toast.success("Google account unlinked");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error ?? "Failed to unlink Google");
+    } finally {
+      setUnlinkLoading(false);
+    }
+  };
   const handleLogout = async () => {
     try {
       await logout();
@@ -152,6 +176,12 @@ export default function ProfilePage() {
               <span className={styles.infoLabel}>Email</span>
               <span className={styles.infoValue}>{user.email}</span>
             </div>
+            {hasGoogle && (
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>Google Account</span>
+                <span className={styles.infoValue}>{user.googleEmail}</span>
+              </div>
+            )}
             <div className={styles.infoRow}>
               <span className={styles.infoLabel}>Tokens</span>
               <span className={styles.tokenBadge}>🪙 {user.tokens}</span>
@@ -159,6 +189,50 @@ export default function ProfilePage() {
           </div>
         </div>
       </div>
+
+      {hasGoogle && hasEmail && (
+        <>
+          {showUnlinkConfirm && (
+            <ConfirmModal
+              title="Unlink Google?"
+              description="You'll no longer be able to sign in with Google. You can always re-link it later."
+              confirmLabel="Unlink"
+              cancelLabel="Cancel"
+              onConfirm={async () => {
+                setShowUnlinkConfirm(false);
+                await handleUnlinkGoogle();
+              }}
+              onCancel={() => setShowUnlinkConfirm(false)}
+            />
+          )}
+
+          <div className={styles.card}>
+            <div className={styles.cardHeader}>
+              <h2 className={styles.cardTitle}>Connected Accounts</h2>
+              <p className={styles.cardDesc}>
+                Manage your linked sign-in methods
+              </p>
+            </div>
+            <div className={styles.cardBody}>
+              <div className={styles.infoRow}>
+                <span className={styles.infoLabel}>Google</span>
+                <span className={styles.infoValue}>{user.googleEmail}</span>
+              </div>
+              <p className={styles.cardDesc}>
+                Unlinking means you can only sign in with your password.
+              </p>
+              <button
+                className={styles.btnOutline}
+                onClick={() => setShowUnlinkConfirm(true)}
+                disabled={unlinkLoading}
+                style={{ alignSelf: "flex-start" }}
+              >
+                {unlinkLoading ? "Unlinking…" : "Unlink Google account"}
+              </button>
+            </div>
+          </div>
+        </>
+      )}
 
       {/* O'Level Results */}
       {user.oLevel?.length > 0 && (
@@ -216,7 +290,8 @@ export default function ProfilePage() {
             <p className={styles.cardDesc}>Change your login email address</p>
             {hasGoogle && (
               <p className={styles.cardDesc}>
-                Email login only
+                ⚠️ This only changes your email/password login. Your Google
+                login is unaffected and still uses your Google account.
                 <span
                   className={styles.infoIcon}
                   title="Changing this email does not affect Google login. To login with Google later, use your original Google account."

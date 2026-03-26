@@ -82,16 +82,8 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className={styles.topBarRight}>
             <span className={styles.tokenBalance}>{user?.tokens} Tokens</span>
             <button className={styles.notifications}>🔔</button>
-            <Link href="/dashboard/">
-              {" "}
-              {/* Do nothing for the mean time */}
-              <span
-                className={styles.avatar}
-                onClick={() => router.push("/profile")}
-              >
-                {" "}
-                {avatar}
-              </span>
+            <Link href="/profile/">
+              <span className={styles.avatar}>{avatar}</span>
             </Link>
           </div>
         </div>

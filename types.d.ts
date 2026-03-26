@@ -21,7 +21,9 @@ type User = {
   lastName: string;
   username: string;
   email: string;
+  googleEmail: string | null;
   oLevel: { subject: string; grade: string }[];
+  googleId: string | null;
   tokens: number;
   role: "admin" | "user" | "parent";
   sessions: Session[];

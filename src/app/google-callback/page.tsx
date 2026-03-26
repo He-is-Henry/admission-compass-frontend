@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { tokenStore } from "../lib/tokenStore";
 import { useAuth } from "../hooks/useAuth";
+import styles from "./google-callback.module.css";
 
 export default function GoogleCallback() {
   const searchParams = useSearchParams();
@@ -33,7 +34,6 @@ export default function GoogleCallback() {
 
         if (!res.ok) return router.push("/?modal=login&error=google_failed");
 
-        // Merge prompt — don't redirect, show UI
         if (data.merge) {
           setMergeToken(data.mergeToken);
           setMergePrompt(true);
@@ -43,7 +43,6 @@ export default function GoogleCallback() {
         tokenStore.set(data.accessToken);
         await refreshUser();
 
-        // Check if user wanted to add a password
         const wantsPassword = sessionStorage.getItem("wantsPassword");
         if (wantsPassword) {
           sessionStorage.removeItem("wantsPassword");
@@ -95,21 +94,51 @@ export default function GoogleCallback() {
 
   if (mergePrompt) {
     return (
-      <div>
-        <h2>Account already exists</h2>
-        <p>
-          An account with this email already exists. Would you like to link your
-          Google account to it? You will be able to sign in with either.
-        </p>
-        <button onClick={handleMerge} disabled={loading}>
-          {loading ? "Linking..." : "Link my Google account"}
-        </button>
-        <button onClick={() => router.push("/?modal=login")} disabled={loading}>
-          Login with password instead
-        </button>
+      <div className={styles.page}>
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Account already exists</h2>
+            <p className={styles.cardDesc}>
+              We found an existing account with this email address.
+            </p>
+          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.notice}>
+              Would you like to <strong>link your Google account</strong> to it?
+              Once linked, you can sign in with either your{" "}
+              <strong>password or Google</strong> — whichever you prefer.
+            </div>
+            <div className={styles.actions}>
+              <button
+                className={styles.btnPrimary}
+                onClick={handleMerge}
+                disabled={loading}
+              >
+                {loading ? "Linking…" : "Link my Google account"}
+              </button>
+              <button
+                className={styles.btnOutline}
+                onClick={() => router.push("/?modal=login")}
+                disabled={loading}
+              >
+                Login with password instead
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 
-  return <p>Signing you in...</p>;
+  return (
+    <div className={styles.loadingPage}>
+      <div className={styles.orbitRing}>
+        <div className={styles.orbitDot} />
+        <div className={styles.innerDot}>
+          <span />
+        </div>
+      </div>
+      <p className={styles.loadingText}>Signing you in…</p>
+    </div>
+  );
 }
