@@ -378,3 +378,33 @@
 .eyeBtn:hover {
   color: #1d4ed8;
 }
+
+/* profile.module.css */
+.infoIcon {
+  cursor: pointer;
+  color: #659377; /* match your theme */
+  margin-left: 4px;
+  position: relative;
+}
+
+.infoIcon:hover::after {
+  content: attr(title); /* shows the tooltip text */
+  position: absolute;
+  bottom: 125%; /* above the icon */
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #093238; /* dark background */
+  color: #fff; /* text color */
+  padding: 6px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  z-index: 10;
+  opacity: 1;
+  pointer-events: none;
+}
+
+.infoIcon::after {
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+}

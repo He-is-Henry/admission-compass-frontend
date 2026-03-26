@@ -128,12 +128,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 0.75rem;
+  padding: 0.5rem;
   border-radius: 0.75rem;
   border: 1px solid #d1d5db;
   cursor: pointer;
   transition: background 0.2s;
   background: transparent;
+}
+
+.google {
+  color: black;
 }
 
 .socialBtn:hover {
@@ -533,8 +537,4 @@ input:focus {
   border: 1px solid #ccc;
   margin-bottom: 8px;
   font-size: 14px;
-}
-
-.google {
-  color: black;
 }

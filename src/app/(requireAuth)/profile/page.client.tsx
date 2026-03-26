@@ -36,7 +36,8 @@ export default function ProfilePage() {
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmText, setConfirmText] = useState("");
 
-  const hasEmail = user?.providers.find((u) => u === "email");
+  const hasEmail = user?.providers.includes("email");
+  const hasGoogle = user?.providers.includes("google");
   const handleUsernameSave = async () => {
     if (!username || username === user?.username) return;
     setUsernameLoading(true);
@@ -213,6 +214,17 @@ export default function ProfilePage() {
           <div className={styles.cardHeader}>
             <h2 className={styles.cardTitle}>Update Email</h2>
             <p className={styles.cardDesc}>Change your login email address</p>
+            {hasGoogle && (
+              <p className={styles.cardDesc}>
+                Email login only
+                <span
+                  className={styles.infoIcon}
+                  title="Changing this email does not affect Google login. To login with Google later, use your original Google account."
+                >
+                  ℹ️
+                </span>
+              </p>
+            )}
           </div>
           <div className={styles.cardBody}>
             <div className={styles.fieldGroup}>
