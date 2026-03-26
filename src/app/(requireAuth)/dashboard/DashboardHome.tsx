@@ -3,6 +3,8 @@ import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./dashboard.module.css";
 import getAllPredictions from "@/app/lib/getAllPredictions";
 import { useEffect, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import toast from "react-hot-toast";
 
 export default function DashboardHome() {
   const { user } = useAuth();
@@ -10,7 +12,37 @@ export default function DashboardHome() {
   const [predictions, setPredictions] = useState<PredictionHistory[]>([]);
   const latestPrediction = predictions[0];
   const readinessScore = latestPrediction ? latestPrediction.probability : 0;
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
 
+  const router = useRouter();
+  const clearParam = (name: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.delete(name); // Deletes specific key
+    router.replace(`${pathname}?${params.toString()}`);
+  };
+  useEffect(() => {
+    const generatedUsername = searchParams.get("generatedUsername");
+    const merged = searchParams.get("merged");
+
+    if (generatedUsername) {
+      toast(
+        "We set your username to " +
+          user?.username +
+          ". You can change it in your profile.",
+        {
+          duration: 6000,
+          icon: "👋",
+        },
+      );
+      clearParam("generatedUsername");
+    }
+
+    if (merged) {
+      toast.success("Your Google account has been linked successfully.");
+      clearParam("merged");
+    }
+  }, [user]);
   useEffect(() => {
     const fetchPredictions = async () => {
       const res = await getAllPredictions();

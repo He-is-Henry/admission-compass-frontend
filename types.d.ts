@@ -25,6 +25,7 @@ type User = {
   tokens: number;
   role: "admin" | "user" | "parent";
   sessions: Session[];
+  providers: ("email" | "google")[];
 };
 
 type UserLogin = {

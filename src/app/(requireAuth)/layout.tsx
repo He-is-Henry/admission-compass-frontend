@@ -12,11 +12,9 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const router = useRouter();
 
-  const { user } = useAuth();
-
-  // Mock nav items
   const navItems = [
     { icon: "🏠", label: "Dashboard", path: "/dashboard" },
     { icon: "✨", label: "New Prediction", path: "/predict" },
@@ -87,7 +85,13 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
             <Link href="/dashboard/">
               {" "}
               {/* Do nothing for the mean time */}
-              <span className={styles.avatar}>{avatar}</span>
+              <span
+                className={styles.avatar}
+                onClick={() => router.push("/profile")}
+              >
+                {" "}
+                {avatar}
+              </span>
             </Link>
           </div>
         </div>

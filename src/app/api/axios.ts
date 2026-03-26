@@ -7,11 +7,11 @@ const RESOURCE_MAP: Record<string, string> = {
   "/forgot": "password reset",
   "/verify": "token verification",
   "/reset": "password reset",
+  "/password": "password adding",
 };
 
 const api = axios.create({
-  // baseURL: "http://localhost:5000",
-  baseURL: "https://admission-compass-backend.onrender.com",
+  baseURL: process.env.NEXT_PUBLIC_API_URL,
   withCredentials: true,
 });
 

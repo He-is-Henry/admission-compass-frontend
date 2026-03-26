@@ -8,6 +8,7 @@ import SessionsPanel from "./SessionsPanel";
 import api from "@/app/api/axios";
 import { AxiosError } from "axios";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
+import AddPaswordPage from "../add-password/page.client";
 
 export default function ProfilePage() {
   const { user, logout, deleteAccount, setUser } = useAuth();
@@ -28,10 +29,28 @@ export default function ProfilePage() {
   const [showConfirmPw, setShowConfirmPw] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
+  const [username, setUsername] = useState(user?.username ?? "");
+  const [usernameLoading, setUsernameLoading] = useState(false);
+
   // ── Danger zone ──────────────────────────────
   const [showConfirmDelete, setShowConfirmDelete] = useState(false);
   const [confirmText, setConfirmText] = useState("");
 
+  const hasEmail = user?.providers.find((u) => u === "email");
+  const handleUsernameSave = async () => {
+    if (!username || username === user?.username) return;
+    setUsernameLoading(true);
+    try {
+      await api.patch("/", { username });
+      setUser((prev: User | null) => (prev ? { ...prev, username } : null));
+      toast.success("Username updated");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error ?? "Failed to update username");
+    } finally {
+      setUsernameLoading(false);
+    }
+  };
   const handleEmailSave = async () => {
     if (!email || email === user?.email) return;
     setEmailLoading(true);
@@ -162,101 +181,132 @@ export default function ProfilePage() {
         </div>
       )}
 
-      {/* Edit Email */}
+      {/* Edit Username */}
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <h2 className={styles.cardTitle}>Update Email</h2>
-          <p className={styles.cardDesc}>Change your login email address</p>
+          <h2 className={styles.cardTitle}>Update Username</h2>
+          <p className={styles.cardDesc}>Change your public username</p>
         </div>
         <div className={styles.cardBody}>
           <div className={styles.fieldGroup}>
-            <label className={styles.fieldLabel}>Email Address</label>
+            <label className={styles.fieldLabel}>Username</label>
             <input
               className={styles.input}
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
           <button
             className={styles.btnPrimary}
-            onClick={handleEmailSave}
-            disabled={emailLoading || email === user.email}
+            onClick={handleUsernameSave}
+            disabled={usernameLoading || username === user.username}
             style={{ alignSelf: "flex-start" }}
           >
-            {emailLoading ? "Saving…" : "Save Email"}
+            {usernameLoading ? "Saving…" : "Save Username"}
           </button>
         </div>
       </div>
-
+      {/* Edit Email */}
+      {hasEmail && (
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Update Email</h2>
+            <p className={styles.cardDesc}>Change your login email address</p>
+          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.fieldGroup}>
+              <label className={styles.fieldLabel}>Email Address</label>
+              <input
+                className={styles.input}
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <button
+              className={styles.btnPrimary}
+              onClick={handleEmailSave}
+              disabled={emailLoading || email === user.email}
+              style={{ alignSelf: "flex-start" }}
+            >
+              {emailLoading ? "Saving…" : "Save Email"}
+            </button>
+          </div>
+        </div>
+      )}
       {/* Change Password */}
-      <div className={styles.card}>
-        <div className={styles.cardHeader}>
-          <h2 className={styles.cardTitle}>Change Password</h2>
-          <p className={styles.cardDesc}>Keep your account secure</p>
-        </div>
-        <div className={styles.cardBody}>
-          <div className={styles.inputWrap}>
-            <input
-              className={styles.input}
-              type={showCurrentPw ? "text" : "password"}
-              value={currentPw}
-              onChange={(e) => setCurrentPw(e.target.value)}
-              placeholder="••••••••"
-            />
-            <button
-              type="button"
-              className={styles.eyeBtn}
-              onClick={() => setShowCurrentPw((v) => !v)}
-            >
-              {showCurrentPw ? "Hide" : "Show"}
-            </button>
+      {hasEmail ? (
+        <div className={styles.card}>
+          <div className={styles.cardHeader}>
+            <h2 className={styles.cardTitle}>Change Password</h2>
+            <p className={styles.cardDesc}>Keep your account secure</p>
           </div>
-          <div className={styles.inputWrap}>
-            <input
-              className={styles.input}
-              type={showNewPw ? "text" : "password"}
-              value={newPw}
-              onChange={(e) => setNewPw(e.target.value)}
-              placeholder="••••••••"
-            />
-            <button
-              type="button"
-              className={styles.eyeBtn}
-              onClick={() => setShowNewPw((v) => !v)}
-            >
-              {showNewPw ? "Hide" : "Show"}
-            </button>
-          </div>
+          <div className={styles.cardBody}>
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                type={showCurrentPw ? "text" : "password"}
+                value={currentPw}
+                onChange={(e) => setCurrentPw(e.target.value)}
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                className={styles.eyeBtn}
+                onClick={() => setShowCurrentPw((v) => !v)}
+              >
+                {showCurrentPw ? "Hide" : "Show"}
+              </button>
+            </div>
+            <div className={styles.inputWrap}>
+              <input
+                className={styles.input}
+                type={showNewPw ? "text" : "password"}
+                value={newPw}
+                onChange={(e) => setNewPw(e.target.value)}
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                className={styles.eyeBtn}
+                onClick={() => setShowNewPw((v) => !v)}
+              >
+                {showNewPw ? "Hide" : "Show"}
+              </button>
+            </div>
 
-          <div className={styles.inputWrap}>
-            <label className={styles.fieldLabel}>Confirm New Password</label>
-            <input
-              className={`${styles.input} ${pwError && newPw !== confirmPw ? styles.inputError : ""}`}
-              type={showConfirmPw ? "text" : "password"}
-              value={confirmPw}
-              onChange={(e) => setConfirmPw(e.target.value)}
-              placeholder="••••••••"
-            />
+            <div className={styles.inputWrap}>
+              <label className={styles.fieldLabel}>Confirm New Password</label>
+              <input
+                className={`${styles.input} ${pwError && newPw !== confirmPw ? styles.inputError : ""}`}
+                type={showConfirmPw ? "text" : "password"}
+                value={confirmPw}
+                onChange={(e) => setConfirmPw(e.target.value)}
+                placeholder="••••••••"
+              />
+              <button
+                type="button"
+                className={styles.eyeBtn}
+                onClick={() => setShowConfirmPw((v) => !v)}
+              >
+                {showConfirmPw ? "Hide" : "Show"}
+              </button>
+            </div>
+            {pwError && <p className={styles.errorText}>{pwError}</p>}
             <button
-              type="button"
-              className={styles.eyeBtn}
-              onClick={() => setShowConfirmPw((v) => !v)}
+              className={styles.btnPrimary}
+              onClick={handlePasswordSave}
+              disabled={pwLoading}
+              style={{ alignSelf: "flex-start" }}
             >
-              {showConfirmPw ? "Hide" : "Show"}
+              {pwLoading ? "Updating…" : "Update Password"}
             </button>
           </div>
-          {pwError && <p className={styles.errorText}>{pwError}</p>}
-          <button
-            className={styles.btnPrimary}
-            onClick={handlePasswordSave}
-            disabled={pwLoading}
-            style={{ alignSelf: "flex-start" }}
-          >
-            {pwLoading ? "Updating…" : "Update Password"}
-          </button>
         </div>
-      </div>
+      ) : (
+        <AddPaswordPage />
+      )}
 
       {/* Sessions */}
       <SessionsPanel
