@@ -287,11 +287,11 @@ function SignupModal({ closeModal, showLogin }: Props) {
 
           <p className={styles.terms}>
             By signing up you agree to our{" "}
-            <a href="#" className={styles.link}>
+            <a href="" className={styles.link}>
               Terms
             </a>{" "}
             &{" "}
-            <a href="#" className={styles.link}>
+            <a href="/privacy-policy" className={styles.link}>
               Privacy Policy
             </a>
           </p>
