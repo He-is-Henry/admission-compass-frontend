@@ -14,8 +14,10 @@ type Admin = {
   lastName: string;
   username: string;
   email: string;
+  role: string;
 };
 
+type Role = "admin" | "editor";
 export default function AdminsPage() {
   const { user } = useAuth();
   const router = useRouter();
@@ -23,11 +25,7 @@ export default function AdminsPage() {
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState<"fetch" | "create" | null>("fetch");
   const [email, setEmail] = useState("");
-
-  // ── Admin guard ──────────────────────────────
-  useEffect(() => {
-    if (user && user.role !== "admin") router.push("/dashboard");
-  }, [user]);
+  const [role, setRole] = useState<Role>("admin");
 
   const getAllAdmins = async () => {
     setLoading("fetch");
@@ -46,13 +44,27 @@ export default function AdminsPage() {
     getAllAdmins();
   }, []);
 
+  const demoteUser = async (email: string) => {
+    if (!email) return toast.error("Please enter an email");
+    try {
+      await api.patch("/demote", { email });
+      toast.success(`${email} demoted to user`);
+      await getAllAdmins();
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to demote");
+    } finally {
+      setLoading(null);
+    }
+  };
+
   const makeAdmin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!email) return toast.error("Please enter an email");
     setLoading("create");
     try {
-      await api.patch("/promote", { email });
-      toast.success(`${email} is now an admin`);
+      await api.patch("/promote", { email, role });
+      toast.success(`${email} is now an ${role}`);
       setEmail("");
       await getAllAdmins();
     } catch (err) {
@@ -91,8 +103,10 @@ export default function AdminsPage() {
                   {a.firstName} {a.lastName}
                 </p>
                 <p className={styles.adminUsername}>@{a.username}</p>
+                <p className={styles.adminUsername}>{a.role}</p>
                 <p className={styles.adminEmail}>{a.email}</p>
               </div>
+              <button onClick={() => demoteUser(a.email)}>Demote user</button>
             </div>
           ))}
         </div>
@@ -101,7 +115,7 @@ export default function AdminsPage() {
       {/* Promote Form */}
       <div className={styles.card}>
         <div className={styles.cardHeader}>
-          <h2 className={styles.cardTitle}>Promote to Admin</h2>
+          <h2 className={styles.cardTitle}>Promote User</h2>
           <p className={styles.cardDesc}>
             Grant admin access to an existing user by email
           </p>
@@ -121,6 +135,22 @@ export default function AdminsPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                 />
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel} htmlFor="role"></label>
+                <select
+                  className={styles.input}
+                  value={role}
+                  onChange={(e) => setRole(e.target.value as Role)}
+                  name="role"
+                  id="role"
+                >
+                  {["admin", "editor"].map((r) => (
+                    <option key={r} value={r}>
+                      {r.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
               </div>
               <button
                 className={styles.btnPrimary}

@@ -173,7 +173,7 @@ export default function Pricing() {
               >
                 <Link
                   style={{ textDecoration: "none", color: "inherit" }}
-                  href={"/pay"}
+                  href={"/dashboard/pay"}
                 >
                   Buy Tokens Now
                 </Link>

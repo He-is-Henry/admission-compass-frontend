@@ -8,7 +8,7 @@ import SessionsPanel from "./SessionsPanel";
 import api from "@/app/api/axios";
 import { AxiosError } from "axios";
 import ConfirmModal from "@/app/components/modals/ConfirmModal";
-import AddPaswordPage from "../add-password/page.client";
+import AddPaswordPage from "../../add-password/page.client";
 
 export default function ProfilePage() {
   const { user, logout, deleteAccount, setUser } = useAuth();

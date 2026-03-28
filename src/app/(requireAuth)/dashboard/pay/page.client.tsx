@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import api from "../../api/axios";
+import api from "@/app/api/axios";
 import getAllPayments from "@/app/lib/getAllPayments";
 import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./TokenWallet.module.css";

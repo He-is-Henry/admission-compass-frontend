@@ -1,6 +1,6 @@
 "use client";
 import { FormEvent, useState } from "react";
-import styles from "../profile/profile.module.css";
+import styles from "../dashboard/profile/profile.module.css";
 import api from "@/app/api/axios";
 import toast from "react-hot-toast";
 import { AxiosError } from "axios";

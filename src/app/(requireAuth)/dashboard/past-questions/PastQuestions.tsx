@@ -178,7 +178,7 @@ export default function PastQuestions() {
                 1 token.
               </p>
               <div className={styles.lockActions}>
-                <Link href="/pay" className={styles.btnOutline}>
+                <Link href="dashboard/pay" className={styles.btnOutline}>
                   Purchase Tokens
                 </Link>
               </div>
@@ -233,7 +233,7 @@ export default function PastQuestions() {
                 >
                   {loading ? "Unlocking…" : "Unlock Now (1 Token)"}
                 </button>
-                <Link href="/pay" className={styles.btnOutline}>
+                <Link href="dashboard/pay" className={styles.btnOutline}>
                   Purchase Tokens
                 </Link>
               </div>

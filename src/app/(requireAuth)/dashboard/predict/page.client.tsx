@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import api from "@/app/api/axios";
 import { isAxiosError } from "axios";
 import styles from "./PredictionForm.module.css";
-import { faculties } from "../../data/faculties";
+import { faculties } from "@/app/data/faculties";
 
 type OlevelGrade = "A1" | "B2" | "B3" | "C4" | "C5" | "C6" | "D7" | "E8" | "F9";
 

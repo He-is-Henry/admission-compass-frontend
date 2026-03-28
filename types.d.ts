@@ -15,6 +15,8 @@ type Session = {
   createdAt: Date;
 };
 
+type Role = "admin" | "user" | "parent" | "editor";
+
 type User = {
   _id: string;
   firstName: string;
@@ -25,7 +27,7 @@ type User = {
   oLevel: { subject: string; grade: string }[];
   googleId: string | null;
   tokens: number;
-  role: "admin" | "user" | "parent";
+  role: Role;
   sessions: Session[];
   providers: ("email" | "google")[];
 };

@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import RequireAdmin from "../RequireAdmin";
+import RequireAdmin from "../../RequireRole";
 import AdminsPage from "./page.client";
 
 export const metadata: Metadata = {

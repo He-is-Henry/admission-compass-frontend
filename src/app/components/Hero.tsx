@@ -28,7 +28,7 @@ const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
             </p>
             <div className={styles.buttonGroup}>
               <button
-                onClick={() => router.push("/predict")}
+                onClick={() => router.push("/dashboard/predict")}
                 className={styles.primaryBtn}
                 aria-label="Check your admission chances"
               >

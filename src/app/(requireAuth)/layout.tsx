@@ -17,19 +17,20 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
 
   const navItems = [
     { icon: "🏠", label: "Dashboard", path: "/dashboard" },
-    { icon: "✨", label: "New Prediction", path: "/predict" },
+    { icon: "✨", label: "New Prediction", path: "/dashboard/predict" },
     // { icon: "📜", label: "My Predictions", path: "/dashboard/predictions" },
-    { icon: "💰", label: "Token Wallet", path: "/pay" },
-    { icon: "📚", label: "Past Questions", path: "/past-questions" },
+    { icon: "💰", label: "Token Wallet", path: "/dashboard/pay" },
+    { icon: "📚", label: "Past Questions", path: "/dashboard/past-questions" },
     // {
     //   icon: "💡",
     //   label: "Recommendations",
     //   path: "/dashboard/recommendations",
     // },
-    { icon: "👤", label: "Profile", path: "/profile" },
+    { icon: "👤", label: "Profile", path: "/dashboard/profile" },
     { icon: "❓", label: "Support", path: "/support" },
-    { icon: "💬", label: "Messages", path: "/messages", admin: true },
-    { icon: "🔒", label: "Admins", path: "/admins", admin: true },
+    { icon: "💬", label: "Messages", path: "/dashboard/messages", admin: true },
+    { icon: "🔒", label: "Admins", path: "/dashboard/admins", admin: true },
+    { icon: "📝", label: "Blog", path: "/dashboard/blog", editor: true },
   ];
 
   useEffect(() => {
@@ -82,7 +83,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
           <div className={styles.topBarRight}>
             <span className={styles.tokenBalance}>{user?.tokens} Tokens</span>
             <button className={styles.notifications}>🔔</button>
-            <Link href="/profile/">
+            <Link href="/dashboard/profile/">
               <span className={styles.avatar}>{avatar}</span>
             </Link>
           </div>
@@ -96,7 +97,12 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
           <aside className={styles.sidebar}>
             <nav>
               {navItems
-                .filter((item) => !item.admin || user?.role === "admin")
+                .filter((item) => {
+                  if (item.admin) return user?.role === "admin";
+                  if (item.editor)
+                    return user?.role === "admin" || user?.role === "editor";
+                  return true;
+                })
                 .map((item) => (
                   <Link
                     key={item.path}
