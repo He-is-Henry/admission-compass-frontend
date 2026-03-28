@@ -15,6 +15,7 @@ const INITIAL_FORM: BlogFormData = {
   slug: "",
   category: "",
   readTime: "",
+  imageUrl: "",
 };
 
 function EditBlog() {
@@ -37,6 +38,7 @@ function EditBlog() {
           slug: data.slug,
           category: data.category,
           readTime: String(data.readTime),
+          imageUrl: data.imageUrl,
         });
         setContent(data.content);
       } catch (err: any) {
