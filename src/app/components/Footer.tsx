@@ -3,13 +3,6 @@ import Link from "next/link";
 import styles from "./footer.module.css";
 import Image from "next/image";
 
-//Esther: footer pages. Added about us and privacy policy
-
-/* type FooterLink = {
-  name: string;
-  path: string;
-};
- */
 const supportLinks = [
   { name: "FAQ", path: "/support" },
   { name: "Contact Us", path: "/support" },

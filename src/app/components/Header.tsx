@@ -15,6 +15,8 @@ const Header: React.FC = () => {
 
   const [showLogin, setShowLogin] = useState(modal === "login");
   const [showSignup, setShowSignup] = useState(modal === "signup");
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
   const { user, loading } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
@@ -92,7 +94,90 @@ const Header: React.FC = () => {
             />
             {<span className={styles.brandName}>ADMISSION COMPASS</span>}{" "}
           </div>
+          <button
+            className={`${styles.hamburger} ${drawerOpen ? styles.hamburgerOpen : ""}`}
+            onClick={() => setDrawerOpen(true)}
+            aria-label="Open menu"
+          >
+            <span />
+            <span />
+            <span />
+          </button>
 
+          {/* Backdrop */}
+          <div
+            className={`${styles.backdrop} ${drawerOpen ? styles.backdropOpen : ""}`}
+            onClick={() => setDrawerOpen(false)}
+          />
+
+          {/* Drawer */}
+          <div
+            className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
+          >
+            <button
+              className={styles.drawerClose}
+              onClick={() => setDrawerOpen(false)}
+            >
+              ✕
+            </button>
+            <nav className={styles.drawerNav}>
+              <a
+                href="#features"
+                className={styles.drawerLink}
+                onClick={() => setDrawerOpen(false)}
+              >
+                Features
+              </a>
+              <a
+                href="#pricing"
+                className={styles.drawerLink}
+                onClick={() => setDrawerOpen(false)}
+              >
+                Pricing
+              </a>
+              <a
+                href="/about"
+                className={styles.drawerLink}
+                onClick={() => setDrawerOpen(false)}
+              >
+                About
+              </a>
+              <a
+                href="#contact"
+                className={styles.drawerLink}
+                onClick={() => setDrawerOpen(false)}
+              >
+                Contact
+              </a>
+              <a
+                href="/blog"
+                className={styles.drawerLink}
+                onClick={() => setDrawerOpen(false)}
+              >
+                Blog
+              </a>
+            </nav>
+            <div className={styles.drawerActions}>
+              <button
+                onClick={() => {
+                  openLogin();
+                  setDrawerOpen(false);
+                }}
+                className={styles.loginButton}
+              >
+                Login
+              </button>
+              <button
+                onClick={() => {
+                  openSignup();
+                  setDrawerOpen(false);
+                }}
+                className={styles.signupButton}
+              >
+                Sign Up
+              </button>
+            </div>
+          </div>
           {/* Nav */}
           {isHome && (
             <nav className={styles.nav} aria-label="Main navigation">
@@ -107,6 +192,9 @@ const Header: React.FC = () => {
               </a>
               <a href="#contact" className={styles.navLink}>
                 Contact
+              </a>
+              <a href="/blog" className={styles.navLink}>
+                Blog
               </a>
             </nav>
           )}
