@@ -16,7 +16,7 @@ export interface BlogFormData {
   slug: string;
   category: string;
   readTime: string;
-  imageUrl: string;
+  featuredImage: string;
 }
 
 interface Props {
@@ -51,7 +51,7 @@ export default function BlogForm({ data, onChange }: Props) {
         slug: parsed.slug ?? data.slug,
         category: parsed.category ?? data.category,
         readTime: String(parsed.readTime ?? data.readTime),
-        imageUrl: String(parsed.imageUrl ?? data.imageUrl),
+        featuredImage: String(parsed.featuredImage ?? data.featuredImage),
       };
       onChange(updated);
       setJsonError("");
@@ -167,12 +167,12 @@ export default function BlogForm({ data, onChange }: Props) {
               type="text"
               className={styles.input}
               placeholder="https://example.com/image.jpg"
-              value={data.imageUrl}
-              onChange={(e) => update("imageUrl", e.target.value)}
+              value={data.featuredImage ?? ""}
+              onChange={(e) => update("featuredImage", e.target.value)}
             />
-            {data.imageUrl && (
+            {data.featuredImage && (
               <img
-                src={data.imageUrl}
+                src={data.featuredImage}
                 alt="Preview"
                 className={styles.imagePreview}
                 onError={(e) => (e.currentTarget.style.display = "none")}

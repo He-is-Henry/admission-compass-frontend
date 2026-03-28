@@ -16,7 +16,7 @@ interface Blog {
   content: string;
   verified: boolean;
   createdAt: string;
-  imageUrl?: string;
+  featuredImage?: string;
 }
 
 function formatDate(iso: string): string {
@@ -90,9 +90,9 @@ function VerifyBlog() {
             <span className={styles.metaDivider} />
             <span>{blog.readTime} min read</span>
           </div>
-          {blog.imageUrl && (
+          {blog.featuredImage && (
             <img
-              src={blog.imageUrl}
+              src={blog.featuredImage}
               alt={blog.title}
               className={styles.heroImage}
             />

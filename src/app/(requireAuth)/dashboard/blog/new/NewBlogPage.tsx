@@ -15,7 +15,7 @@ const INITIAL_FORM: BlogFormData = {
   slug: "",
   category: "",
   readTime: "",
-  imageUrl: "",
+  featuredImage: "",
 };
 
 function NewBlog() {

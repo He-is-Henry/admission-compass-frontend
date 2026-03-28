@@ -11,7 +11,7 @@ interface Blog {
   readTime: number;
   content: string;
   createdAt: string;
-  imageUrl?: string;
+  featuredImage?: string;
 }
 
 interface Props {
@@ -76,9 +76,9 @@ export default async function Page({ params }: Props) {
             <span className={styles.metaDivider} />
             <span>{blog.readTime} min read</span>
           </div>
-          {blog.imageUrl && (
+          {blog.featuredImage && (
             <img
-              src={blog.imageUrl}
+              src={blog.featuredImage}
               alt={blog.title}
               className={styles.heroImage}
             />

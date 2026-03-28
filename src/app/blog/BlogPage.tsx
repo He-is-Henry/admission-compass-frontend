@@ -13,7 +13,7 @@ interface Blog {
   category: string;
   readTime: number;
   createdAt: string;
-  imageUrl?: string;
+  featuredImage?: string;
 }
 
 interface BlogsResponse {
@@ -147,9 +147,9 @@ export function BlogPage() {
                       </div>
                       <button className={styles.readBtn}>Read Article →</button>
                     </div>
-                    {featured.imageUrl ? (
+                    {featured.featuredImage ? (
                       <img
-                        src={featured.imageUrl}
+                        src={featured.featuredImage}
                         alt={featured.title}
                         className={styles.featuredImage}
                       />

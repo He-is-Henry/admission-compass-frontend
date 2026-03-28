@@ -21,8 +21,7 @@ const Header: React.FC = () => {
   const router = useRouter();
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const isDashboard = pathname === "/dashboard";
-
+  const isDashboard = pathname.includes("/dashboard");
   useEffect(() => {
     if (modal === "login") {
       setShowLogin(true);

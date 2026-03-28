@@ -15,7 +15,7 @@ const INITIAL_FORM: BlogFormData = {
   slug: "",
   category: "",
   readTime: "",
-  imageUrl: "",
+  featuredImage: "",
 };
 
 function EditBlog() {
@@ -38,7 +38,7 @@ function EditBlog() {
           slug: data.slug,
           category: data.category,
           readTime: String(data.readTime),
-          imageUrl: data.imageUrl,
+          featuredImage: data.featuredImage,
         });
         setContent(data.content);
       } catch (err: any) {
@@ -72,6 +72,7 @@ function EditBlog() {
       await api.patch(`/blog/${id}`, {
         ...form,
         readTime: Number(form.readTime),
+        featuredImage: form.featuredImage,
         content,
       });
       toast.success("Post updated successfully");
