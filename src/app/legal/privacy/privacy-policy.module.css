@@ -1,0 +1,56 @@
+ 
+
+    .container {
+   
+      margin: auto;
+      padding: 40px 20px;
+      background-color: white;
+      color: black;
+    }
+
+    .heading {
+      color: black;
+    }
+
+    .heading {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .heading {
+      margin-top: 40px;
+      border-bottom: 1px solid #334155;
+      padding-bottom: 5px;
+    }
+
+    .heading {
+      margin-top: 20px;
+    }
+
+    .text {
+      margin: 10px 0;
+      color:black;
+    }
+
+   
+
+    .list {
+      margin-bottom: 8px;
+    }
+
+    
+
+    .section {
+      margin-bottom: 40px;
+    }
+
+    .highlight {
+      color: #0f0e07;
+    }
+
+    .contact-box {
+      background: #020617;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
