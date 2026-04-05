@@ -162,7 +162,7 @@ const Header: React.FC = () => {
                   openLogin();
                   setDrawerOpen(false);
                 }}
-                className={styles.loginButton}
+                className={styles.loginHamburger}
               >
                 Login
               </button>
@@ -171,7 +171,7 @@ const Header: React.FC = () => {
                   openSignup();
                   setDrawerOpen(false);
                 }}
-                className={styles.signupButton}
+                className={styles.signupHamburger}
               >
                 Sign Up
               </button>

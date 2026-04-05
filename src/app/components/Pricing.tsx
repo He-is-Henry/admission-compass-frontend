@@ -183,7 +183,7 @@ export default function Pricing() {
         </div>
 
         {/* Launch Promos */}
-        <div
+        {/*  <div
           className={`${styles.mt16} ${styles.textCenter} ${styles.fadeIn} fade-in`}
         >
           <div className={styles.promos}>
@@ -200,10 +200,10 @@ export default function Pricing() {
                 First 50 users get additional 20% off!
               </span>
             </div>
-          </div>
+          </div> */}
 
-          {/* Referral Note */}
-          <div className={styles.referralBox}>
+        {/* Referral Note */}
+        {/*   <div className={styles.referralBox}>
             <div className={styles.referralHeader}>
               <svg
                 className={styles.referralIcon}
@@ -220,7 +220,7 @@ export default function Pricing() {
               purchase—tracked by your unique username.
             </p>
           </div>
-        </div>
+        </div>*/}
       </div>
     </section>
   );

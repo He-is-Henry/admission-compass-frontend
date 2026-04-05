@@ -4,6 +4,7 @@ import styles from "./modal.module.css";
 import { useEffect, useRef, useState } from "react";
 import api from "@/app/api/axios";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type Props = {
   closeModal: () => void;
@@ -287,13 +288,21 @@ function SignupModal({ closeModal, showLogin }: Props) {
 
           <p className={styles.terms}>
             By signing up you agree to our{" "}
-            <a href="" className={styles.link}>
+            <Link
+              href="legal/terms"
+              onClick={closeModal}
+              className={styles.link}
+            >
               Terms
-            </a>{" "}
+            </Link>
             &{" "}
-            <a href="/privacy-policy" className={styles.link}>
+            <Link
+              href="legal/privacy"
+              onClick={closeModal}
+              className={styles.link}
+            >
               Privacy Policy
-            </a>
+            </Link>
           </p>
           <p className={styles.switchText}>
             Already have an account?{" "}

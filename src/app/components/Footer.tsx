@@ -2,7 +2,6 @@
 import Link from "next/link";
 import styles from "./footer.module.css";
 import Image from "next/image";
-import { legalLinks } from "../lib/footerLinks";
 
 const supportLinks = [
   { name: "FAQ", path: "/support" },
@@ -11,8 +10,11 @@ const supportLinks = [
   { name: "Student Guide", path: "/support" },
 ];
 const companyLinks = [{ name: "About Us", path: "/about" }];
-/* const legalLinks = [{ name: "Privacy policy", path: "legal/privacy" }];
- */ export default function Footer() {
+const legalLinks = [
+  { name: "Privacy policy", path: "legal/privacy" },
+  { name: "Terms of service", path: "legal/terms" },
+];
+export default function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
