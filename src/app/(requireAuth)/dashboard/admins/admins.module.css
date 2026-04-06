@@ -10,9 +10,11 @@
 
 @media (max-width: 768px) {
   .page {
-    padding: 1rem;
+    width: 80%;
+    padding: 1rem 1rem;
   }
 }
+
 
 /* ── Heading ──────────────────────────────────── */
 .heading {
@@ -35,7 +37,7 @@
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
