@@ -6,6 +6,7 @@ import SignupModal from "./modals/SignupModal";
 import Image from "next/image";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
+import Link from "next/link";
 
 const Header: React.FC = () => {
   const searchParams = useSearchParams();
@@ -141,20 +142,20 @@ const Header: React.FC = () => {
               >
                 About
               </a>
-              <a
-                href="#contact"
+              <Link
+                href="/support"
                 className={styles.drawerLink}
                 onClick={() => setDrawerOpen(false)}
               >
                 Contact
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/blog"
                 className={styles.drawerLink}
                 onClick={() => setDrawerOpen(false)}
               >
                 Blog
-              </a>
+              </Link>
             </nav>
             <div className={styles.drawerActions}>
               <button
@@ -162,7 +163,7 @@ const Header: React.FC = () => {
                   openLogin();
                   setDrawerOpen(false);
                 }}
-                className={styles.loginHamburger}
+                className={styles.drawerLoginButton}
               >
                 Login
               </button>
@@ -171,9 +172,9 @@ const Header: React.FC = () => {
                   openSignup();
                   setDrawerOpen(false);
                 }}
-                className={styles.signupHamburger}
+                className={styles.drawerSignupButton}
               >
-                Sign Up
+                Sign up
               </button>
             </div>
           </div>
@@ -189,12 +190,12 @@ const Header: React.FC = () => {
               <a href="/about" className={styles.navLink}>
                 About
               </a>
-              <a href="#contact" className={styles.navLink}>
+              <Link href="/support" className={styles.navLink}>
                 Contact
-              </a>
-              <a href="/blog" className={styles.navLink}>
+              </Link>
+              <Link href="/blog" className={styles.navLink}>
                 Blog
-              </a>
+              </Link>
             </nav>
           )}
 
@@ -216,7 +217,7 @@ const Header: React.FC = () => {
                 Login
               </button>
               <button onClick={openSignup} className={styles.signupButton}>
-                Sign Up
+                Sign up
               </button>
             </div>
           )}

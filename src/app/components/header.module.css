@@ -2,13 +2,13 @@
   position: relative;
   top: 0;
   z-index: 50;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.432);
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.432);
   background: linear-gradient(90deg, #25629b, #080133);
-  /* background: linear-gradient(90deg, #ffffffe3, #e2e2e2) */
 }
 
 /* container */
 .container {
+  height: 4.1rem;
   max-width: 100rem;
   margin: 0 auto;
   padding: 0 auto;
@@ -21,7 +21,8 @@
 
 @media (min-width: 600px) {
   .container {
-    padding: 0 1.5rem;
+  
+    padding: 0 1.2rem;
   }
 }
 
@@ -31,7 +32,7 @@
   }
 }
 
-/* inner flex layout */
+
 .inner {
   display: flex;
   justify-content: space-between;
@@ -39,7 +40,7 @@
   padding: 1rem 0;
 }
 
-/* * logo section */
+
 .logoWrapper {
   display: flex;
   align-items: center;
@@ -47,20 +48,20 @@
 }
 
 .logoImage {
-  width: 3rem;
-  height: 3rem;
+  width: 2.5rem;
+  height: 2.5rem;
   object-fit: contain;
   border-radius: 50%;
+  
 }
 
 .brandName {
   color: white;
-  /* color: rgba(6, 6, 41, 0.979) */
   font-weight: 650;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
 }
 
-/* navigation */
+/* navigation — hidden on mobile, visible on desktop */
 .nav {
   display: none;
 }
@@ -68,7 +69,8 @@
 @media (min-width: 768px) {
   .nav {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
+
   }
 }
 
@@ -76,7 +78,7 @@
   color: white;
   transition: color 0.2s;
   text-decoration: none;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
 }
 
@@ -84,25 +86,33 @@
   color: #292827;
 }
 
-/* buttons */
+/* Hidden buttons for mobile */
 .buttonGroup {
   display: flex;
-  align-items: center;
   gap: 1rem;
+  align-items: center;
+
+}
+
+/* show only on small screens and hide on desktop */
+@media (max-width: 767px) {
+  .buttonGroup .loginButton,
+  .buttonGroup .signupButton {
+    display: none;
+  }
 }
 
 .loginButton {
   color: white;
   background: transparent;
   border: none;
-  padding: 0.5rem 1.5rem;
+  padding: 0.5rem 0.5rem;
   min-height: 44px;
   cursor: pointer;
   transition: color 0.2s;
-  font-size: 1rem;
+  font-size: 0.85rem;
   font-weight: 600;
-  font-family:
-    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
@@ -110,15 +120,12 @@
   color: #000000;
   opacity: 1rem;
   background: #fff;
-  color: #000000;
-  padding: 0.5rem 1.5rem;
+  padding: 0.3rem 0.7rem;
   border-radius: 9999px;
   font-weight: 600;
   font-size: 15px;
-  font-family:
-    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  min-height: 44px;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
@@ -127,14 +134,14 @@
 .signupButton {
   background: #fff;
   color: #000000;
-  padding: 0.5rem 1.5rem;
-  border-radius: 9999px;
+  padding: 0.3rem 0.7rem;
+  min-width: none;
+  min-height: 0px;
+  border-radius: 50rem;
   font-weight: 600;
-  font-size: 1rem;
-  font-family:
-    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-size: 0.85rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  min-height: 44px;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
@@ -146,8 +153,7 @@
   border-radius: 9999px;
   font-weight: 600;
   font-size: 15px;
-  font-family:
-    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   min-height: 44px;
   border: none;
@@ -187,7 +193,7 @@
   font-weight: 500;
 }
 
-/* Hamburger */
+/* Show hamburger only on mobile */
 .hamburger {
   display: none;
   flex-direction: column;
@@ -204,9 +210,7 @@
   height: 2px;
   background: #fff;
   border-radius: 2px;
-  transition:
-    transform 0.3s,
-    opacity 0.3s;
+  transition: transform 0.3s, opacity 0.3s;
 }
 
 .hamburgerOpen span:nth-child(1) {
@@ -221,6 +225,14 @@
   transform: translateY(-7px) rotate(-45deg);
 }
 
+@media (max-width: 767px) {
+  .hamburger {
+    display: flex;
+    padding-left:3rem ;
+  }
+}
+
+
 .backdrop {
   display: none;
   position: fixed;
@@ -233,11 +245,12 @@
   display: block;
 }
 
+
 .drawer {
   position: fixed;
   top: 0;
   right: 0;
-  height: 100%;
+  height: 94%;
   width: 75%;
   max-width: 300px;
   background: #fff;
@@ -268,6 +281,7 @@
   flex-direction: column;
   gap: 0;
   flex: 1;
+  margin: 0%;
 }
 
 .drawerLink {
@@ -275,7 +289,8 @@
   font-weight: 500;
   color: #111827;
   text-decoration: none;
-  padding: 0.875rem 0;
+  padding: 0.87rem 0;
+  margin-bottom: 0%;
   border-bottom: 1px solid #f3f4f6;
   transition: color 0.15s;
 }
@@ -291,12 +306,43 @@
   margin-top: 2rem;
 }
 
-@media (max-width: 768px) {
-  .hamburger {
-    display: flex;
-  }
 
-  .nav {
-    display: none;
-  }
+.drawerLoginButton {
+  color: #111827;
+  background: transparent;
+  border: 1px solid #d1d5db;
+  padding: 0.65rem 1.5rem;
+  border-radius: 9999px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  transition: background 0.2s;
+  width: 100%;
+}
+
+.drawerLoginButton:hover {
+  background: #f3f4f6;
+}
+
+.drawerSignupButton {
+  background: linear-gradient(90deg, #25629b, #080133);
+  color: #fff;
+  padding: 0.65rem 1.5rem;
+  border-radius: 9999px;
+  font-weight: 600;
+  font-size: 1rem;
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  min-height: 44px;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.drawerSignupButton:hover {
+  opacity: 0.85;
 }
