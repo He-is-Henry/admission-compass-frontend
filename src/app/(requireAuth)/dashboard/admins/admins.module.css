@@ -8,10 +8,11 @@
   gap: 2rem;
 }
 
+
 @media (max-width: 768px) {
   .page {
-    width: 80%;
-    padding: 1rem 1rem;
+    width: 70%;
+    padding: 0 10px;
   }
 }
 
