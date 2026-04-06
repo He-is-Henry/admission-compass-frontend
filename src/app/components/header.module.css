@@ -37,7 +37,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem 1rem;
 }
 
 
@@ -45,6 +45,7 @@
   display: flex;
   align-items: center;
   gap: 0.7rem;
+
 }
 
 .logoImage {
@@ -197,7 +198,7 @@
 .hamburger {
   display: none;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   background: none;
   border: none;
   cursor: pointer;
