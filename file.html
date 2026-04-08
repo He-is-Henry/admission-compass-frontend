@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -54,10 +54,7 @@
       }
 
       .compass-icon {
-        background: url('./admissioncompass.jpg') center no-repeat center/cover;
-      
-        
-      
+        background: url("./admissioncompass.jpg") center no-repeat center/cover;
       }
 
       .btn-primary {
@@ -204,7 +201,7 @@
                 aria-label="Check your admission chances"
               >
                 Check Your Chances
-            </button>
+              </button>
               <button
                 class="btn-secondary border-2 border-white text-white px-8 py-4 rounded-2xl font-semibold text-lg hover:bg-white hover:text-orange-500 transition-colors"
                 aria-label="Try free features"
@@ -450,11 +447,11 @@
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid md:grid-cols-3 gap-8 text-center">
           <div class="fade-in">
-            <div class="text-4xl font-bold text-orange-500 mb-2">50,000+</div>
+            <div class="text-4xl font-bold text-orange-500 mb-2">1000+</div>
             <p class="text-gray-600">Students Helped</p>
           </div>
           <div class="fade-in">
-            <div class="text-4xl font-bold text-pink-500 mb-2">200+</div>
+            <div class="text-4xl font-bold text-pink-500 mb-2">10+</div>
             <p class="text-gray-600">Universities Covered</p>
           </div>
           <div class="fade-in">
@@ -613,7 +610,6 @@
                       d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
                     />
                   </svg>
-              
                 </li>
                 <li class="flex items-start">
                   <svg
@@ -2152,7 +2148,7 @@
             {
               duration: Math.random() * 2000 + 1000,
               easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-            }
+            },
           );
 
           animation.onfinish = () => {
@@ -2190,7 +2186,7 @@
           const activeModal = document.querySelector(".fixed.flex");
           if (activeModal) {
             const focusableElements = activeModal.querySelectorAll(
-              'button, input, select, textarea, [tabindex]:not([tabindex="-1"])'
+              'button, input, select, textarea, [tabindex]:not([tabindex="-1"])',
             );
             const firstElement = focusableElements[0];
             const lastElement = focusableElements[focusableElements.length - 1];

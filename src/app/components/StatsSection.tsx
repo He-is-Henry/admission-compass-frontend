@@ -8,13 +8,11 @@ export default function StatsSection() {
       <div className={styles.container}>
         <div className={styles.statsGrid}>
           <div className={`${styles.fadeIn} fade-in`}>
-            <div className={`${styles.statNumber} ${styles.orange}`}>
-              50,000+
-            </div>
+            <div className={`${styles.statNumber} ${styles.orange}`}>1000+</div>
             <p className={styles.statText}>Students Helped</p>
           </div>
           <div className={`${styles.fadeIn} fade-in`}>
-            <div className={`${styles.statNumber} ${styles.pink}`}>200+</div>
+            <div className={`${styles.statNumber} ${styles.pink}`}>10+</div>
             <p className={styles.statText}>Universities Covered</p>
           </div>
           <div className={`${styles.fadeIn} fade-in`}>

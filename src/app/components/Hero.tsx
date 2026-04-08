@@ -43,14 +43,14 @@ const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
                 Practice Past Questions
               </button>
             </div>
-            {subjects.length > 0 && (
+            {/*  {subjects.length > 0 && (
               <div>
                 Available subjects{" "}
                 {subjects.map((s) => (
                   <p key={s._id}>{s.name}</p>
                 ))}
               </div>
-            )}
+            )} */}
           </div>
 
           <div className={`${styles.fadeIn} fade-in`}>

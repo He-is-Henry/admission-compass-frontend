@@ -1,6 +1,6 @@
 .hero {
   background: linear-gradient(90deg, #25629b, #080133);
-  padding-top: 5rem;
+  padding-top: 2.5rem;
   padding-bottom: 5rem;
 }
 
@@ -14,6 +14,7 @@
 @media (min-width: 640px) {
   .container {
     padding: 0 1.5rem;
+    
   }
 }
 
@@ -59,7 +60,14 @@
   font-size: 3rem;
   font-weight: 600;
   margin-bottom: 1.5rem;
+  margin-top: 0rem;
   line-height: 1.2;
+}
+@media (min-width: 650px) {
+  .title {
+    margin-top: 0%;
+    font-size: 3.75rem;
+  }
 }
 
 @media (min-width: 1024px) {
@@ -86,7 +94,7 @@
   gap: 1rem;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 767px) {
   .buttonGroup {
     flex-direction: row;
   }
@@ -95,10 +103,10 @@
 .primaryBtn {
   background: #fff;
   color: #3ba549;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border-radius: 1rem;
   font-weight: 600;
-  font-size: 1.125rem;
+  font-size: 1rem;
   border: none;
   cursor: pointer;
   transition: background 0.2s;
@@ -113,10 +121,10 @@
   background: transparent;
   border: 2px solid #fff;
   color: #fff;
-  padding: 1rem 2rem;
+  padding: 1rem 1rem;
   border-radius: 1rem;
   font-weight: 500;
-  font-size: 1.2rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: all 0.2s;
 }
@@ -124,6 +132,7 @@
 .secondaryBtn:hover {
   background: #fff;
   color: #3ba549;
+  font-weight: 500;
 }
 
 /* glass card */

@@ -8,11 +8,14 @@
   gap: 2rem;
 }
 
+
 @media (max-width: 768px) {
   .page {
-    padding: 1rem;
+    width: 80%;
+    padding: 0 10px;
   }
 }
+
 
 /* ── Heading ──────────────────────────────────── */
 .heading {
@@ -35,7 +38,7 @@
   grid-template-columns: 1fr;
 }
 
-@media (min-width: 640px) {
+@media (min-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -50,11 +53,18 @@
 .adminCard {
   border: 1px solid #e5e7eb;
   border-radius: 0.75rem;
-  padding: 1.25rem;
+  padding: 1rem 1rem;
   display: flex;
   align-items: center;
   gap: 1rem;
   transition: box-shadow 0.15s;
+}
+
+@media (max-width: 768px) {
+  .adminCard {
+    width: 80%;
+    padding: 0 10px;
+  }
 }
 
 .adminCard:hover {
