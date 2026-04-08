@@ -18,14 +18,14 @@ export const universities: University[] = [
     name: "University of Lagos",
     requires_post_utme: true,
     requires_olevel_grades: true,
-    requires_sittings: false,
+    requires_sittings: true,
   },
   {
     id: "unilorin",
     name: "University of Ilorin",
     requires_post_utme: true,
     requires_olevel_grades: true,
-    requires_sittings: false,
+    requires_sittings: true,
   },
   {
     id: "unn",
