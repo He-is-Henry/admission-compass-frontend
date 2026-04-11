@@ -1043,11 +1043,11 @@ export default function PrivacyPolicy() {
           >
             Email: admissioncompass.official@gmail.com
           </a>
-
-          <a className={styles.link} href="tel:(+234) 9064311029">
-            Phone: (+234) 9064311029
-          </a>
-
+          <p>
+            <a className={styles.link} href="tel:(+234) 9064311029">
+              Phone: (+234) 9064311029
+            </a>
+          </p>
           <br />
 
           <h3 className={styles.heading}>Data Protection Officer(DPO)</h3>
@@ -1081,11 +1081,11 @@ export default function PrivacyPolicy() {
           >
             Support Email: admissioncompass.official@gmail.com
           </a>
-
-          <a className={styles.link} href="tel:(+234) 9064311029">
-            WhatsApp: (+234) 9064311029
-          </a>
-
+          <p>
+            <a className={styles.link} href="tel:(+234) 9064311029">
+              WhatsApp: (+234) 9064311029
+            </a>
+          </p>
           <br />
 
           <p>

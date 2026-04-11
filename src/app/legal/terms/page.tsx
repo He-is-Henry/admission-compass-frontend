@@ -417,15 +417,27 @@ export default function TermsAndServices() {
         </p>
       </div>
 
-      <div>
-        <h3 className={styles.heading}>23. CONTACT US</h3>
+      <div className={styles.contactBox}>
+        <h3 className={styles.heading}> CONTACT US</h3>
 
         <p className={styles.text}>For questions or concerns:</p>
 
         <ul className={styles.text}>
-          <li>Email: admissioncompass.official@gmail.com</li>
-          <li>Privacy: privacy@admissioncompass.org</li>
-          <li>Support: admissioncompass.org/support</li>
+          <p>
+            <a href="admissioncompass.official@gmail.com">
+              Email: admissioncompass.official@gmail.com
+            </a>
+          </p>
+          <p>
+            <a href="privacy@admissioncompass.org">
+              Privacy: privacy@admissioncompass.org
+            </a>
+          </p>
+          <p>
+            <a href="admissioncompass.org/support">
+              Support: admissioncompass.org/support
+            </a>
+          </p>
         </ul>
       </div>
     </div>

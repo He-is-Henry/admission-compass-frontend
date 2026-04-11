@@ -8,6 +8,18 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useAuth } from "../hooks/useAuth";
 import Link from "next/link";
 
+//added dashboard functionality
+function getInitials(name?: string | null): string {
+  if (!name) return "?";
+  return name
+    .trim()
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((word) => word[0].toUpperCase())
+    .join("");
+}
+
 const Header: React.FC = () => {
   const searchParams = useSearchParams();
   const ref = searchParams.get("ref");
@@ -207,7 +219,12 @@ const Header: React.FC = () => {
               className={styles.dashboardButton}
               onClick={() => router.push("/dashboard")}
             >
-              Dashboard
+              <div className={styles.avatarCircle}>
+                {getInitials(user.firstName ?? user.email)}
+              </div>
+              <span className={styles.userName}>
+                {user.username ?? user.email}
+              </span>
             </button>
           ) : loading ? (
             <p style={{ color: "white" }}>Loading...</p>
