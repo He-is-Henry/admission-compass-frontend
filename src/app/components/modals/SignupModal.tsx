@@ -95,7 +95,7 @@ function SignupModal({ closeModal, showLogin }: Props) {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [closeModal]);
 
   return (
     <div

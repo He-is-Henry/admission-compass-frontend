@@ -39,7 +39,11 @@ function BlogList() {
 
   const fetchPosts = async (pageNum: number, replace = false) => {
     try {
-      replace ? setLoading(true) : setLoadingMore(true);
+      if (replace) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
       const { data }: { data: BlogsResponse } = await api.get(
         `/blog/all?page=${pageNum}`,
       );

@@ -7,7 +7,6 @@ import Hooks from "./page.client";
 import Footer from "./components/Footer";
 import { getAllSubjects } from "./lib/subject";
 import RequireLeaderboard from "./components/RequireLeaderboard";
-import subjectStore from "./lib/subjectStore";
 
 export const metadata: Metadata = {
   title: "Admission compass",

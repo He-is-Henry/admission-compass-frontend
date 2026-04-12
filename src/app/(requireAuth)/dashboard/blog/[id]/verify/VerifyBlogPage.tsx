@@ -6,6 +6,8 @@ import api from "@/app/api/axios";
 import toast from "react-hot-toast";
 import RequireRole from "@/app/(requireAuth)/RequireRole";
 import styles from "./VerifyBlogPage.module.css";
+import { AxiosError } from "axios";
+import Image from "next/image";
 
 interface Blog {
   _id: string;
@@ -40,15 +42,16 @@ function VerifyBlog() {
       try {
         const { data } = await api.get(`/blog/post/${id}`);
         setBlog(data);
-      } catch (err: any) {
-        toast.error(err?.response?.data?.error || "Failed to fetch post");
+      } catch (err) {
+        const error = err as AxiosError<{ error: string }>;
+        toast.error(error?.response?.data?.error || "Failed to fetch post");
         router.push("/dashboard/blog");
       } finally {
         setLoading(false);
       }
     };
     fetchBlog();
-  }, [id]);
+  }, [id, router]);
 
   const handleVerify = async () => {
     try {
@@ -56,8 +59,9 @@ function VerifyBlog() {
       await api.patch(`/blog/${id}/verify`);
       toast.success("Post verified successfully");
       router.push("/dashboard/blog");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Failed to verify post");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to verify post");
     } finally {
       setVerifying(false);
     }
@@ -91,10 +95,11 @@ function VerifyBlog() {
             <span>{blog.readTime} min read</span>
           </div>
           {blog.featuredImage && (
-            <img
+            <Image
               src={blog.featuredImage}
               alt={blog.title}
               className={styles.heroImage}
+              fill
             />
           )}
         </div>

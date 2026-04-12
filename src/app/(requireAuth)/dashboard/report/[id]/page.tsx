@@ -1,4 +1,3 @@
-import { getReportSafe } from "@/app/lib/getReport";
 import ReportView from "./ReportView";
 
 interface Props {
@@ -9,5 +8,5 @@ export default async function ReportPage({ params }: Props) {
 
   if (!id) return <div>Failed to load</div>;
 
-  return <ReportView id ={id} />;
+  return <ReportView id={id} />;
 }

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "../api/axios";
 import { useRateLimit } from "../hooks/UseRateLimit";
+import { AxiosError } from "axios";
 
 type Props = {
   result:
@@ -55,10 +56,12 @@ export default function ResetPasswordForm({ result, token }: Props) {
       await api.post("/reset", { token, password });
       setSuccess(true);
       setTimeout(() => router.push("/?modal=login"), 2500);
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ error: string; message: string }>;
+
       setError(
-        err?.response?.data?.message ||
-          err?.response?.data?.error ||
+        error?.response?.data?.message ||
+          error?.response?.data?.error ||
           "Something went wrong.",
       );
     } finally {

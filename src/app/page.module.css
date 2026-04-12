@@ -100,7 +100,7 @@ a.secondary {
   gap: 8px;
 }
 
-.footer img {
+.footer .img {
   flex-shrink: 0;
 }
 

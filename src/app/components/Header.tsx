@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./header.module.css";
 import LoginModal from "./modals/LoginModal";
 import SignupModal from "./modals/SignupModal";

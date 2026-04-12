@@ -47,7 +47,7 @@ export default function AddPaswordPage() {
       <div className={styles.cardHeader}>
         <h2 className={styles.cardTitle}>Add Password</h2>
         <p className={styles.cardDesc}>
-          You'll be able to login via Google or Password
+          You&apos;ll be able to login via Google or Password
         </p>
       </div>
       <form className={styles.cardBody}>

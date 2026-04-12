@@ -1,5 +1,4 @@
 import { Metadata } from "next";
-import { universities } from "@/app/data/universities";
 import PredictionForm from "./page.client";
 export const metadata: Metadata = {
   title: "Admission compass  - Predict",
@@ -7,5 +6,5 @@ export const metadata: Metadata = {
 };
 
 export default async function PredictionPage() {
-  return <PredictionForm universities={universities} />;
+  return <PredictionForm />;
 }

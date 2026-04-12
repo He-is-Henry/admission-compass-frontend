@@ -2,10 +2,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import api from "@/app/api/axios";
-import { getAllSubjects } from "@/app/lib/subject";
 import subjectStore from "@/app/lib/subjectStore";
 import styles from "./PastQuestions.module.css";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
@@ -119,9 +119,11 @@ export default function PastQuestions() {
     try {
       const res = await api.post("/subscribe", { subject: selectedId });
       setSubscriptions((prev) => [...prev, res.data]);
-    } catch (err: any) {
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
       setError(
-        err?.response?.data?.error ?? "Failed to subscribe. Please try again.",
+        error?.response?.data?.error ??
+          "Failed to subscribe. Please try again.",
       );
     } finally {
       setLoading(false);

@@ -13,19 +13,19 @@ export default function AboutPage() {
         Our Mission: Making University Admissions Fair & Predictable
       </p>
       <p className={styles.description}>
-        We're building Africa's most trusted admissions guidance platform,
-        powered by data and driven by purpose.
+        We&apos;re building Africa&apos;s most trusted admissions guidance
+        platform, powered by data and driven by purpose.
       </p>
       <section className={styles.hero}>
         <div className={styles.container}>
           <div className={styles.grid}></div>
           <h1 className={styles.subText}>
             Every year, nearly 2 million Nigerian students write JAMB, but less
-            than 40% gain admission. Many of these rejections aren't due to low
-            scores—they're the result of poor information and guesswork.
-            Students apply to impossible course combinations, chase prestige
-            over probability, and waste years repeating exams. Parents spend
-            fortunes on forms and coaching with no clear strategy.{" "}
+            than 40% gain admission. Many of these rejections aren&apos;t due to
+            low scores—they&apos;re the result of poor information and
+            guesswork. Students apply to impossible course combinations, chase
+            prestige over probability, and waste years repeating exams. Parents
+            spend fortunes on forms and coaching with no clear strategy.{" "}
           </h1>
           <span className={styles.highlight}>
             We built Admission Compass to change this. We believe every student

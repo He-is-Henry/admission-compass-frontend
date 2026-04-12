@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import styles from "./profile.module.css";
 import { useAuth } from "@/app/hooks/useAuth";
 import toast from "react-hot-toast";
@@ -117,14 +117,6 @@ export default function ProfilePage() {
       setUnlinkLoading(false);
     }
   };
-  const handleLogout = async () => {
-    try {
-      await logout();
-      toast.success("Logged out successfully");
-    } catch {
-      toast.error("Logout failed");
-    }
-  };
 
   const handleDeleteConfirm = async () => {
     if (confirmText !== user?.username) return;
@@ -238,7 +230,7 @@ export default function ProfilePage() {
       {user.oLevel?.length > 0 && (
         <div className={styles.card}>
           <div className={styles.cardHeader}>
-            <h2 className={styles.cardTitle}>O'Level Results</h2>
+            <h2 className={styles.cardTitle}>O&apos;Level Results</h2>
             <p className={styles.cardDesc}>Your registered subject grades</p>
           </div>
           <div className={styles.cardBody}>

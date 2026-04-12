@@ -8,6 +8,7 @@ import RequireRole from "@/app/(requireAuth)/RequireRole";
 import BlogForm, { BlogFormData } from "../../new/components/BlogForm";
 import RichTextEditor from "../../new/components/RichTextEditor";
 import styles from "./EditBlogPage.module.css";
+import { AxiosError } from "axios";
 
 const INITIAL_FORM: BlogFormData = {
   title: "",
@@ -41,15 +42,17 @@ function EditBlog() {
           featuredImage: data.featuredImage,
         });
         setContent(data.content);
-      } catch (err: any) {
-        toast.error(err?.response?.data?.error || "Failed to fetch post");
+      } catch (err) {
+        const error = err as AxiosError<{ error: string }>;
+
+        toast.error(error?.response?.data?.error || "Failed to fetch post");
         router.push("/dashboard/blog");
       } finally {
         setLoading(false);
       }
     };
     fetchBlog();
-  }, [id]);
+  }, [id, router]);
 
   const handleSubmit = async () => {
     if (
@@ -77,8 +80,9 @@ function EditBlog() {
       });
       toast.success("Post updated successfully");
       router.push("/dashboard/blog");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Failed to update post");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to update post");
     } finally {
       setSubmitting(false);
     }
@@ -96,8 +100,9 @@ function EditBlog() {
       await api.delete(`/blog/${id}`);
       toast.success("Post deleted");
       router.push("/dashboard/blog");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Failed to delete post");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to delete post");
     } finally {
       setDeleting(false);
     }

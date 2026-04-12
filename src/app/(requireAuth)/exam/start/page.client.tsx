@@ -55,7 +55,9 @@ export default function ExamSession({ subject }: { subject: string }) {
         const remaining = Math.max(0, d.duration - elapsed);
         setTimeLeft(Math.floor(remaining));
       } catch (err) {
-        toast.error("Failed to load exam draft.");
+        const error = err as AxiosError<{ error: string }>;
+
+        toast.error(error.response?.data.error ?? "Failed to load exam draft.");
         router.push("/exam");
       } finally {
         setLoading(false);
@@ -73,7 +75,7 @@ export default function ExamSession({ subject }: { subject: string }) {
         // Flush latest answers before submitting
         await api.patch("/exam/draft", { answers: currentAnswers });
         const res = await api.post("/exam/submit");
-        const { score, total, percentage, expired } = res.data as ExamResult;
+        const { expired } = res.data as ExamResult;
         if (expired) {
           toast.error("Time's up! Your exam was auto-submitted.");
         }
@@ -109,8 +111,6 @@ export default function ExamSession({ subject }: { subject: string }) {
       try {
         const res = await api.patch("/exam/draft", { answers: updatedAnswers });
         if (res.data?.expired) {
-          const { score, total, percentage } = res.data;
-
           sessionStorage.setItem("examResult", JSON.stringify(res.data));
           router.push("/exam/result");
         }

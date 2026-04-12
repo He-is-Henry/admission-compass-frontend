@@ -5,13 +5,8 @@ import getAllPredictions from "@/app/lib/getAllPredictions";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
-import { getReportSafe, ReportResponse } from "@/app/lib/getReport";
 
-interface Props {
-  onReportReady?: (report: ReportResponse) => void;
-}
-
-export default function DashboardHome({ onReportReady }: Props) {
+export default function DashboardHome() {
   const { user } = useAuth();
   const tokenBalance = user?.tokens;
   const [predictions, setPredictions] = useState<PredictionHistory[]>([]);
@@ -21,13 +16,13 @@ export default function DashboardHome({ onReportReady }: Props) {
   const pathname = usePathname();
   const router = useRouter();
 
-  const clearParam = (name: string) => {
-    const params = new URLSearchParams(searchParams);
-    params.delete(name);
-    router.replace(`${pathname}?${params.toString()}`);
-  };
-
   useEffect(() => {
+    const clearParam = (name: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.delete(name);
+      router.replace(`${pathname}?${params.toString()}`);
+    };
+
     const generatedUsername = searchParams.get("generatedUsername");
     const merged = searchParams.get("merged");
 
@@ -48,7 +43,7 @@ export default function DashboardHome({ onReportReady }: Props) {
       toast.success("Your Google account has been linked successfully.");
       clearParam("merged");
     }
-  }, [user]);
+  }, [user, searchParams, pathname, router]);
 
   useEffect(() => {
     const fetchPredictions = async () => {

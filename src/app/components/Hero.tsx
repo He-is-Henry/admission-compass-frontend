@@ -8,7 +8,7 @@ type Props = {
   currentUser: LeaderboardEntry | null;
 };
 
-const HeroSection = ({ subjects, leaderboard, currentUser }: Props) => {
+const HeroSection = ({ leaderboard, currentUser }: Props) => {
   const router = useRouter();
   const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
 

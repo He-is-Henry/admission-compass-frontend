@@ -8,6 +8,7 @@ import RequireRole from "../../../RequireRole";
 import BlogForm, { BlogFormData } from "./components/BlogForm";
 import RichTextEditor from "./components/RichTextEditor";
 import styles from "./NewBlogPage.module.css";
+import { AxiosError } from "axios";
 
 const INITIAL_FORM: BlogFormData = {
   title: "",
@@ -49,8 +50,9 @@ function NewBlog() {
       });
       toast.success("Post created successfully");
       router.push("/dashboard/blog");
-    } catch (err: any) {
-      toast.error(err?.response?.data?.error || "Failed to create post");
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to create post");
     } finally {
       setSubmitting(false);
     }

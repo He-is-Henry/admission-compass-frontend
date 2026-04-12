@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import api from "@/app/api/axios";
 import styles from "./modal.module.css";
 import type { AxiosError } from "axios";
@@ -27,7 +27,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
   const modalRef = useRef<HTMLDivElement>(null);
   const [googleOnly, setGoogleOnly] = useState(false);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setId("");
     setPassword("");
     setEmail("");
@@ -36,8 +36,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
     setShowForgot(false);
     setShowPassword(false);
     closeModal();
-  };
-
+  }, [closeModal]);
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") handleClose();
@@ -56,7 +55,7 @@ export default function LoginModal({ closeModal, showSignup }: Props) {
       document.removeEventListener("keydown", handleKeyDown);
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [handleClose]);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();

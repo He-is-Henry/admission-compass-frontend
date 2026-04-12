@@ -65,7 +65,7 @@ export default function GoogleCallback() {
     };
 
     handleCallback();
-  }, []);
+  }, [refreshUser, router, searchParams]);
 
   const handleMerge = async () => {
     try {

@@ -68,7 +68,7 @@ export default function PaySuccess() {
       .get(`/pay/verify?reference=${reference}`)
       .then((res) => setStatus(res.data.verified ? "success" : "failed"))
       .catch(() => setStatus("failed"));
-  }, []);
+  }, [router, searchParams]);
 
   if (status === "loading") {
     return (
@@ -90,8 +90,8 @@ export default function PaySuccess() {
           </div>
           <h1 className={styles.title}>Payment Failed</h1>
           <p className={styles.subtitle}>
-            We couldn't verify your payment. If you were charged, please contact
-            support with your reference.
+            We couldn&spos;t verify your payment. If you were charged, please
+            contact support with your reference.
           </p>
           <button
             className={styles.btnOutline}

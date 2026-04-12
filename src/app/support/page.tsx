@@ -5,6 +5,6 @@ export const metadata: Metadata = {
   description: "Contact admission compass for any issues or complaint",
 };
 
-export default async function () {
+export default async function page() {
   return <Support />;
 }

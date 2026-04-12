@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import styles from "./ResultClient.module.css";
+import Image from "next/image";
 
 const alphabets = ["A", "B", "C", "D", "E", "F"];
 
@@ -183,9 +184,10 @@ export default function ResultClient() {
                     </div>
 
                     {item.image && (
-                      <img
+                      <Image
                         src={item.image}
                         alt={`Question ${i + 1}`}
+                        fill
                         style={{
                           maxWidth: "100%",
                           borderRadius: "0.5rem",

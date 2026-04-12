@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import styles from "./BlogForm.module.css";
+import Image from "next/image";
 
 const CATEGORIES = [
   "Admissions",
@@ -171,9 +172,10 @@ export default function BlogForm({ data, onChange }: Props) {
               onChange={(e) => update("featuredImage", e.target.value)}
             />
             {data.featuredImage && (
-              <img
+              <Image
                 src={data.featuredImage}
                 alt="Preview"
+                fill
                 className={styles.imagePreview}
                 onError={(e) => (e.currentTarget.style.display = "none")}
               />

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/app/api/axios";
 import styles from "./BlogPage.module.css";
+import Image from "next/image";
 
 interface Blog {
   _id: string;
@@ -49,7 +50,11 @@ export function BlogPage() {
 
   const fetchPosts = async (pageNum: number, replace = false) => {
     try {
-      replace ? setLoading(true) : setLoadingMore(true);
+      if (replace) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
       const { data }: { data: BlogsResponse } = await api.get(
         `/blog?page=${pageNum}`,
       );
@@ -148,9 +153,10 @@ export function BlogPage() {
                       <button className={styles.readBtn}>Read Article →</button>
                     </div>
                     {featured.featuredImage ? (
-                      <img
+                      <Image
                         src={featured.featuredImage}
                         alt={featured.title}
+                        fill
                         className={styles.featuredImage}
                       />
                     ) : (

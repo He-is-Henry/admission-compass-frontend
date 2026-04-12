@@ -5,7 +5,6 @@ import Loading from "../loading";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import styles from "./dashboard/dashboard.module.css";
-import toast from "react-hot-toast";
 import ConfirmModal from "../components/modals/ConfirmModal";
 
 function DashboardLayout({ children }: { children: React.ReactNode }) {
@@ -13,7 +12,6 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { logout, user } = useAuth();
-  const showSidebar = !isMobile;
   const navItems = [
     { icon: "🏠", label: "Dashboard", path: "/dashboard" },
     { icon: "✨", label: "New Prediction", path: "/dashboard/predict" },
@@ -44,14 +42,6 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   }, []);
   const avatar = user?.username.charAt(0);
 
-  const handleLogout = async () => {
-    try {
-      await logout();
-      toast.success("Logged out successfully");
-    } catch {
-      toast.error("Logout failed");
-    }
-  };
   return (
     <div className={styles.dashboardWrapper}>
       {showModal && (
@@ -181,7 +171,7 @@ export default function AuthLayout({
 
   useEffect(() => {
     if (!loading && !user) router.push("/?modal=login");
-  }, [user, loading]);
+  }, [user, loading, router]);
 
   if (loading) return <Loading />;
   if (!user) return null;

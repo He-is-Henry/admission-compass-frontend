@@ -22,7 +22,7 @@ export default function RequireRole({
 
   useEffect(() => {
     if (user && !allowed) router.push("/dashboard");
-  }, [user]);
+  }, [user, allowed, router]);
 
   if (!user || !allowed) return null;
   return <>{children}</>;

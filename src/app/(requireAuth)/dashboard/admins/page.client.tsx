@@ -4,7 +4,6 @@ import api from "@/app/api/axios";
 import { AxiosError } from "axios";
 import { FormEvent, useEffect, useState } from "react";
 import { useAuth } from "@/app/hooks/useAuth";
-import { useRouter } from "next/navigation";
 import styles from "./admins.module.css";
 import toast from "react-hot-toast";
 
@@ -20,7 +19,6 @@ type Admin = {
 type Role = "admin" | "editor";
 export default function AdminsPage() {
   const { user } = useAuth();
-  const router = useRouter();
 
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState<"fetch" | "create" | null>("fetch");

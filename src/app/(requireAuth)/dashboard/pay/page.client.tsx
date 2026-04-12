@@ -5,6 +5,7 @@ import api from "@/app/api/axios";
 import getAllPayments from "@/app/lib/getAllPayments";
 import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./TokenWallet.module.css";
+import Image from "next/image";
 
 // ── Icons (inline SVG helpers) ──────────────────────────────────────────────
 
@@ -338,9 +339,10 @@ export default function TokenWallet() {
             <div className={styles.paymentInfo}>
               <div className={styles.paymentInfoRow}>
                 <span className={styles.paymentInfoLabel}>Payment Method</span>
-                <img
+                <Image
                   src="https://paystack.com/assets/paystack-badge-cards-NGN.png"
                   alt="Paystack"
+                  fill
                   className={styles.paymentInfoImg}
                 />
               </div>

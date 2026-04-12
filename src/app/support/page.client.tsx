@@ -9,7 +9,6 @@ import { useAuth } from "../hooks/useAuth";
 
 // Optional — only used if the page is inside the dashboard
 // If public, user will simply be null
-type User = { email: string } | null;
 
 const faqs = [
   {
@@ -183,7 +182,7 @@ export default function Support() {
         <div className={styles.cardHeader}>
           <h2 className={styles.cardTitle}>Send Us a Message</h2>
           <p className={styles.cardDesc}>
-            We'll get back to you within 24 hours
+            We&apos;ll get back to you within 24 hours
           </p>
         </div>
         <div className={styles.cardBody}>

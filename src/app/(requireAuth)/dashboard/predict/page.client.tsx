@@ -4,7 +4,6 @@ import api from "@/app/api/axios";
 import { isAxiosError } from "axios";
 import styles from "./PredictionForm.module.css";
 import { faculties } from "@/app/data/faculties";
-import { getReportSafe, ReportResponse } from "@/app/lib/getReport";
 import { useRouter } from "next/navigation";
 import { universities } from "@/app/data/universities";
 
@@ -52,11 +51,6 @@ type FormData = {
   sittings: string;
   olevel_entries: OlevelEntry[];
 };
-
-interface Props {
-  universities: University[];
-  onReportReady?: (report: ReportResponse) => void;
-}
 
 const emptyEntry = (): OlevelEntry => ({ subject: "", grade: "" });
 
@@ -503,7 +497,10 @@ const PredictionForm = () => {
               {reportError && <p className={styles.errorMsg}>{reportError}</p>}
               <button
                 className={styles.reportBtn}
-                onClick={() => router.push(`/dashboard/report/${predictionId}`)}
+                onClick={() => {
+                  setReportLoading(true);
+                  router.push(`/dashboard/report/${predictionId}`);
+                }}
               >
                 {reportLoading ? (
                   <span className={styles.spinner} />

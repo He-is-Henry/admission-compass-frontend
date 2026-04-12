@@ -1,9 +1,8 @@
 "use client";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import api from "@/app/api/axios";
-import { AxiosError } from "axios";
 import toast from "react-hot-toast";
+import api from "@/app/api/axios";
 import subjectStore from "@/app/lib/subjectStore";
 
 export default function ExamPage() {
@@ -14,8 +13,23 @@ export default function ExamPage() {
 
   useEffect(() => {
     const loadSubjects = async () => {
-      const subjects = await subjectStore.get();
-      setSubjects(subjects);
+      const { data } = await api.get("/subscribe");
+      const subjectsFromStore = await subjectStore.get();
+      console.log(data, subjectsFromStore);
+      const subs = data.map(
+        (sub: {
+          _id: string;
+          createdAt: string;
+          user: string;
+          subject: string;
+        }) => {
+          const match = subjectsFromStore.find((s) => s._id === sub.subject);
+          console.log(match);
+
+          return match;
+        },
+      );
+      setSubjects(subs);
     };
     loadSubjects();
   }, []);
@@ -40,7 +54,7 @@ export default function ExamPage() {
           style={styles.select}
         >
           <option value="">Choose a subject</option>
-          {subjects &&
+          {subjects.length &&
             subjects.map((s) => (
               <option key={s._id} value={s._id}>
                 {s.name}

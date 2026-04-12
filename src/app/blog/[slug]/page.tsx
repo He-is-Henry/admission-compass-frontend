@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SlugPage.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Blog {
   _id: string;
@@ -78,9 +79,10 @@ export default async function Page({ params }: Props) {
             <span>{blog.readTime} min read</span>
           </div>
           {blog.featuredImage && (
-            <img
+            <Image
               src={blog.featuredImage}
               alt={blog.title}
+              fill
               className={styles.heroImage}
             />
           )}

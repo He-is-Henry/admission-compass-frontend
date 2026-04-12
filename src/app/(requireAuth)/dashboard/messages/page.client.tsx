@@ -42,7 +42,7 @@ export default function MessagesPage() {
   // ── Admin guard ──────────────────────────────
   useEffect(() => {
     if (user && user.role !== "admin") router.push("/dashboard");
-  }, [user]);
+  }, [user, router]);
 
   // ── Fetch ────────────────────────────────────
   useEffect(() => {

@@ -11,7 +11,6 @@ type Props = {
 
 const QuestionDisplay: React.FC<Props> = ({
   question,
-  subjects,
   onChange,
   onRemove,
   displayIndex,

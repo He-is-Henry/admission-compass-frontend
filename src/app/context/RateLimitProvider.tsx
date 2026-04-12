@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { ReactNode, useCallback, useEffect, useState } from "react";
 import { RateLimitContext } from "./RateLimitContext";
 
 type Props = {
@@ -12,12 +12,12 @@ export const RateLimitProvider = ({ children }: Props) => {
   const [resource, setResource] = useState<string>("");
   const [resetTime, setResetTime] = useState<number | null>(null);
 
-  const trigger = (resource: string, resetTime: number) => {
+  const trigger = useCallback((resource: string, resetTime: number) => {
     console.log("trigger called with:", resource, resetTime);
     setResource(resource);
     setResetTime(resetTime);
     setIsOpen(true);
-  };
+  }, []);
 
   const close = () => {
     setIsOpen(false);
