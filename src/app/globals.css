@@ -47,6 +47,7 @@ body {
   line-height: 1.6;
   scroll-behavior: smooth;
   margin: 0;
+  margin-top: 72px;
 }
 .gradient-bg {
   background: linear-gradient(135deg, #483ac7 0%, #0a3096 100%);

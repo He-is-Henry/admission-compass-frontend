@@ -169,47 +169,51 @@ const Header: React.FC = () => {
                 Blog
               </Link>
             </nav>
-            <div className={styles.drawerActions}>
-              <button
-                onClick={() => {
-                  openLogin();
-                  setDrawerOpen(false);
-                }}
-                className={styles.drawerLoginButton}
-              >
-                Login
-              </button>
-              <button
-                onClick={() => {
-                  openSignup();
-                  setDrawerOpen(false);
-                }}
-                className={styles.drawerSignupButton}
-              >
-                Sign up
-              </button>
-            </div>
+            {!user && (
+              <div className={styles.drawerActions}>
+                <button
+                  onClick={() => {
+                    openLogin();
+                    setDrawerOpen(false);
+                  }}
+                  className={styles.drawerLoginButton}
+                >
+                  Login
+                </button>
+                <button
+                  onClick={() => {
+                    openSignup();
+                    setDrawerOpen(false);
+                  }}
+                  className={styles.drawerSignupButton}
+                >
+                  Sign up
+                </button>
+              </div>
+            )}
           </div>
           {/* Nav */}
-          {isHome && (
-            <nav className={styles.nav} aria-label="Main navigation">
-              <a href="#features" className={styles.navLink}>
-                Features
-              </a>
-              <a href="#pricing" className={styles.navLink}>
-                Pricing
-              </a>
-              <a href="/about" className={styles.navLink}>
-                About
-              </a>
-              <Link href="/support" className={styles.navLink}>
-                Contact
-              </Link>
-              <Link href="/blog" className={styles.navLink}>
-                Blog
-              </Link>
-            </nav>
-          )}
+          <nav className={styles.nav} aria-label="Main navigation">
+            {isHome && (
+              <>
+                <a href="#features" className={styles.navLink}>
+                  Features
+                </a>
+                <a href="#pricing" className={styles.navLink}>
+                  Pricing
+                </a>
+              </>
+            )}{" "}
+            <a href="/about" className={styles.navLink}>
+              About
+            </a>
+            <Link href="/support" className={styles.navLink}>
+              Contact
+            </Link>
+            <Link href="/blog" className={styles.navLink}>
+              Blog
+            </Link>
+          </nav>
 
           {/* Buttons */}
           {user && isDashboard ? (

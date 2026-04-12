@@ -1,5 +1,6 @@
 .header {
-  position: relative;
+  position: fixed;
+  width: 100%;
   top: 0;
   z-index: 50;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.432);
@@ -18,7 +19,7 @@
   padding: 10px 2px;
   cursor: pointer;
 } */
- .dashboardButton {
+.dashboardButton {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -58,7 +59,6 @@
 
 @media (min-width: 767px) {
   .container {
-  
     padding: 0 1.2rem;
   }
 }
@@ -69,7 +69,6 @@
   }
 }
 
-
 .inner {
   display: flex;
   justify-content: space-between;
@@ -77,12 +76,10 @@
   padding: 1rem 1rem;
 }
 
-
 .logoWrapper {
   display: flex;
   align-items: center;
   gap: 0.7rem;
-
 }
 
 .logoImage {
@@ -90,17 +87,13 @@
   height: 2.5rem;
   object-fit: contain;
   border-radius: 50%;
-  
 }
 
 .brandName {
   color: white;
   font-weight: 650;
   font-size: 1.2rem;
-  
 }
-
-
 
 /* navigation — hidden on mobile, visible on desktop */
 .nav {
@@ -111,7 +104,6 @@
   .nav {
     display: flex;
     gap: 1.5rem;
-
   }
 }
 
@@ -132,7 +124,6 @@
   display: flex;
   gap: 1rem;
   align-items: center;
-
 }
 
 /* show only on small screens and hide on desktop */
@@ -153,7 +144,8 @@
   transition: color 0.2s;
   font-size: 0.85rem;
   font-weight: 600;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
 }
 
@@ -165,7 +157,8 @@
   border-radius: 9999px;
   font-weight: 600;
   font-size: 15px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   border: none;
   cursor: pointer;
@@ -181,7 +174,8 @@
   border-radius: 50rem;
   font-weight: 600;
   font-size: 0.85rem;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   border: none;
   cursor: pointer;
@@ -194,7 +188,8 @@
   border-radius: 9999px;
   font-weight: 600;
   font-size: 15px;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   min-height: 44px;
   border: none;
@@ -251,7 +246,9 @@
   height: 2px;
   background: #fff;
   border-radius: 2px;
-  transition: transform 0.3s, opacity 0.3s;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
 }
 
 .hamburgerOpen span:nth-child(1) {
@@ -269,10 +266,9 @@
 @media (max-width: 767px) {
   .hamburger {
     display: flex;
-    padding-left:3rem ;
+    padding-left: 3rem;
   }
 }
-
 
 .backdrop {
   display: none;
@@ -285,7 +281,6 @@
 .backdropOpen {
   display: block;
 }
-
 
 .drawer {
   position: fixed;
@@ -347,7 +342,6 @@
   margin-top: 2rem;
 }
 
-
 .drawerLoginButton {
   color: #111827;
   background: transparent;
@@ -358,7 +352,8 @@
   cursor: pointer;
   font-size: 1rem;
   font-weight: 600;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   transition: background 0.2s;
   width: 100%;
@@ -375,7 +370,8 @@
   border-radius: 9999px;
   font-weight: 600;
   font-size: 1rem;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+  font-family:
+    "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
     "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   min-height: 44px;
   border: none;

@@ -85,7 +85,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         {/* Don't render permanent bar on small screens */}
         {!isMobile && (
           <aside className={styles.sidebar}>
-            <nav>
+            <nav className={styles.navScroll}>
               {navItems
                 .filter((item) => {
                   if (item.admin) return user?.role === "admin";
@@ -93,9 +93,9 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                     return user?.role === "admin" || user?.role === "editor";
                   return true;
                 })
-                .map((item) => (
+                .map((item, i) => (
                   <Link
-                    key={item.path}
+                    key={item.path + i}
                     href={item.path}
                     className={styles.navItem}
                   >
@@ -103,13 +103,13 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                     <span className={styles.navLabel}>{item.label}</span>
                   </Link>
                 ))}
-              <button
-                className={styles.logoutButton}
-                onClick={() => setShowModal(true)}
-              >
-                Logout
-              </button>
             </nav>
+            <button
+              className={styles.logoutButton}
+              onClick={() => setShowModal(true)}
+            >
+              Logout
+            </button>
           </aside>
         )}
 
@@ -127,7 +127,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                 <span>Menu</span>
                 <button onClick={() => setMobileMenuOpen(false)}>❌</button>
               </div>
-              <nav>
+              <nav className={styles.mobileNavScroll}>
                 {navItems.map((item) => (
                   <Link
                     key={item.path}
@@ -139,13 +139,13 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
                     <span className={styles.navLabel}>{item.label}</span>
                   </Link>
                 ))}
-                <button
-                  className={styles.logoutButton}
-                  onClick={() => setShowModal(true)}
-                >
-                  Logout
-                </button>
               </nav>
+              <button
+                className={styles.logoutButton}
+                onClick={() => setShowModal(true)}
+              >
+                Logout
+              </button>
             </aside>
           </div>
         )}
