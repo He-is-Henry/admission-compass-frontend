@@ -1,3 +1,5 @@
+/* All original styles preserved, report button additions at the bottom */
+
 .container {
   display: flex;
   flex-direction: column;
@@ -78,12 +80,10 @@
   background: #d1fae5;
   color: #047857;
 }
-
 .medium {
   background: #ffedd5;
   color: #b45309;
 }
-
 .low {
   background: #fee2e2;
   color: #b91c1c;
@@ -103,6 +103,7 @@
 .readinessHeader {
   margin-bottom: 1rem;
 }
+
 .readinessContent {
   display: flex;
   flex-direction: column;
@@ -131,6 +132,7 @@
   height: 100%;
   background: #2563eb;
   border-radius: 0.375rem;
+  transition: width 0.6s ease;
 }
 
 .notice {
@@ -143,66 +145,58 @@
 
 /* Quick Actions */
 .quickActionsTitle {
-  font-size: 1.25rem; /* text-xl */
-  font-weight: 700; /* font-bold */
-  margin-bottom: 1rem; /* mb-4 */
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
 }
 
 .quickActionsGrid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 1.5rem; /* gap-6 */
+  gap: 1.5rem;
 }
 
 @media (min-width: 768px) {
   .quickActionsGrid {
-    grid-template-columns: repeat(3, 1fr); /* md:grid-cols-3 */
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
 .quickActionCard {
-  border: 1px solid #bfdbfe; /* border-blue-200 */
-  border-radius: 0.5rem; /* rounded */
-  padding: 1.5rem 1rem 1rem 1rem; /* top padding pt-6 */
+  border: 1px solid #bfdbfe;
+  border-radius: 0.5rem;
+  padding: 1.5rem 1rem 1rem 1rem;
   cursor: pointer;
   transition: box-shadow 0.2s ease;
 }
 
 .quickActionCard:hover {
-  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1); /* hover:shadow-lg */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
 }
 
 .iconContainer {
   width: fit-content;
-  background: linear-gradient(
-    to bottom right,
-    #2563eb,
-    #1e40af
-  ); /* from-blue-600 to-blue-700 */
-  padding: 0.75rem; /* p-3 */
+  background: linear-gradient(to bottom right, #2563eb, #1e40af);
+  padding: 0.75rem;
   border-radius: 0.5rem;
-  margin-bottom: 1rem; /* mb-4 */
+  margin-bottom: 1rem;
 }
 
 .quickActionHeading {
-  font-size: 1.125rem; /* text-lg */
+  font-size: 1.125rem;
   font-weight: 700;
-  margin-bottom: 0.5rem; /* mb-2 */
+  margin-bottom: 0.5rem;
 }
 
 .quickActionText {
-  font-size: 0.875rem; /* text-sm */
-  color: #4b5563; /* gray-600 */
-  margin-bottom: 1rem; /* mb-4 */
+  font-size: 0.875rem;
+  color: #4b5563;
+  margin-bottom: 1rem;
 }
 
 .quickActionButton {
   width: 100%;
-  background: linear-gradient(
-    to right,
-    #2563eb,
-    #14b8a6
-  ); /* from-blue-600 to-teal-600 */
+  background: linear-gradient(to right, #2563eb, #14b8a6);
   color: white;
   padding: 0.5rem 1rem;
   border-radius: 0.375rem;
@@ -211,12 +205,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.quickActionButton svg {
-  margin-left: 0.5rem;
-  width: 1rem;
-  height: 1rem;
+  cursor: pointer;
 }
 
 /* Recent Activity */
@@ -227,10 +216,6 @@
   margin-top: 1.5rem;
 }
 
-.cardHeader {
-  margin-bottom: 1rem;
-}
-
 .cardTitle {
   font-size: 1.125rem;
   font-weight: 700;
@@ -238,13 +223,7 @@
 
 .cardDescription {
   font-size: 0.875rem;
-  color: #6b7280; /* gray-500 */
-}
-
-.cardContent {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  color: #6b7280;
 }
 
 .predictionRow {
@@ -258,7 +237,7 @@
 }
 
 .predictionRow:hover {
-  background-color: #f9fafb; /* gray-50 */
+  background-color: #f9fafb;
 }
 
 .predictionDetails {
@@ -299,25 +278,10 @@
   border-radius: 0.25rem;
 }
 
-.high {
-  background-color: #d1fae5; /* green-100 */
-  color: #047857; /* green-700 */
-}
-
-.medium {
-  background-color: #ffedd5; /* orange-100 */
-  color: #b45309; /* orange-700 */
-}
-
-.low {
-  background-color: #fee2e2; /* red-100 */
-  color: #b91c1c; /* red-700 */
-}
-
 .statusIcon {
-  width: 1.25rem; /* w-5 */
-  height: 1.25rem; /* h-5 */
-  color: #9ca3af; /* gray-400 */
+  width: 1.25rem;
+  height: 1.25rem;
+  color: #9ca3af;
 }
 
 .viewAllButton {
@@ -328,19 +292,68 @@
   background: white;
   font-weight: 600;
   margin-top: 1rem;
+  cursor: pointer;
 }
 
-/* dashboard.module.css */
+/* ── Report Row Button ── */
+.reportRowBtn {
+  padding: 0.4rem 0.85rem;
+  background: #0f0f0f;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 68px;
+  min-height: 32px;
+  transition:
+    background 0.15s,
+    transform 0.1s;
+}
 
-/* Wrapper */
+.reportRowBtn:hover:not(:disabled) {
+  background: #2563eb;
+}
+
+.reportRowBtn:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.reportRowBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* dark spinner for light backgrounds */
+.spinnerDark {
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dashboard layout */
 .dashboardWrapper {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
-  background-color: #f9fafb; /* light gray background */
+  background-color: #f9fafb;
 }
 
-/* Top Bar */
 .topBar {
   background-color: #ffffff;
   border-bottom: 1px solid #e5e7eb;
@@ -367,11 +380,6 @@
   padding: 0.25rem 0.5rem;
   font-size: 1.25rem;
   cursor: pointer;
-}
-
-.logo span {
-  font-weight: bold;
-  font-size: 1.125rem;
 }
 
 .topBarRight {
@@ -408,13 +416,11 @@
   cursor: pointer;
 }
 
-/* Content wrapper */
 .contentWrapper {
   display: flex;
   flex: 1;
 }
 
-/* Sidebar */
 .sidebar {
   width: 250px;
   background-color: #ffffff;
@@ -445,7 +451,6 @@
 .navIcon {
   font-size: 1.25rem;
 }
-
 .navLabel {
   font-weight: 500;
 }
@@ -470,7 +475,6 @@
   background-color: #fee2e2;
 }
 
-/* Mobile Sidebar */
 .mobileSidebarBackdrop {
   position: fixed;
   inset: 0;
@@ -492,8 +496,24 @@
   margin-bottom: 1rem;
 }
 
-/* Main Content */
 .mainContent {
   flex: 1;
+  margin-left: 0;
   padding: 1rem;
+  transition: margin 0.3s ease;
+}
+
+.withSidebar {
+  margin-left: 256px;
+}
+
+@media print {
+  .sidebar {
+    display: none;
+    position: static;
+    width: 0;
+  }
+  .withSidebar {
+    margin-left: 0;
+  }
 }

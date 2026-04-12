@@ -1,0 +1,135 @@
+.page {
+  padding: 3rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #faf5ff 100%);
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logoRow {
+  margin-bottom: 2.5rem;
+}
+
+.section {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
+}
+
+/* Banner */
+.banner {
+  background: #eef2ff;
+  border: 1px solid #c7d2fe;
+  border-radius: 14px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.bannerTitle {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #3730a3;
+  margin: 0 0 0.25rem;
+}
+
+.bannerText {
+  font-size: 0.83rem;
+  color: #4b5563;
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+  flex: 1;
+}
+
+/* Card */
+.card {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.04);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.typeLabel {
+  font-size: 0.72rem;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 0.2rem;
+}
+
+.name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.institution {
+  font-size: 0.82rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.badge {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.high {
+  background: #dcfce7;
+  color: #15803d;
+}
+.moderate {
+  background: #fef9c3;
+  color: #a16207;
+}
+
+.reason {
+  font-size: 0.83rem;
+  color: #475569;
+  line-height: 1.55;
+  margin: 0;
+}
+
+.pageNumber {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}

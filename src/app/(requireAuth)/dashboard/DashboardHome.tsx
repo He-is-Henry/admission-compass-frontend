@@ -5,8 +5,13 @@ import getAllPredictions from "@/app/lib/getAllPredictions";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { getReportSafe, ReportResponse } from "@/app/lib/getReport";
 
-export default function DashboardHome() {
+interface Props {
+  onReportReady?: (report: ReportResponse) => void;
+}
+
+export default function DashboardHome({ onReportReady }: Props) {
   const { user } = useAuth();
   const tokenBalance = user?.tokens;
   const [predictions, setPredictions] = useState<PredictionHistory[]>([]);
@@ -14,13 +19,14 @@ export default function DashboardHome() {
   const readinessScore = latestPrediction ? latestPrediction.probability : 0;
   const searchParams = useSearchParams();
   const pathname = usePathname();
-
   const router = useRouter();
+
   const clearParam = (name: string) => {
     const params = new URLSearchParams(searchParams);
-    params.delete(name); // Deletes specific key
+    params.delete(name);
     router.replace(`${pathname}?${params.toString()}`);
   };
+
   useEffect(() => {
     const generatedUsername = searchParams.get("generatedUsername");
     const merged = searchParams.get("merged");
@@ -43,17 +49,17 @@ export default function DashboardHome() {
       clearParam("merged");
     }
   }, [user]);
+
   useEffect(() => {
     const fetchPredictions = async () => {
       const res = await getAllPredictions();
       setPredictions(res);
     };
-
     fetchPredictions();
   }, []);
 
-  const getStatus = (probablility: number) => {
-    return probablility >= 70 ? "high" : probablility >= 50 ? "medium" : "low";
+  const getStatus = (probability: number) => {
+    return probability >= 70 ? "high" : probability >= 50 ? "medium" : "low";
   };
 
   return (
@@ -64,7 +70,7 @@ export default function DashboardHome() {
           Welcome back, {user?.username.split(" ")[0]}! 👋
         </h1>
         <p className={styles.subtitle}>
-          Here's an overview of your admission journey
+          Here&apos;s an overview of your admission journey
         </p>
       </div>
 
@@ -172,7 +178,7 @@ export default function DashboardHome() {
             <div
               className={styles.progressFill}
               style={{ width: `${readinessScore}%` }}
-            ></div>
+            />
           </div>
           {readinessScore < 70 && (
             <div className={styles.notice}>
@@ -180,111 +186,103 @@ export default function DashboardHome() {
               or universities where you have higher probability.
             </div>
           )}
+
           <div>
-            {/* Quick Actions */}
-            <div>
-              <h2 className={styles.quickActionsTitle}>Quick Actions</h2>
-              <div className={styles.quickActionsGrid}>
-                <div className={styles.quickActionCard}>
-                  <div className={styles.iconContainer}>
-                    {/* <Sparkles /> icon here */}
-                  </div>
-                  <h3 className={styles.quickActionHeading}>
-                    Run New Prediction
-                  </h3>
-                  <p className={styles.quickActionText}>
-                    Check your admission chances for a new course or university.
-                  </p>
+            <h2 className={styles.quickActionsTitle}>Quick Actions</h2>
+            <div className={styles.quickActionsGrid}>
+              <div className={styles.quickActionCard}>
+                <div className={styles.iconContainer} />
+                <h3 className={styles.quickActionHeading}>
+                  Run New Prediction
+                </h3>
+                <p className={styles.quickActionText}>
+                  Check your admission chances for a new course or university.
+                </p>
+                <button className={styles.quickActionButton}>Start Now</button>
+              </div>
 
-                  <button className={styles.quickActionButton}>
-                    Start Now
-                  </button>
-                </div>
+              <div className={styles.quickActionCard}>
+                <div className={styles.iconContainer} />
+                <h3 className={styles.quickActionHeading}>Buy Tokens</h3>
+                <p className={styles.quickActionText}>
+                  Purchase tokens to unlock detailed reports and past questions.
+                </p>
+                <button className={styles.quickActionButton}>
+                  View Wallet
+                </button>
+              </div>
 
-                <div className={styles.quickActionCard}>
-                  <div className={styles.iconContainer}>
-                    {/* <Wallet /> icon here */}
-                  </div>
-                  <h3 className={styles.quickActionHeading}>Buy Tokens</h3>
-                  <p className={styles.quickActionText}>
-                    Purchase tokens to unlock detailed reports and past
-                    questions.
-                  </p>
-
-                  <button className={styles.quickActionButton}>
-                    View Wallet
-                  </button>
-                </div>
-
-                <div className={styles.quickActionCard}>
-                  <div className={styles.iconContainer}>
-                    {/* <BookOpen /> icon here */}
-                  </div>
-                  <h3 className={styles.quickActionHeading}>Past Questions</h3>
-                  <p className={styles.quickActionText}>
-                    Access past questions and prepare for your exams.
-                  </p>
-
-                  <button className={styles.quickActionButton}>
-                    Browse Now
-                  </button>
-                </div>
+              <div className={styles.quickActionCard}>
+                <div className={styles.iconContainer} />
+                <h3 className={styles.quickActionHeading}>Past Questions</h3>
+                <p className={styles.quickActionText}>
+                  Access past questions and prepare for your exams.
+                </p>
+                <button className={styles.quickActionButton}>Browse Now</button>
               </div>
             </div>
+          </div>
 
-            {/* Recent Activity */}
-            {predictions.length > 0 && (
-              <div className={styles.recentActivityCard}>
-                <div className={styles.cardHeader}>
-                  <h3 className={styles.cardTitle}>Recent Predictions</h3>
-                  <p className={styles.cardDescription}>
-                    Your latest admission probability checks
-                  </p>
-                </div>
-                <div className={styles.cardContent}>
-                  {predictions.slice(0, 3).map((prediction) => (
-                    <div key={prediction._id} className={styles.predictionRow}>
-                      <div className={styles.predictionDetails}>
-                        <div className={styles.courseName}>
-                          {prediction.course}
-                        </div>
-                        <div className={styles.universityName}>
-                          {prediction.university}
-                        </div>
-                        <div className={styles.predictionDate}>
-                          {prediction.createdAt.split("T")[0]}
-                        </div>
+          {/* Recent Predictions */}
+          {predictions.length > 0 && (
+            <div className={styles.recentActivityCard}>
+              <div className={styles.cardHeader}>
+                <h3 className={styles.cardTitle}>Recent Predictions</h3>
+                <p className={styles.cardDescription}>
+                  Your latest admission probability checks
+                </p>
+              </div>
+              <div className={styles.cardContent}>
+                {predictions.slice(0, 3).map((prediction) => (
+                  <div key={prediction._id} className={styles.predictionRow}>
+                    <div className={styles.predictionDetails}>
+                      <div className={styles.courseName}>
+                        {prediction.course}
                       </div>
-                      <div className={styles.predictionStatus}>
-                        <div>
-                          <div className={styles.probability}>
-                            {prediction.probability}%
-                          </div>
-                          <div
-                            className={`${styles.status} ${styles[getStatus(prediction.probability)]}`}
-                          >
-                            {prediction.probability >= 70
-                              ? "High Chance"
-                              : prediction.probability >= 50
-                                ? "Medium Chance"
-                                : "Low Chance"}
-                          </div>
-                        </div>
-                        <div className={styles.statusIcon}>
-                          {/* <CheckCircle2 /> icon here */}
-                        </div>
+                      <div className={styles.universityName}>
+                        {prediction.university}
+                      </div>
+                      <div className={styles.predictionDate}>
+                        {prediction.createdAt.split("T")[0]}
                       </div>
                     </div>
-                  ))}
-                </div>
-                {predictions.length > 3 && (
-                  <button className={styles.viewAllButton}>
-                    View All Predictions
-                  </button>
-                )}
+
+                    <div className={styles.predictionStatus}>
+                      <div>
+                        <div className={styles.probability}>
+                          {prediction.probability}%
+                        </div>
+                        <div
+                          className={`${styles.status} ${styles[getStatus(prediction.probability)]}`}
+                        >
+                          {prediction.probability >= 70
+                            ? "High Chance"
+                            : prediction.probability >= 50
+                              ? "Medium Chance"
+                              : "Low Chance"}
+                        </div>
+                      </div>
+
+                      <button
+                        className={styles.reportRowBtn}
+                        onClick={() =>
+                          router.push(`dashboard/report/${prediction._id}`)
+                        }
+                        title="Get full report — 1 token"
+                      >
+                        Report
+                      </button>
+                    </div>
+                  </div>
+                ))}
               </div>
-            )}
-          </div>
+              {predictions.length > 3 && (
+                <button className={styles.viewAllButton}>
+                  View All Predictions
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>

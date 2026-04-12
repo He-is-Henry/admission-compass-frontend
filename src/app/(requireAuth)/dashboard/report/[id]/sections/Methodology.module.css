@@ -1,0 +1,124 @@
+.page {
+  padding: 3rem;
+  background: #fff;
+  min-height: 560px;
+  display: flex;
+  flex-direction: column;
+}
+
+.logoRow {
+  margin-bottom: 2.5rem;
+}
+
+.section {
+  font-size: 0.78rem;
+  color: #64748b;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.35rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+}
+
+.subtitle {
+  color: #64748b;
+  font-size: 0.9rem;
+  margin: 0 0 2rem;
+}
+
+/* Main card */
+.card {
+  background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 100%);
+  border: 1px solid #e2e8f0;
+  border-radius: 20px;
+  padding: 2rem;
+  flex: 1;
+}
+
+.intro {
+  color: #475569;
+  line-height: 1.7;
+  font-size: 0.92rem;
+  margin: 0 0 1.5rem;
+}
+
+/* Blocks */
+.block {
+  margin-bottom: 1.75rem;
+}
+
+.block:last-child {
+  margin-bottom: 0;
+}
+
+.blockTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.blockTitle::before {
+  content: "";
+  display: inline-block;
+  width: 4px;
+  height: 16px;
+  background: linear-gradient(180deg, #3b82f6, #8b5cf6);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.blockText {
+  color: #475569;
+  font-size: 0.88rem;
+  line-height: 1.7;
+  margin: 0 0 0.5rem;
+}
+
+.list {
+  padding-left: 1.2rem;
+  color: #475569;
+  font-size: 0.88rem;
+}
+
+.list li {
+  margin-bottom: 0.35rem;
+}
+
+.statRow {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.stat {
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 0.6rem 1rem;
+  font-size: 0.85rem;
+}
+
+.statLabel {
+  color: #64748b;
+}
+.statValue {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.pageNumber {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.78rem;
+  color: #94a3b8;
+}

@@ -4,6 +4,9 @@ import api from "@/app/api/axios";
 import { isAxiosError } from "axios";
 import styles from "./PredictionForm.module.css";
 import { faculties } from "@/app/data/faculties";
+import { getReportSafe, ReportResponse } from "@/app/lib/getReport";
+import { useRouter } from "next/navigation";
+import { universities } from "@/app/data/universities";
 
 type OlevelGrade = "A1" | "B2" | "B3" | "C4" | "C5" | "C6" | "D7" | "E8" | "F9";
 
@@ -18,7 +21,6 @@ const GRADES: OlevelGrade[] = [
   "E8",
   "F9",
 ];
-
 const VALID_GRADES: OlevelGrade[] = ["A1", "B2", "B3", "C4", "C5", "C6"];
 
 const SUBJECTS = [
@@ -50,13 +52,15 @@ type FormData = {
   sittings: string;
   olevel_entries: OlevelEntry[];
 };
+
 interface Props {
   universities: University[];
+  onReportReady?: (report: ReportResponse) => void;
 }
 
 const emptyEntry = (): OlevelEntry => ({ subject: "", grade: "" });
 
-const PredictionForm = ({ universities }: Props) => {
+const PredictionForm = () => {
   const [selectedUniversity, setSelectedUniversity] =
     useState<University | null>(null);
   const [selectedFaculty, setSelectedFaculty] = useState<
@@ -70,24 +74,26 @@ const PredictionForm = ({ universities }: Props) => {
     sittings: "1",
     olevel_entries: Array.from({ length: 5 }, emptyEntry),
   });
+
   const [paid, setPaid] = useState<boolean>(false);
   const [result, setResult] = useState<PredictionResult | null>(null);
+  const [predictionId, setPredictionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [reportLoading, setReportLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [reportError, setReportError] = useState<string | null>(null);
+
+  const router = useRouter();
   useEffect(() => {
     if (!selectedUniversity) return;
-    console.log(selectedUniversity);
     const foundFaculties = faculties.find(
       (f) => f.name === selectedUniversity?.id,
     )!;
-    console.log(foundFaculties.faculties);
-
     setSelectedFaculty(foundFaculties?.faculties);
     const defaultFacultyKey = Object.keys(
       foundFaculties?.faculties,
     )[0] as Faculty;
     const defaultDepartment = foundFaculties.faculties[defaultFacultyKey]?.[0];
-    console.log(defaultDepartment);
     if (!defaultDepartment) return;
     updateField("faculty", defaultFacultyKey);
     updateField("department", defaultDepartment);
@@ -107,6 +113,7 @@ const PredictionForm = ({ universities }: Props) => {
     setSelectedUniversity(found);
     setResult(null);
     setError(null);
+    setPredictionId(null);
   };
 
   const updateField = (field: keyof FormData, value: string) => {
@@ -187,6 +194,8 @@ const PredictionForm = ({ universities }: Props) => {
     setLoading(true);
     setError(null);
     setResult(null);
+    setPredictionId(null);
+    setReportError(null);
 
     const payload: Record<string, unknown> = {
       utme_score: Number(form.utme_score),
@@ -194,29 +203,25 @@ const PredictionForm = ({ universities }: Props) => {
       department: form.department,
     };
 
-    if (selectedUniversity!.requires_post_utme) {
+    if (selectedUniversity!.requires_post_utme)
       payload.post_utme_score = Number(form.post_utme_score);
-    }
     if (selectedUniversity!.requires_olevel_grades) {
       payload.olevel_grades = getOlevelGrades();
       payload.olevel_valid = computeOlevelValid();
     } else {
       payload.olevel_valid = true;
     }
-    if (selectedUniversity!.requires_sittings) {
+    if (selectedUniversity!.requires_sittings)
       payload.sittings = Number(form.sittings);
-    }
     payload.paid = paid;
-    console.log(
-      "Trying " + selectedUniversity?.id + " ",
-      new Date().toISOString(),
-    );
+
     try {
       const { data } = await api.post(
         `/predict/${selectedUniversity!.id}`,
         payload,
       );
       setResult(data);
+      if (data._id) setPredictionId(data._id);
     } catch (err) {
       if (isAxiosError(err)) {
         setError(err.response?.data?.error || "Prediction failed.");
@@ -241,7 +246,6 @@ const PredictionForm = ({ universities }: Props) => {
       <form className={styles.form} onSubmit={handleSubmit}>
         <h2 className={styles.title}>Check Your Admission Chances</h2>
 
-        {/* University */}
         <div className={styles.field}>
           <label className={styles.label}>University</label>
           <select
@@ -262,7 +266,6 @@ const PredictionForm = ({ universities }: Props) => {
 
         {selectedUniversity && (
           <>
-            {/* UTME Score */}
             <div className={styles.field}>
               <label className={styles.label}>
                 UTME Score <span className={styles.range}>(0 – 400)</span>
@@ -278,7 +281,6 @@ const PredictionForm = ({ universities }: Props) => {
               />
             </div>
 
-            {/* Post-UTME */}
             {selectedUniversity.requires_post_utme && (
               <div className={styles.field}>
                 <label className={styles.label}>Post-UTME Score</label>
@@ -296,7 +298,6 @@ const PredictionForm = ({ universities }: Props) => {
               </div>
             )}
 
-            {/* Faculty & Department */}
             <div className={styles.row}>
               <div className={styles.field}>
                 <label className={styles.label}>Faculty</label>
@@ -322,19 +323,15 @@ const PredictionForm = ({ universities }: Props) => {
                 >
                   {selectedFaculty &&
                     form.faculty &&
-                    selectedFaculty[form.faculty]?.map((dept) => {
-                      console.log(dept);
-                      return (
-                        <option key={dept} value={dept}>
-                          {dept}
-                        </option>
-                      );
-                    })}
+                    selectedFaculty[form.faculty]?.map((dept) => (
+                      <option key={dept} value={dept}>
+                        {dept}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
 
-            {/* Sittings */}
             {selectedUniversity.requires_sittings && (
               <div className={styles.field}>
                 <label className={styles.label}>O&apos;level Sittings</label>
@@ -353,7 +350,6 @@ const PredictionForm = ({ universities }: Props) => {
               </div>
             )}
 
-            {/* O'level Grades */}
             {selectedUniversity.requires_olevel_grades && (
               <div className={styles.field}>
                 <label className={styles.label}>
@@ -416,7 +412,8 @@ const PredictionForm = ({ universities }: Props) => {
                 )}
               </div>
             )}
-            <label htmlFor="paid">
+
+            <label htmlFor="paid" className={styles.tokenLabel}>
               <input
                 type="checkbox"
                 name="paid"
@@ -444,7 +441,6 @@ const PredictionForm = ({ universities }: Props) => {
         )}
       </form>
 
-      {/* Results */}
       {result && (
         <div className={styles.result}>
           <div className={`${styles.decision} ${decisionColor}`}>
@@ -492,11 +488,39 @@ const PredictionForm = ({ universities }: Props) => {
 
           {result.reason && <p className={styles.reason}>{result.reason}</p>}
 
+          {/* Report CTA — only shows if prediction was saved  */}
+          {predictionId && (
+            <div className={styles.reportCta}>
+              <div className={styles.reportCtaText}>
+                <span className={styles.reportCtaTitle}>
+                  Want a full breakdown?
+                </span>
+                <span className={styles.reportCtaDesc}>
+                  Get your detailed admission report — score breakdown,
+                  insights, and action plan. Costs 1 token.
+                </span>
+              </div>
+              {reportError && <p className={styles.errorMsg}>{reportError}</p>}
+              <button
+                className={styles.reportBtn}
+                onClick={() => router.push(`/dashboard/report/${predictionId}`)}
+              >
+                {reportLoading ? (
+                  <span className={styles.spinner} />
+                ) : (
+                  "Get Full Report — 1 Token"
+                )}
+              </button>
+            </div>
+          )}
+
           <button
             className={styles.resetBtn}
             onClick={() => {
               setResult(null);
               setError(null);
+              setPredictionId(null);
+              setReportError(null);
             }}
           >
             Try Another University

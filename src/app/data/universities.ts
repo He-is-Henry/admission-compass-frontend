@@ -70,5 +70,3 @@ export const universities: University[] = [
     requires_sittings: true,
   },
 ];
-
-module.exports = universities;

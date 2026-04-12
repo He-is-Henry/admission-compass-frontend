@@ -13,8 +13,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
   const [isMobile, setIsMobile] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const { logout, user } = useAuth();
-  const router = useRouter();
-
+  const showSidebar = !isMobile;
   const navItems = [
     { icon: "🏠", label: "Dashboard", path: "/dashboard" },
     { icon: "✨", label: "New Prediction", path: "/dashboard/predict" },
@@ -161,8 +160,9 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         )}
 
         <main
-          className={styles.mainContent}
-          style={!isMobile ? { marginLeft: "256px" } : {}}
+          className={`${styles.mainContent} ${
+            !isMobile ? styles.withSidebar : ""
+          }`}
         >
           {children}
         </main>

@@ -1,6 +1,5 @@
 import { Metadata } from "next";
 import DashboardHome from "./DashboardHome";
-import { useAuth } from "@/app/hooks/useAuth";
 
 export const metadata: Metadata = {
   title: "Dashboard",

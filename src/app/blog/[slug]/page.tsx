@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./SlugPage.module.css";
+import Link from "next/link";
 
 interface Blog {
   _id: string;
@@ -89,9 +90,9 @@ export default async function Page({ params }: Props) {
       {/* Article */}
       <article className={styles.articleSection}>
         <div className={styles.articleInner}>
-          <a href="/blog" className={styles.backLink}>
+          <Link href="/blog" className={styles.backLink}>
             ← Back to Blog
-          </a>
+          </Link>
           <hr className={styles.divider} />
           <div
             className={styles.prose}

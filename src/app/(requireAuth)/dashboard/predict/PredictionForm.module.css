@@ -72,6 +72,16 @@
   background: #fff;
 }
 
+/* ── Token label ── */
+.tokenLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.9rem;
+  color: #444;
+  cursor: pointer;
+}
+
 /* ── Sittings ── */
 .sittingsGroup {
   display: flex;
@@ -330,6 +340,70 @@
   margin: 0;
 }
 
+/* ── Report CTA ── */
+.reportCta {
+  width: 100%;
+  margin-top: 0.5rem;
+  background: linear-gradient(135deg, #eff6ff 0%, #f0fdf4 100%);
+  border: 1.5px solid #bfdbfe;
+  border-radius: 14px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  text-align: left;
+}
+
+.reportCtaText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.reportCtaTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.reportCtaDesc {
+  font-size: 0.82rem;
+  color: #4b6a8a;
+  line-height: 1.5;
+}
+
+.reportBtn {
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    opacity 0.15s,
+    transform 0.1s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+}
+
+.reportBtn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.reportBtn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.reportBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Reset ── */
 .resetBtn {
   margin-top: 0.5rem;
   background: none;
