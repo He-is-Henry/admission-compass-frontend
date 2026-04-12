@@ -79,7 +79,7 @@ export default function Pricing() {
 
               <ul className={styles.featureList}>
                 {[
-                  "Preview admission likelihood percentage",
+                  "Preview admission likelihood percentage (3 trials)",
                   "10 free UTME practice questions per subject",
                   "Basic cutoff information",
                 ].map((item, i) => (

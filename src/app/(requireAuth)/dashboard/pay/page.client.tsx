@@ -5,7 +5,13 @@ import api from "@/app/api/axios";
 import getAllPayments from "@/app/lib/getAllPayments";
 import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./TokenWallet.module.css";
-import Image from "next/image";
+
+interface Discount {
+  code: string;
+  cap: number;
+  percentage: number;
+  used: number;
+}
 
 // ── Icons (inline SVG helpers) ──────────────────────────────────────────────
 
@@ -100,8 +106,13 @@ export default function TokenWallet() {
   const [error, setError] = useState("");
   const [payments, setPayments] = useState<Payment[]>([]);
   const [txLoading, setTxLoading] = useState(true);
-
-  // ── Fetch transaction history ──────────────────────────────────────────
+  const [discountCode, setDiscountCode] = useState("");
+  const [discountValid, setDiscountValid] = useState<{
+    percentage: number;
+    cap: number;
+  } | null>(null);
+  const [discountChecking, setDiscountChecking] = useState(false);
+  const [welcomeDiscount, setWelcomeDiscount] = useState<Discount | null>(null);
 
   useEffect(() => {
     (async () => {
@@ -114,9 +125,62 @@ export default function TokenWallet() {
         setTxLoading(false);
       }
     })();
+
+    (async () => {
+      try {
+        const res = await api.get("/discount");
+        const welcome: Discount = res.data.find(
+          (d: Discount) => d.code === "WELCOME" && d.used < d.cap,
+        );
+        if (welcome) {
+          setWelcomeDiscount(welcome);
+          setDiscountCode(welcome.code);
+          validateDiscount(welcome.code);
+        }
+      } catch {}
+    })();
   }, []);
 
-  // ── Payment handler ────────────────────────────────────────────────────
+  const getPrice = (tokens: number) => {
+    const base = PLANS[tokens].price;
+
+    if (!discountValid) return { base, final: base };
+
+    const discountAmount = Math.round((base * discountValid.percentage) / 100);
+
+    return {
+      base,
+      final: base - discountAmount,
+    };
+  };
+
+  const validateDiscount = async (code?: string) => {
+    const codeToCheck = code || discountCode;
+
+    if (!codeToCheck) return;
+
+    try {
+      setDiscountChecking(true);
+
+      const res = await api.post("/discount/validate", {
+        code: codeToCheck,
+      });
+
+      if (res.data.valid) {
+        setDiscountValid({
+          percentage: res.data.percentage,
+          cap: res.data.cap,
+        });
+      } else {
+        setDiscountValid(null);
+        setError("Invalid or expired discount code");
+      }
+    } catch {
+      setError("Failed to validate code");
+    } finally {
+      setDiscountChecking(false);
+    }
+  };
 
   const handlePayment = async () => {
     if (selectedPlan === null) return;
@@ -124,7 +188,10 @@ export default function TokenWallet() {
     setError("");
 
     try {
-      const response = await api.post(`/pay`, { quantity: selectedPlan });
+      const response = await api.post(`/pay`, {
+        quantity: selectedPlan,
+        code: discountCode,
+      });
       if (response?.data?.url) {
         window.location.href = response.data.url;
       } else {
@@ -164,6 +231,27 @@ export default function TokenWallet() {
         </p>
       </div>
 
+      {welcomeDiscount && (
+        <div className={styles.discountBanner}>
+          <div className={styles.discountHeader}>
+            🎉 <strong>30% OFF</strong> with code <strong>WELCOME</strong>
+          </div>
+
+          <div className={styles.discountProgressWrap}>
+            <div
+              className={styles.discountProgress}
+              style={{
+                width: `${(welcomeDiscount.used / welcomeDiscount.cap) * 100}%`,
+              }}
+            />
+          </div>
+
+          <div className={styles.discountMeta}>
+            {welcomeDiscount.used} / {welcomeDiscount.cap} used •{" "}
+            {welcomeDiscount.cap - welcomeDiscount.used} remaining
+          </div>
+        </div>
+      )}
       {/* Balance Card */}
       <div className={styles.balanceCard}>
         <div className={styles.balanceInner}>
@@ -313,6 +401,7 @@ export default function TokenWallet() {
               {PLAN_KEYS.map((key) => {
                 const plan = PLANS[key];
                 const isSelected = selectedPlan === key;
+                const price = getPrice(key);
                 return (
                   <div
                     key={key}
@@ -324,8 +413,16 @@ export default function TokenWallet() {
                     )}
                     <div className={styles.planTokens}>{plan.tokens}</div>
                     <div className={styles.planTokenLabel}>Tokens</div>
-                    <div className={styles.planPrice}>
-                      ₦{plan.price.toLocaleString()}
+                    <div className={styles.planPriceWrap}>
+                      {price.final !== price.base && (
+                        <div className={styles.planPriceOriginal}>
+                          ₦{price.base.toLocaleString()}
+                        </div>
+                      )}
+
+                      <div className={styles.planPrice}>
+                        ₦{price.final.toLocaleString()}
+                      </div>
                     </div>
                     <div className={styles.planPerToken}>
                       ₦{Math.round(plan.price / plan.tokens).toLocaleString()}{" "}
@@ -336,13 +433,35 @@ export default function TokenWallet() {
               })}
             </div>
 
+            <div className={styles.discountInputWrap}>
+              <input
+                type="text"
+                placeholder="Enter discount code"
+                value={discountCode}
+                onChange={(e) => setDiscountCode(e.target.value.toUpperCase())}
+                className={styles.discountInput}
+              />
+
+              <button
+                className={styles.btnOutline}
+                onClick={() => validateDiscount()}
+                disabled={discountChecking}
+              >
+                {discountChecking ? "Checking..." : "Apply"}
+              </button>
+            </div>
+
+            {discountValid && (
+              <div className={styles.discountSuccess}>
+                ✓ {discountValid.percentage}% discount applied
+              </div>
+            )}
             <div className={styles.paymentInfo}>
               <div className={styles.paymentInfoRow}>
                 <span className={styles.paymentInfoLabel}>Payment Method</span>
-                <Image
+                <img
                   src="https://paystack.com/assets/paystack-badge-cards-NGN.png"
                   alt="Paystack"
-                  fill
                   className={styles.paymentInfoImg}
                 />
               </div>

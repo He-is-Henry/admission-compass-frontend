@@ -1,0 +1,108 @@
+.container {
+  padding: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.title {
+  margin-bottom: 24px;
+}
+
+.card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 32px;
+  background: #fff;
+}
+
+.cardTitle {
+  margin-bottom: 16px;
+}
+
+/* FORM */
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.button {
+  padding: 10px 14px;
+  border: none;
+  border-radius: 6px;
+  background: #093238;
+  color: white;
+  cursor: pointer;
+}
+
+.button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* TABLE */
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 500px;
+}
+
+.theadRow {
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.row {
+  border-bottom: 1px solid #eee;
+}
+
+.cell {
+  padding: 10px 0;
+}
+
+.deleteBtn {
+  background: none;
+  border: none;
+  color: red;
+  cursor: pointer;
+}
+
+.empty {
+  padding: 20px 0;
+  text-align: center;
+  color: #777;
+}
+
+/* MOBILE */
+
+@media (max-width: 720) {
+  .form {
+    grid-template-columns: 1fr;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .container {
+    padding: 16px;
+    max-width: 400px;
+  }
+
+  .card {
+    padding: 16px;
+  }
+}
