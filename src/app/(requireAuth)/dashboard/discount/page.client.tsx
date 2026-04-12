@@ -13,6 +13,7 @@ type Discount = {
   percentage: number;
   cap: number;
   used: number;
+  expiresAt?: string;
 };
 
 export default function DiscountPage() {
@@ -22,9 +23,37 @@ export default function DiscountPage() {
   const [code, setCode] = useState("");
   const [percentage, setPercentage] = useState("");
   const [cap, setCap] = useState("");
+  const [expiresAt, setExpiresAt] = useState("");
 
   const [deleteTarget, setDeleteTarget] = useState<Discount | null>(null);
   const [deleting, setDeleting] = useState(false);
+  const [editing, setEditing] = useState<Discount | null>(null);
+  const [saving, setSaving] = useState(false);
+
+  const handleUpdate = async () => {
+    if (!editing) return;
+
+    try {
+      setSaving(true);
+
+      await api.put(`/discount/${editing._id}`, {
+        code: editing.code,
+        percentage: Number(editing.percentage),
+        cap: Number(editing.cap),
+        expiresAt: editing.expiresAt || null,
+      });
+
+      toast.success("Discount updated");
+
+      setEditing(null);
+      fetchDiscounts();
+    } catch (err) {
+      const error = err as AxiosError<{ error: string }>;
+      toast.error(error?.response?.data?.error || "Failed to update discount");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   const fetchDiscounts = async () => {
     try {
@@ -124,6 +153,12 @@ export default function DiscountPage() {
             onChange={(e) => setCap(e.target.value)}
           />
 
+          <input
+            className={styles.input}
+            type="datetime-local"
+            value={expiresAt ? expiresAt.slice(0, 16) : ""}
+            onChange={(e) => setExpiresAt(e.target.value)}
+          />
           <button className={styles.button} disabled={loading}>
             {loading ? "Creating..." : "Add"}
           </button>
@@ -143,18 +178,55 @@ export default function DiscountPage() {
                 <th className={styles.cell}>Percentage</th>
                 <th className={styles.cell}>Cap</th>
                 <th className={styles.cell}>Used</th>
-                <th className={styles.cell}></th>
+                <th className={styles.cell}>Expires</th>
               </tr>
             </thead>
 
             <tbody>
               {discounts.map((d) => (
                 <tr key={d._id} className={styles.row}>
-                  <td className={styles.cell}>{d.code}</td>
-                  <td className={styles.cell}>{d.percentage}%</td>
-                  <td className={styles.cell}>{d.cap}</td>
-                  <td className={styles.cell}>{d.used}</td>
-                  <td className={styles.cell}>
+                  <td data-label="Code" className={styles.cell}>
+                    {d.code}
+                  </td>
+                  <td data-label="Percentage" className={styles.cell}>
+                    {d.percentage}%
+                  </td>
+                  <td data-label="Cap" className={styles.cell}>
+                    {d.cap}
+                  </td>
+                  <td data-label="Used" className={styles.cell}>
+                    {d.used}
+                  </td>
+                  <td
+                    data-label="Expires"
+                    className={`${
+                      d.expiresAt && new Date(d.expiresAt) < new Date()
+                        ? styles.expired
+                        : ""
+                    } ${styles.cell}`}
+                  >
+                    {d.expiresAt ? (
+                      <span>
+                        {new Date(d.expiresAt).toLocaleDateString("en-NG", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        })}
+                      </span>
+                    ) : (
+                      <span>Never</span>
+                    )}
+                  </td>
+
+                  <td data-label="Edit" className={styles.cell}>
+                    <button
+                      className={styles.editBtn}
+                      onClick={() => setEditing(d)}
+                    >
+                      Edit
+                    </button>
+                  </td>
+                  <td data-label="Delete" className={styles.cell}>
                     <button
                       className={styles.deleteBtn}
                       onClick={() => setDeleteTarget(d)}
@@ -167,7 +239,7 @@ export default function DiscountPage() {
 
               {discounts.length === 0 && (
                 <tr>
-                  <td colSpan={5} className={styles.empty}>
+                  <td colSpan={7} className={styles.empty}>
                     No discounts created
                   </td>
                 </tr>
@@ -177,6 +249,72 @@ export default function DiscountPage() {
         </div>
       </div>
 
+      {editing && (
+        <div className={styles.overlay}>
+          <div className={styles.modal}>
+            <h2>Edit Discount</h2>
+            <p>Editing &quot;{editing.code}&quot;</p>
+
+            <div className={styles.editForm}>
+              <input
+                value={editing.code}
+                className={styles.input}
+                onChange={(e) =>
+                  setEditing({ ...editing, code: e.target.value.toUpperCase() })
+                }
+                placeholder="Code"
+              />
+
+              <input
+                type="number"
+                value={editing.percentage}
+                className={styles.input}
+                onChange={(e) =>
+                  setEditing({
+                    ...editing,
+                    percentage: Number(e.target.value),
+                  })
+                }
+              />
+
+              <input
+                type="number"
+                className={styles.input}
+                value={editing.cap}
+                onChange={(e) =>
+                  setEditing({ ...editing, cap: Number(e.target.value) })
+                }
+              />
+
+              <input
+                type="datetime-local"
+                value={editing.expiresAt ? editing.expiresAt.slice(0, 16) : ""}
+                className={styles.input}
+                onChange={(e) =>
+                  setEditing({ ...editing, expiresAt: e.target.value })
+                }
+              />
+            </div>
+
+            <div className={styles.modalActions}>
+              <button
+                className={styles.button}
+                onClick={() => setEditing(null)}
+              >
+                Cancel
+              </button>
+
+              <button
+                className={styles.button}
+                onClick={handleUpdate}
+                disabled={saving}
+              >
+                {saving ? "Saving..." : "Save"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
       {deleteTarget && (
         <ConfirmModal
           title="Delete Discount"

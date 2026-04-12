@@ -1,16 +1,18 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import api from "@/app/api/axios";
 import getAllPayments from "@/app/lib/getAllPayments";
 import { useAuth } from "@/app/hooks/useAuth";
 import styles from "./TokenWallet.module.css";
+import useDiscount from "@/app/hooks/useDiscount";
 
 interface Discount {
   code: string;
   cap: number;
   percentage: number;
   used: number;
+  expiresAt?: string;
 }
 
 // ── Icons (inline SVG helpers) ──────────────────────────────────────────────
@@ -113,6 +115,74 @@ export default function TokenWallet() {
   } | null>(null);
   const [discountChecking, setDiscountChecking] = useState(false);
   const [welcomeDiscount, setWelcomeDiscount] = useState<Discount | null>(null);
+  const [timeLeft, setTimeLeft] = useState<number | null>(null);
+  const { featured } = useDiscount();
+
+  useEffect(() => {
+    if (!featured?.expiresAt) return;
+
+    const interval = setInterval(() => {
+      const diff = new Date(featured.expiresAt!).getTime() - Date.now();
+
+      setTimeLeft(diff > 0 ? diff : 0);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [featured]);
+
+  const formatTime = (ms: number) => {
+    const totalSeconds = Math.floor(ms / 1000);
+
+    const days = Math.floor(totalSeconds / (3600 * 24));
+    const hours = Math.floor((totalSeconds % (3600 * 24)) / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    if (days > 0) {
+      return `${days}d ${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    if (hours > 0) {
+      return `${hours}h ${minutes}m ${seconds}s`;
+    }
+
+    if (minutes > 0) {
+      return `${minutes}m ${seconds}s`;
+    }
+
+    return `${seconds}s`;
+  };
+
+  const validateDiscount = useCallback(
+    async (code?: string) => {
+      const codeToCheck = code || discountCode;
+
+      if (!codeToCheck) return;
+
+      try {
+        setDiscountChecking(true);
+
+        const res = await api.post("/discount/validate", {
+          code: codeToCheck,
+        });
+
+        if (res.data.valid) {
+          setDiscountValid({
+            percentage: res.data.percentage,
+            cap: res.data.cap,
+          });
+        } else {
+          setDiscountValid(null);
+          setError("Invalid or expired discount code");
+        }
+      } catch {
+        setError("Failed to validate code");
+      } finally {
+        setDiscountChecking(false);
+      }
+    },
+    [discountCode],
+  );
 
   useEffect(() => {
     (async () => {
@@ -128,18 +198,14 @@ export default function TokenWallet() {
 
     (async () => {
       try {
-        const res = await api.get("/discount");
-        const welcome: Discount = res.data.find(
-          (d: Discount) => d.code === "WELCOME" && d.used < d.cap,
-        );
-        if (welcome) {
-          setWelcomeDiscount(welcome);
-          setDiscountCode(welcome.code);
-          validateDiscount(welcome.code);
+        if (featured) {
+          setWelcomeDiscount(featured);
+          setDiscountCode(featured.code);
+          validateDiscount(featured.code);
         }
       } catch {}
     })();
-  }, []);
+  }, [featured, validateDiscount]);
 
   const getPrice = (tokens: number) => {
     const base = PLANS[tokens].price;
@@ -152,34 +218,6 @@ export default function TokenWallet() {
       base,
       final: base - discountAmount,
     };
-  };
-
-  const validateDiscount = async (code?: string) => {
-    const codeToCheck = code || discountCode;
-
-    if (!codeToCheck) return;
-
-    try {
-      setDiscountChecking(true);
-
-      const res = await api.post("/discount/validate", {
-        code: codeToCheck,
-      });
-
-      if (res.data.valid) {
-        setDiscountValid({
-          percentage: res.data.percentage,
-          cap: res.data.cap,
-        });
-      } else {
-        setDiscountValid(null);
-        setError("Invalid or expired discount code");
-      }
-    } catch {
-      setError("Failed to validate code");
-    } finally {
-      setDiscountChecking(false);
-    }
   };
 
   const handlePayment = async () => {
@@ -454,6 +492,11 @@ export default function TokenWallet() {
             {discountValid && (
               <div className={styles.discountSuccess}>
                 ✓ {discountValid.percentage}% discount applied
+                {timeLeft !== null && (
+                  <div className={styles.discountTimer}>
+                    ⏳ Offer ends in {formatTime(timeLeft)}
+                  </div>
+                )}
               </div>
             )}
             <div className={styles.paymentInfo}>
