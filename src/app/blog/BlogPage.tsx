@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/app/api/axios";
 import styles from "./BlogPage.module.css";
-import Image from "next/image";
 
 interface Blog {
   _id: string;
