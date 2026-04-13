@@ -323,6 +323,8 @@ export default function ProfilePage() {
           </div>
           <div className={styles.cardBody}>
             <div className={styles.inputWrap}>
+              <label className={styles.fieldLabel}>Type Current Password</label>
+
               <input
                 className={styles.input}
                 type={showCurrentPw ? "text" : "password"}
@@ -339,6 +341,8 @@ export default function ProfilePage() {
               </button>
             </div>
             <div className={styles.inputWrap}>
+              <label className={styles.fieldLabel}>Type New Password</label>
+
               <input
                 className={styles.input}
                 type={showNewPw ? "text" : "password"}

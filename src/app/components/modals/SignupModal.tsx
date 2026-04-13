@@ -6,6 +6,39 @@ import api from "@/app/api/axios";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
+const EyeIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+  >
+    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+);
+
+const EyeOffIcon = () => (
+  <svg
+    viewBox="0 0 24 24"
+    width="20"
+    height="20"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    {/* same eye */}
+    <path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z" />
+    <circle cx="12" cy="12" r="3" />
+
+    {/* slash */}
+    <line x1="3" y1="3" x2="21" y2="21" />
+  </svg>
+);
 type Props = {
   closeModal: () => void;
   showLogin: () => void;
@@ -19,6 +52,8 @@ function SignupModal({ closeModal, showLogin }: Props) {
   const [parent, setParent] = useState(false);
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPw, setShowPw] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [utme, setUtme] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
@@ -76,7 +111,13 @@ function SignupModal({ closeModal, showLogin }: Props) {
     window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/google`;
   };
   const modalRef = useRef<HTMLDivElement>(null);
+  const togglePassword = () => {
+    setShowPw((prev) => !prev);
+  };
 
+  const toggleConfirmPassword = () => {
+    setShowConfirm((prev) => !prev);
+  };
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "Escape") closeModal();
@@ -168,22 +209,46 @@ function SignupModal({ closeModal, showLogin }: Props) {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            className={styles.input}
-            required
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            className={styles.input}
-            required
-            value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
+
+          <div className={styles.inputWrapper}>
+            <input
+              type={showPw ? "text" : "password"}
+              placeholder="Password"
+              className={styles.input}
+              required
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={togglePassword}
+              aria-label="Toggle password visibility"
+            >
+              {showPw ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
+
+          <div className={styles.inputWrapper}>
+            <input
+              type={showConfirm ? "text" : "password"}
+              placeholder="Confirm Password"
+              className={styles.input}
+              required
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+
+            <button
+              type="button"
+              className={styles.eyeBtn}
+              onClick={toggleConfirmPassword}
+            >
+              {showConfirm ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
+
           <input
             type="text"
             placeholder="UTME Registration Number (Optional)"
