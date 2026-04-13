@@ -24,7 +24,7 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 async function getBlog(slug: string): Promise<Blog | null> {
   try {
     const res = await fetch(`${API_URL}/blog/${slug}`, {
-      next: { revalidate: 60 },
+      next: { revalidate: 1800 },
     });
     console.log(res);
     if (!res.ok) return null;
@@ -45,9 +45,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${blog.title} | Admission Compass`,
     description: blog.excerpt,
+    alternates: {
+      canonical: `https://www.admissioncompass.com.ng/blog/${blog.slug}`,
+    },
+    openGraph: {
+      title: blog.title,
+      description: blog.excerpt,
+      url: `https://www.admissioncompass.com.ng/blog/${blog.slug}`,
+      type: "article",
+      images: blog.featuredImage ? [blog.featuredImage] : [],
+    },
   };
 }
 
+export async function generateStaticParams() {
+  const res = await fetch("https://api.admissioncompass.com.ng/blog");
+  const blogs = await res.json();
+
+  return blogs.map((b: Blog) => ({
+    slug: b.slug,
+  }));
+}
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString("en-NG", {
     year: "numeric",
