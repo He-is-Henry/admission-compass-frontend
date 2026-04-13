@@ -37,7 +37,7 @@ function formatDate(iso: string): string {
   });
 }
 
-export default function BlogPageClient({
+export default function BlogPage({
   initialData,
   currentPage,
 }: {
@@ -46,20 +46,18 @@ export default function BlogPageClient({
 }) {
   const router = useRouter();
 
-  const [posts, setPosts] = useState(initialData.posts);
+  const [posts, setPosts] = useState<Blog[]>(initialData.posts);
   const [page, setPage] = useState(currentPage);
   const [hasMore, setHasMore] = useState(initialData.hasMore);
   const [loadingMore, setLoadingMore] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const fetchPosts = async (pageNum: number) => {
+  const fetchMore = async (pageNum: number) => {
     try {
       setLoadingMore(true);
-
       const { data }: { data: BlogsResponse } = await api.get(
         `/blog?page=${pageNum}`,
       );
-
       setPosts((prev) => [...prev, ...data.posts]);
       setHasMore(data.hasMore);
     } catch (err) {
@@ -72,7 +70,7 @@ export default function BlogPageClient({
   const handleLoadMore = () => {
     const next = page + 1;
     setPage(next);
-    fetchPosts(next);
+    fetchMore(next);
   };
 
   const handlePostClick = (slug: string) => {
@@ -127,7 +125,6 @@ export default function BlogPageClient({
             {featured && (
               <>
                 <span className={styles.featuredBadge}>Featured</span>
-
                 <div
                   className={styles.featuredCard}
                   onClick={() => handlePostClick(featured.slug)}
@@ -137,22 +134,17 @@ export default function BlogPageClient({
                       <span className={styles.categoryTag}>
                         {featured.category}
                       </span>
-
                       <h2 className={styles.featuredTitle}>{featured.title}</h2>
-
                       <p className={styles.featuredExcerpt}>
                         {featured.excerpt}
                       </p>
-
                       <div className={styles.meta}>
                         <span>Admission Compass Team</span>
                         <span>{formatDate(featured.createdAt)}</span>
                         <span>{featured.readTime} min read</span>
                       </div>
-
                       <button className={styles.readBtn}>Read Article →</button>
                     </div>
-
                     {featured.featuredImage ? (
                       <img
                         src={featured.featuredImage}
@@ -189,16 +181,12 @@ export default function BlogPageClient({
                     onClick={() => handlePostClick(post.slug)}
                   >
                     <span className={styles.categoryTag}>{post.category}</span>
-
                     <h3 className={styles.postTitle}>{post.title}</h3>
-
                     <p className={styles.postExcerpt}>{post.excerpt}</p>
-
                     <div className={styles.postMeta}>
                       <span>Admission Compass Team</span>
                       <span>{formatDate(post.createdAt)}</span>
                     </div>
-
                     <button className={styles.readMoreBtn}>Read More →</button>
                   </div>
                 ))}
@@ -216,6 +204,25 @@ export default function BlogPageClient({
                 </button>
               </div>
             )}
+          </div>
+        </div>
+      </section>
+
+      {/* NEWSLETTER */}
+      <section className={styles.newsletter}>
+        <div className={styles.newsletterInner}>
+          <h2 className={styles.newsletterTitle}>Stay Updated</h2>
+          <p className={styles.newsletterSubtitle}>
+            Get the latest admissions insights, cut-off updates, and expert tips
+            delivered to your inbox.
+          </p>
+          <div className={styles.newsletterForm}>
+            <input
+              type="email"
+              placeholder="Enter your email"
+              className={styles.newsletterInput}
+            />
+            <button className={styles.newsletterBtn}>Subscribe</button>
           </div>
         </div>
       </section>
