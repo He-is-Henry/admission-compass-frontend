@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import api from "@/app/api/axios";
 import styles from "./BlogPage.module.css";
@@ -37,44 +37,42 @@ function formatDate(iso: string): string {
   });
 }
 
-export function BlogPage() {
+export default function BlogPageClient({
+  initialData,
+  currentPage,
+}: {
+  initialData: BlogsResponse;
+  currentPage: number;
+}) {
   const router = useRouter();
 
-  const [posts, setPosts] = useState<Blog[]>([]);
-  const [page, setPage] = useState(1);
-  const [hasMore, setHasMore] = useState(true);
-  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState(initialData.posts);
+  const [page, setPage] = useState(currentPage);
+  const [hasMore, setHasMore] = useState(initialData.hasMore);
   const [loadingMore, setLoadingMore] = useState(false);
   const [activeCategory, setActiveCategory] = useState("All");
 
-  const fetchPosts = async (pageNum: number, replace = false) => {
+  const fetchPosts = async (pageNum: number) => {
     try {
-      if (replace) {
-        setLoading(true);
-      } else {
-        setLoadingMore(true);
-      }
+      setLoadingMore(true);
+
       const { data }: { data: BlogsResponse } = await api.get(
         `/blog?page=${pageNum}`,
       );
-      setPosts((prev) => (replace ? data.posts : [...prev, ...data.posts]));
+
+      setPosts((prev) => [...prev, ...data.posts]);
       setHasMore(data.hasMore);
     } catch (err) {
-      console.error("Failed to fetch posts:", err);
+      console.error(err);
     } finally {
-      setLoading(false);
       setLoadingMore(false);
     }
   };
 
-  useEffect(() => {
-    fetchPosts(1, true);
-  }, []);
-
   const handleLoadMore = () => {
-    const nextPage = page + 1;
-    setPage(nextPage);
-    fetchPosts(nextPage);
+    const next = page + 1;
+    setPage(next);
+    fetchPosts(next);
   };
 
   const handlePostClick = (slug: string) => {
@@ -93,7 +91,7 @@ export function BlogPage() {
 
   return (
     <div className={styles.wrapper}>
-      {/* Hero */}
+      {/* HERO */}
       <section className={styles.hero}>
         <div className={styles.heroInner}>
           <h1 className={styles.heroTitle}>Blog & Insights</h1>
@@ -103,7 +101,7 @@ export function BlogPage() {
         </div>
       </section>
 
-      {/* Categories */}
+      {/* CATEGORIES */}
       <section className={styles.categoriesBar}>
         <div className={styles.categoriesInner}>
           <div className={styles.categoriesList}>
@@ -122,15 +120,14 @@ export function BlogPage() {
         </div>
       </section>
 
-      {/* Featured */}
+      {/* FEATURED */}
       <section className={styles.featuredSection}>
         <div className={styles.container}>
           <div className={styles.inner}>
-            {loading ? (
-              <div className={styles.skeletonFeatured} />
-            ) : featured ? (
+            {featured && (
               <>
                 <span className={styles.featuredBadge}>Featured</span>
+
                 <div
                   className={styles.featuredCard}
                   onClick={() => handlePostClick(featured.slug)}
@@ -140,17 +137,22 @@ export function BlogPage() {
                       <span className={styles.categoryTag}>
                         {featured.category}
                       </span>
+
                       <h2 className={styles.featuredTitle}>{featured.title}</h2>
+
                       <p className={styles.featuredExcerpt}>
                         {featured.excerpt}
                       </p>
+
                       <div className={styles.meta}>
                         <span>Admission Compass Team</span>
                         <span>{formatDate(featured.createdAt)}</span>
                         <span>{featured.readTime} min read</span>
                       </div>
+
                       <button className={styles.readBtn}>Read Article →</button>
                     </div>
+
                     {featured.featuredImage ? (
                       <img
                         src={featured.featuredImage}
@@ -163,24 +165,18 @@ export function BlogPage() {
                   </div>
                 </div>
               </>
-            ) : null}
+            )}
           </div>
         </div>
       </section>
 
-      {/* Posts */}
+      {/* POSTS */}
       <section className={styles.postsSection}>
         <div className={styles.container}>
           <div className={styles.inner}>
             <h2 className={styles.postsTitle}>Latest Articles</h2>
 
-            {loading ? (
-              <div className={styles.postsGrid}>
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div key={i} className={styles.skeletonCard} />
-                ))}
-              </div>
-            ) : filteredRest.length === 0 ? (
+            {filteredRest.length === 0 ? (
               <p className={styles.emptyState}>
                 No articles in this category yet.
               </p>
@@ -193,19 +189,23 @@ export function BlogPage() {
                     onClick={() => handlePostClick(post.slug)}
                   >
                     <span className={styles.categoryTag}>{post.category}</span>
+
                     <h3 className={styles.postTitle}>{post.title}</h3>
+
                     <p className={styles.postExcerpt}>{post.excerpt}</p>
+
                     <div className={styles.postMeta}>
                       <span>Admission Compass Team</span>
                       <span>{formatDate(post.createdAt)}</span>
                     </div>
+
                     <button className={styles.readMoreBtn}>Read More →</button>
                   </div>
                 ))}
               </div>
             )}
 
-            {hasMore && !loading && (
+            {hasMore && (
               <div className={styles.loadMoreWrap}>
                 <button
                   onClick={handleLoadMore}
@@ -216,25 +216,6 @@ export function BlogPage() {
                 </button>
               </div>
             )}
-          </div>
-        </div>
-      </section>
-
-      {/* Newsletter */}
-      <section className={styles.newsletter}>
-        <div className={styles.newsletterInner}>
-          <h2 className={styles.newsletterTitle}>Stay Updated</h2>
-          <p className={styles.newsletterSubtitle}>
-            Get the latest admissions insights, cut-off updates, and expert tips
-            delivered to your inbox.
-          </p>
-          <div className={styles.newsletterForm}>
-            <input
-              type="email"
-              placeholder="Enter your email"
-              className={styles.newsletterInput}
-            />
-            <button className={styles.newsletterBtn}>Subscribe</button>
           </div>
         </div>
       </section>

@@ -24,9 +24,8 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 async function getBlog(slug: string): Promise<Blog | null> {
   try {
     const res = await fetch(`${API_URL}/blog/${slug}`, {
-      next: { revalidate: 1800 },
+      next: { tags: ["blog"] },
     });
-    console.log(res);
     if (!res.ok) return null;
     return res.json();
   } catch {
@@ -59,7 +58,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export async function generateStaticParams() {
-  const res = await fetch("https://api.admissioncompass.com.ng/blog");
+  const res = await fetch("https://api.admissioncompass.com.ng/blog?all=true");
   const blogs = await res.json();
 
   return blogs.map((b: Blog) => ({

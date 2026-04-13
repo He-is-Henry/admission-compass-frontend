@@ -2,7 +2,7 @@ export default async function sitemap() {
   const baseUrl = "https://www.admissioncompass.com.ng";
 
   // fetch blogs
-  const res = await fetch("https://api.admissioncompass.com.ng/blog");
+  const res = await fetch("https://api.admissioncompass.com.ng/blog?all=true");
   const blogs = await res.json();
 
   const blogUrls = blogs.map((b: { slug: string }) => ({
