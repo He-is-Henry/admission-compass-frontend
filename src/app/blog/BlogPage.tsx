@@ -153,10 +153,9 @@ export function BlogPage() {
                       <button className={styles.readBtn}>Read Article →</button>
                     </div>
                     {featured.featuredImage ? (
-                      <Image
+                      <img
                         src={featured.featuredImage}
                         alt={featured.title}
-                        fill
                         className={styles.featuredImage}
                       />
                     ) : (
