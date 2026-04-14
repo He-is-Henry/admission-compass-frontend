@@ -1,33 +1,27 @@
+
+
+
 .switchWrapper {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
-  margin: 2rem 0;
-  gap: 1rem;
-   background: rgba(225, 225, 225, 0.2);
-   box-shadow: 0 15px 20px -2px rgba(90, 89, 89, 0.1);
-    border-radius: 1rem;
-   display: inline-flex;
+  margin: 2rem auto;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-radius: 0.75rem;
+  padding: 0.35rem;
 }
-
 
 .switchButton {
   padding: 0.75rem 1.5rem;
-  border-radius: 9999px;
-  border: 2px solid #000000;
-  background-color: white;
-  cursor: pointer;
-  font-weight: 600;
-  transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
-}
-.switchButton {
-  padding: 0.75rem 1.5rem;
- margin-right: 0.55rem;
   border: none;
   border-radius: 0.5rem;
-  font-weight: 700;
-  background:white;
-  color:#30793a ;
-  transition: all 0.2s;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.25s ease;
 }
 
 
@@ -43,7 +37,12 @@
   color: #0a0909;
 }
 
-/* Pricing Cards Swap */
+.inactiveButton:hover {
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+
 .pricingCardsWrapper {
   overflow: hidden;
   width: 100%;
@@ -226,21 +225,25 @@
 }
 
 .planSubtext {
+  font-size: 1rem;
   color: #4b5563;
   margin-bottom: 2rem;
 }
 
 .planSubtextOrange {
-  font-size: 0.875rem;
+  font-size: 1rem;
   color: #010002e1;
   font-weight: 500;
   margin-bottom: 2rem;
 }
 
 .featureList {
+  color: black;
   list-style: none;
   padding: 0;
-  margin-bottom: 2rem;
+  text-align: left;
+  align-items: flex-start;
+  margin-bottom: 1rem;
 }
 
 .featureItem {
