@@ -95,7 +95,7 @@ export default function PaySuccess() {
           </p>
           <button
             className={styles.btnOutline}
-            onClick={() => router.push("dashboard/pay")}
+            onClick={() => router.push("/dashboard/pay")}
           >
             Try Again
           </button>
@@ -126,7 +126,7 @@ export default function PaySuccess() {
         </button>
         <button
           className={styles.btnOutline}
-          onClick={() => router.push("dashboard/pay")}
+          onClick={() => router.push("/dashboard/pay")}
         >
           Buy More Tokens
         </button>

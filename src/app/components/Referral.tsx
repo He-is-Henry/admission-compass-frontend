@@ -23,7 +23,7 @@ export default function Referral({
   const { user } = useAuth();
 
   // if (user?.isAffiliate) return;
-  const paidCount = history.data.filter((h) => h.paid).length;
+  const paidCount = history.data.filter((h) => h.paid && !h.rewarded).length;
   const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
   const freeTokensEarned = Math.floor(paidCount / 3);
 

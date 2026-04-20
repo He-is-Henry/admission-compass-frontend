@@ -86,6 +86,7 @@ type ReferralHistory = {
   };
   paid: boolean;
   createdAt: string;
+  rewarded: boolean;
 };
 
 type University = {
