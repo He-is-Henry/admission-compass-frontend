@@ -90,7 +90,7 @@ const HeroSection = ({
                   </div>
                   <div className={styles.purpleBox}>
                     <p className={styles.statLabel}>Alternatives</p>
-                    <p className={styles.statValuePurple}>5 Found</p>
+                    <p className={styles.statValuePurple}>3 Found</p>
                   </div>
                 </div>
                 <div className={styles.altBox}>

@@ -1,56 +1,29 @@
-.title{
-   font-size: 3rem;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  color: white;
-  text-align: center;
-}
-   @media (min-width: 1024px) {
-  .title {
-    font-size: 3.75rem;
-  }
+/* ─── Page Background ─── */
+body {
+  color: #fff;
+  position: relative;
+  background-image: url('/admissioncompass.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+  margin: 0;
 }
 
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: -1;
+}
+
+/* ─── Container ─── */
 .container {
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-}
-
-.description{
-     font-size: 1rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  color: white;
-  text-align: center;
-    
-}
-
-.subText{
-     font-size: 1rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  color: rgb(255, 255, 255);
-  text-align: center;
-}
-
-
-.highlight{
-    color: #3eaa4d;
-      font-size: 1rem;
-  margin-bottom: 1.5rem;
-  line-height: 1.2;
-  color: white;
-  text-align: justify;
-    
-}
-
-.container {
-  max-width: 80rem;
-  margin: 0 auto;
-  padding: 0 1rem;
-  
 }
 
 @media (min-width: 640px) {
@@ -65,31 +38,63 @@
   }
 }
 
-.grid {
-  display: grid;
-  gap: 3rem;
-  align-items: center;
+
+.title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  text-align: center;
+  letter-spacing: -0.02em;
 }
 
 @media (min-width: 1024px) {
-  .grid {
-    grid-template-columns: repeat(2, 1fr);
+  .title {
+    font-size: 3.75rem;
   }
 }
 
 
 .subtitle {
   font-size: 1.25rem;
-  color:black ;
   max-width: 48rem;
   margin: 0 auto;
-  line-height: 1.6;
+  line-height: 1.7;
+  text-align: center;
 }
 
-/* grid */
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  text-align: center;
+}
+
+
+.subText {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+
+  text-align: center;
+}
+
+
+.highlight {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.7;
+  color: white;
+  text-align: justify;
+  font-weight: 500;
+}
+
+
 .grid {
   display: grid;
   gap: 2rem;
+  align-items: center;
 }
 
 @media (min-width: 768px) {
@@ -104,22 +109,26 @@
   }
 }
 
-/* card */
+/* ─── Card ─── */
 .card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(10px);
+  background: rgba(12, 12, 12, 0.1);
+
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 1rem;
   padding: 2rem;
-  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-  transition: transform 3s ease-in-out, box-shadow 0.25s ease;
+  box-shadow: 0 10px 30px rgba(245, 245, 245, 0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-8rem);
-  box-shadow: 0 20px 25px -5px rgba(10, 10, 0.1, 0.1);
+  transform: translateY(-8px);
+  background: rgba(255, 255, 255, 0.13);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
 }
 
-/* icon box */
+
 .iconBox {
   width: 4rem;
   height: 4rem;
@@ -128,6 +137,7 @@
   align-items: center;
   justify-content: center;
   margin-bottom: 1.5rem;
+  flex-shrink: 0;
 }
 
 .icon {
@@ -136,42 +146,49 @@
   color: #fff;
 }
 
-/* gradient backgrounds */
+/* ─── Icon Gradient Backgrounds ─── */
 .orangePink {
-  background: linear-gradient(to bottom right, #fb923c, #f472b6);
+  background: linear-gradient(135deg, #fb923c, #f472b6);
 }
 
 .bluePurple {
-  background: linear-gradient(to bottom right, #60a5fa, #a78bfa);
+  background: linear-gradient(135deg, #60a5fa, #a78bfa);
 }
 
 .greenTeal {
-  background: linear-gradient(to bottom right, #4ade80, #14b8a6);
+  background: linear-gradient(135deg, #4ade80, #14b8a6);
 }
 
 .purplePink {
-  background: linear-gradient(to bottom right, #a78bfa, #f472b6);
+  background: linear-gradient(135deg, #a78bfa, #f472b6);
 }
 
-/* card text */
+
+
 .cardTitle {
-  font-size: 1.25rem;
+  font-size: 1.125rem;
   font-weight: 600;
-  color: #111827;
-  margin-bottom: 1rem;
+  color: #ffffff;
+  margin-bottom: 0.75rem;
 }
 
 .cardText {
-  color: #4b5563;
-  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+  line-height: 1.7;
+  font-size: 0.9375rem;
 }
 
-/* fade-in */
+
 .fadeIn {
   opacity: 0;
   transform: translateY(20px);
-  animation: fadeInUp 1s ease forwards;
+  animation: fadeInUp 0.7s ease forwards;
 }
+
+.fadeIn:nth-child(1) { animation-delay: 0s; }
+.fadeIn:nth-child(2) { animation-delay: 0.1s; }
+.fadeIn:nth-child(3) { animation-delay: 0.2s; }
+.fadeIn:nth-child(4) { animation-delay: 0.3s; }
 
 @keyframes fadeInUp {
   to {

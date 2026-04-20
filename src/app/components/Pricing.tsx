@@ -4,8 +4,49 @@ import Link from "next/link";
 import styles from "./pricing.module.css";
 import Image from "next/image";
 
+const studentFreeFeatures = [
+  "Preview admission likelihood percentage (3 trials)",
+  "10 free UTME practice questions per subject",
+  "Basic cutoff information",
+];
+
+const studentTokenFeatures = [
+  "Detailed admission analysis & trends",
+  "Top 3 personalized school recommendations",
+  "Professional PDF reports for applications",
+  "Complete UTME practice question banks",
+  "Historical admission trends & insights",
+];
+
+const parentFreeFeatures = [
+  "Preview your child's admission likelihood (3 trials)",
+  "10 free UTME practice questions per subject",
+  "Basic cutoff information",
+];
+
+const parentTokenFeatures = [
+  "Detailed admission analysis for your child",
+  "Top 3 personalized school recommendations",
+  "Professional PDF reports for applications",
+  "Track your child's UTME practice progress",
+  "Historical admission trends & insights",
+];
+
 export default function Pricing() {
   const [selected, setSelected] = useState<"student" | "parent">("student");
+
+  const freeFeatures =
+    selected === "student" ? studentFreeFeatures : parentFreeFeatures;
+  const tokenFeatures =
+    selected === "student" ? studentTokenFeatures : parentTokenFeatures;
+  const freePlanSubtext =
+    selected === "student"
+      ? "Perfect to get started"
+      : "Monitor your child's journey";
+  const tokenPlanSubtext =
+    selected === "student"
+      ? "Unlock detailed insights"
+      : "Full visibility for parents";
 
   return (
     <section id="pricing" className={styles.section}>
@@ -43,20 +84,8 @@ export default function Pricing() {
               For Parents
             </button>
           </div>
-
-          {/* Pricing Cards Swap */}
-          <div className={styles.pricingCardsWrapper}>
-            <div
-              className={styles.pricingCardsInner}
-              style={{
-                transform:
-                  selected === "student"
-                    ? "translateX(0%)"
-                    : "translateX(-50%)",
-              }}
-            ></div>
-          </div>
         </div>
+
         <div className={styles.pricingGrid}>
           {/* Free Plan */}
           <div className={`${styles.glassCard} ${styles.fadeIn} fade-in`}>
@@ -74,15 +103,11 @@ export default function Pricing() {
               <h3 className={styles.planTitle}>Free Preview</h3>
               <div className={styles.planPrice}>₦0</div>
               <p className={styles.planSubtext} id="freePlanSubtext">
-                Perfect to get started
+                {freePlanSubtext}
               </p>
 
               <ul className={styles.featureList}>
-                {[
-                  "Preview admission likelihood percentage (3 trials)",
-                  "10 free UTME practice questions per subject",
-                  "Basic cutoff information",
-                ].map((item, i) => (
+                {freeFeatures.map((item, i) => (
                   <li key={i} className={styles.featureItem}>
                     <svg
                       className={styles.featureIcon}
@@ -126,7 +151,7 @@ export default function Pricing() {
               <div className={styles.planPrice}>₦1,000</div>
               <p className={styles.textGray}>3 Tokens</p>
               <p className={styles.planSubtextOrange} id="tokenPlanSubtext">
-                Unlock detailed insights
+                {tokenPlanSubtext}
               </p>
 
               <div className={styles.tokenBox}>
@@ -146,13 +171,7 @@ export default function Pricing() {
               </div>
 
               <ul className={styles.featureList}>
-                {[
-                  "Detailed admission analysis & trends",
-                  "Top 5 personalized school recommendations",
-                  "Professional PDF reports for applications",
-                  "Complete UTME practice question banks",
-                  "Historical admission trends & insights",
-                ].map((item, i) => (
+                {tokenFeatures.map((item, i) => (
                   <li key={i} className={styles.featureItem}>
                     <svg
                       className={styles.featureIcon}
@@ -181,46 +200,6 @@ export default function Pricing() {
             </div>
           </div>
         </div>
-
-        {/* Launch Promos */}
-        {/*  <div
-          className={`${styles.mt16} ${styles.textCenter} ${styles.fadeIn} fade-in`}
-        >
-          <div className={styles.promos}>
-            <div className={styles.promoRow}>
-              <span className={styles.badgeRed}>50% OFF</span>
-              <span className={styles.textDark}>
-                First 200 users get 50% off! Only{" "}
-                <span className={styles.textRed}>147</span> spots left.
-              </span>
-            </div>
-            <div className={styles.promoRow}>
-              <span className={styles.badgeBlue}>EXTRA 20% OFF</span>
-              <span className={styles.textDark}>
-                First 50 users get additional 20% off!
-              </span>
-            </div>
-          </div> */}
-
-        {/* Referral Note */}
-        {/*   <div className={styles.referralBox}>
-            <div className={styles.referralHeader}>
-              <svg
-                className={styles.referralIcon}
-                fill="currentColor"
-                viewBox="0 0 24 24"
-                aria-label="Referral reward icon"
-              >
-                <path d="M16 4c0-1.11.89-2 2-2s2 .89 2 2-.89 2-2 2-2-.89-2-2zm4 18v-6h2.5l-2.54-7.63A1.5 1.5 0 0 0 18.54 7H16c-.8 0-1.54.37-2 1l-3 4v2h2l2.54-3.4L16.5 16H18v6h2z" />
-              </svg>
-              <h4 className={styles.referralHeading}>Earn 10% Discount</h4>
-            </div>
-            <p className={styles.referralText}>
-              When your referral buys tokens, you earn 10% discount on your next
-              purchase—tracked by your unique username.
-            </p>
-          </div>
-        </div>*/}
       </div>
     </section>
   );
