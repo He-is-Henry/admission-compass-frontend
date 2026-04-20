@@ -28,6 +28,7 @@ export default function GoogleCallback() {
         if (typeof window == "undefined") return;
         const rawData = localStorage.getItem("ref");
         const stored: Stored = rawData ? JSON.parse(rawData) : {};
+        console.log(stored);
         const ref =
           stored && Date.now() - stored.timestamp < 3600000
             ? stored.username.toLowerCase()
