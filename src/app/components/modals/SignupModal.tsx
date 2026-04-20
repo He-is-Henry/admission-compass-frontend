@@ -60,8 +60,18 @@ function SignupModal({ closeModal, showLogin }: Props) {
   const [googleOnly, setGoogleOnly] = useState(false);
 
   const searchParams = useSearchParams();
-  const [referral, setReferral] = useState(searchParams.get("ref") ?? "");
+  const [referral, setReferral] = useState(
+    searchParams.get("ref")?.toLowerCase() ?? "",
+  );
 
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (referral)
+      localStorage.setItem(
+        "ref",
+        JSON.stringify({ username: referral, timestamp: Date.now() }),
+      );
+  }, [referral]);
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
@@ -261,7 +271,7 @@ function SignupModal({ closeModal, showLogin }: Props) {
             placeholder="Referral username (Optional)"
             className={styles.input}
             value={referral}
-            onChange={(e) => setReferral(e.target.value)}
+            onChange={(e) => setReferral(e.target.value.toLowerCase())}
           />
 
           {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}

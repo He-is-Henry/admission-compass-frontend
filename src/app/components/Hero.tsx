@@ -6,9 +6,19 @@ type Props = {
   subjects: Subject[];
   leaderboard: LeaderboardEntry[];
   currentUser: LeaderboardEntry | null;
+  loadingMore: boolean;
+  onLoadMoreLeaderboard: () => void;
+  loadingMoreLb: boolean;
+  hasMoreLeaderboard: boolean;
 };
 
-const HeroSection = ({ leaderboard, currentUser }: Props) => {
+const HeroSection = ({
+  leaderboard,
+  currentUser,
+  onLoadMoreLeaderboard,
+  loadingMoreLb,
+  hasMoreLeaderboard,
+}: Props) => {
   const router = useRouter();
   const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
 
@@ -101,16 +111,6 @@ const HeroSection = ({ leaderboard, currentUser }: Props) => {
             className={`${styles.fadeIn} fade-in`}
             style={{ marginTop: "48px" }}
           >
-            <h2
-              style={{
-                textAlign: "center",
-                marginBottom: "24px",
-                fontSize: "1.4rem",
-                fontWeight: 700,
-              }}
-            >
-              🏆 Top Referrers
-            </h2>
             <div
               style={{
                 display: "flex",
@@ -125,16 +125,6 @@ const HeroSection = ({ leaderboard, currentUser }: Props) => {
                   className={`${styles.fadeIn} fade-in`}
                   style={{ marginTop: "48px" }}
                 >
-                  <h2
-                    style={{
-                      textAlign: "center",
-                      marginBottom: "24px",
-                      fontSize: "1.4rem",
-                      fontWeight: 700,
-                    }}
-                  >
-                    🏆 Top Referrers
-                  </h2>
                   <div
                     style={{
                       display: "flex",
@@ -306,6 +296,14 @@ const HeroSection = ({ leaderboard, currentUser }: Props) => {
                     })}
                   </div>
                 </div>
+              )}
+              {hasMoreLeaderboard && (
+                <button
+                  onClick={onLoadMoreLeaderboard}
+                  disabled={loadingMoreLb}
+                >
+                  {loadingMoreLb ? "Loading..." : "Load more"}
+                </button>
               )}
             </div>
           </div>

@@ -6,6 +6,11 @@ import { tokenStore } from "../lib/tokenStore";
 import { useAuth } from "../hooks/useAuth";
 import styles from "./google-callback.module.css";
 
+type Stored = {
+  timestamp: number;
+  username: string;
+};
+
 export default function GoogleCallback() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -20,13 +25,21 @@ export default function GoogleCallback() {
 
     const handleCallback = async () => {
       try {
+        if (typeof window == "undefined") return;
+        const rawData = localStorage.getItem("ref");
+        const stored: Stored = rawData ? JSON.parse(rawData) : {};
+        const ref =
+          stored && Date.now() - stored.timestamp < 3600000
+            ? stored.username.toLowerCase()
+            : null;
+        localStorage.removeItem("ref");
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/google-callback`,
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             credentials: "include",
-            body: JSON.stringify({ code }),
+            body: JSON.stringify({ code, ref }),
           },
         );
 

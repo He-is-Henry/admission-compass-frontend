@@ -5,6 +5,8 @@ import getAllPredictions from "@/app/lib/getAllPredictions";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
+import { getLeaderboard } from "@/app/lib/leaderboard";
+import Referral from "@/app/components/Referral";
 
 export default function DashboardHome() {
   const { user } = useAuth();
@@ -15,6 +17,34 @@ export default function DashboardHome() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+  const [history, setHistory] = useState<{
+    data: ReferralHistory[];
+    total: number;
+    hasMore: boolean;
+  }>({ data: [], total: 0, hasMore: false });
+  const [historyPage, setHistoryPage] = useState(1);
+  const [loadingMore, setLoadingMore] = useState(false);
+
+  useEffect(() => {
+    getLeaderboard(1, 1)
+      .then((data) => setHistory(data.history))
+      .catch(console.error);
+  }, []);
+
+  const loadMoreHistory = async () => {
+    setLoadingMore(true);
+    try {
+      const next = historyPage + 1;
+      const newData = await getLeaderboard(next, 1);
+      setHistory((prev) => ({
+        ...newData.history,
+        data: [...prev.data, ...newData.history.data],
+      }));
+      setHistoryPage(next);
+    } finally {
+      setLoadingMore(false);
+    }
+  };
 
   useEffect(() => {
     const clearParam = (name: string) => {
@@ -279,6 +309,11 @@ export default function DashboardHome() {
             </div>
           )}
         </div>
+        <Referral
+          history={history}
+          onLoadMore={loadMoreHistory}
+          loadingMore={loadingMore}
+        />
       </div>
     </div>
   );

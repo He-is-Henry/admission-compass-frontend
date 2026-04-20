@@ -25,7 +25,7 @@ export default function Referral({
   const freeTokensEarned = Math.floor(paidCount / 3);
 
   const copy = async () => {
-    if (!user) return toast.error("Not logged in!");
+    if (!user) return;
     const link = `${window.location.origin}?ref=${user.username}`;
     navigator.clipboard.writeText(link);
     toast.success("Referral link copied");
@@ -156,9 +156,6 @@ export default function Referral({
                             </div>
                           </div>
                           <div className={styles.historyRight}>
-                            <p className={styles.historyReward}>
-                              +₦100 discount
-                            </p>
                             <p className={styles.historyTime}>
                               {new Date(h.createdAt).toLocaleDateString(
                                 "en-GB",

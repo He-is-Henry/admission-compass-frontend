@@ -30,6 +30,8 @@ type User = {
   role: Role;
   sessions: Session[];
   providers: ("email" | "google")[];
+  isAffiliate: boolean;
+  balance: number;
 };
 
 type UserLogin = {
@@ -122,4 +124,17 @@ type Payment = {
   quantity: number;
   used: number;
   createdAt: string;
+};
+
+type AffiliateRequest = {
+  _id: string;
+  whatsapp: string;
+  status: "pending" | "approved" | "rejected";
+  createdAt: string;
+  user: {
+    firstName: string;
+    lastName: string;
+    username: string;
+    email: string;
+  };
 };

@@ -18,22 +18,23 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
     subjectStore.set(subjects);
   }
   const [historyPage, setHistoryPage] = useState(1);
+  const [lbPage, setLbPage] = useState(1);
   const [loadingMore, setLoadingMore] = useState(false);
+
+  const [loadingMoreLb, setLoadingMoreLb] = useState(false);
   const [data, setData] = useState<{
     lead: LeaderboardEntry[];
+    leaderboard: { hasMore: boolean; total: number };
     history: { data: ReferralHistory[]; total: number; hasMore: boolean };
     currentUser: LeaderboardEntry | null;
   } | null>(null);
 
-  useEffect(() => {
-    getLeaderboard(undefined).then(setData).catch(console.error);
-  }, []);
-
-  const loadMore = async () => {
+  const loadMoreHistory = async () => {
     setLoadingMore(true);
     try {
       const next = historyPage + 1;
-      const newData = await getLeaderboard(next);
+      const newData = await getLeaderboard(next, lbPage);
+      console.log(newData);
       setData((prev) =>
         prev
           ? {
@@ -51,12 +52,52 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
     }
   };
 
-  if (!data)
+  const loadMoreLeaderboard = async () => {
+    setLoadingMoreLb(true);
+
+    try {
+      const next = lbPage + 1;
+      const newData = await getLeaderboard(historyPage, next);
+      console.log(newData);
+      setData((prev) =>
+        prev
+          ? {
+              ...prev,
+              lead: [...prev.lead, ...newData.lead],
+              leaderboard: newData.leaderboard,
+            }
+          : null,
+      );
+      setLbPage(next);
+    } finally {
+      setLoadingMoreLb(false);
+    }
+  };
+
+  useEffect(() => {
+    getLeaderboard(1, 1).then(setData).catch(console.error);
+  }, []);
+
+  useEffect(() => {
+    console.log(data);
+  }, [data]);
+
+  if (!data?.leaderboard || !data.history)
     return (
       <>
-        <HeroSection subjects={subjects} leaderboard={[]} currentUser={null} />
+        <HeroSection
+          subjects={subjects}
+          leaderboard={[]}
+          currentUser={null}
+          loadingMore={false}
+          loadingMoreLb={false}
+          onLoadMoreLeaderboard={loadMoreLeaderboard}
+          hasMoreLeaderboard={false}
+        />
+
         {children}
-        <Referral history={emptyHistory} onLoadMore={loadMore} />
+
+        <Referral history={emptyHistory} onLoadMore={loadMoreHistory} />
       </>
     );
 
@@ -66,11 +107,15 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
         subjects={subjects}
         leaderboard={data.lead}
         currentUser={data.currentUser}
+        loadingMore={loadingMore}
+        onLoadMoreLeaderboard={loadMoreLeaderboard}
+        loadingMoreLb={loadingMoreLb}
+        hasMoreLeaderboard={data.leaderboard?.hasMore ?? false}
       />
       {children}
       <Referral
         history={data.history}
-        onLoadMore={loadMore}
+        onLoadMore={loadMoreHistory}
         loadingMore={loadingMore}
       />
     </>

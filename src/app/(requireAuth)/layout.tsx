@@ -29,6 +29,7 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     { icon: "🔒", label: "Admins", path: "/dashboard/admins", admin: true },
     { icon: "📝", label: "Blog", path: "/dashboard/blog", editor: true },
     { icon: "🈹", label: "Discount", path: "/dashboard/discount", admin: true },
+    { icon: "🤝", label: "Affiliates", path: "/dashboard/affiliates" },
   ];
 
   useEffect(() => {
