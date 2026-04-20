@@ -3,7 +3,6 @@ import FeaturesSection from "./components/FeaturesSection";
 import HowItWorks from "./components/HowItWorks.";
 import StatsSection from "./components/StatsSection";
 import Pricing from "./components/Pricing";
-import Hooks from "./page.client";
 import Footer from "./components/Footer";
 import { getAllSubjects } from "./lib/subject";
 import RequireLeaderboard from "./components/RequireLeaderboard";
@@ -19,7 +18,6 @@ export default async function Home() {
 
   return (
     <>
-      <Hooks />
       <main>
         <RequireLeaderboard subjects={subjects}>
           <FeaturesSection />

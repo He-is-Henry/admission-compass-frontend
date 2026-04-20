@@ -7,6 +7,7 @@ import { AuthProvider } from "./context/AuthProvider";
 import { Suspense } from "react";
 import { RateLimitProvider } from "./context/RateLimitProvider";
 import { RateLimitModal } from "./components/RateLimitModal";
+import Hooks from "./page.client";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
         <Toaster position="bottom-center" />
         <AuthProvider>
+          <Hooks />
           <RateLimitProvider>
             <Suspense fallback={null}>
               <Header />

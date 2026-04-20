@@ -1,15 +1,13 @@
 .section {
   padding-top: 5rem;
   padding-bottom: 5rem;
-  background: linear-gradient(135deg, #417fb9, #080133 );
-
+  background: linear-gradient(135deg, #417fb9, #080133);
 }
 
 .container {
   max-width: 80rem;
   margin: 0 auto;
   padding: 0 1rem;
-  
 }
 
 @media (min-width: 1000px) {
@@ -59,11 +57,30 @@
   color: #ffedd5;
 }
 
+.sectionInline .heading {
+  color: #111827;
+}
+
+.sectionInline .subheading {
+  color: #4b5563;
+}
+
+.sectionInline .step {
+  color: #111827;
+}
+
+.sectionInline .stepDesc {
+  color: #6b7280;
+}
+
+.sectionInline .stepIcon {
+  background: #f3f4f6;
+}
 .innerContainer {
   width: 100%;
   max-width: 56rem;
   margin: 0 auto;
-  overflow:hidden;
+  overflow: hidden;
 }
 
 .glassCard {
@@ -124,7 +141,6 @@
   white-space: normal;
 }
 
-
 .usernameBox {
   margin-bottom: 1rem;
   background: #edeef0;
@@ -149,7 +165,7 @@
 }
 
 .usernameLabel {
-  white-space:nowrap ;
+  white-space: nowrap;
   font-size: 1rem;
   text-align: center;
   color: #6b7280;
@@ -191,7 +207,6 @@
     margin-left: 0;
     box-sizing: border-box;
   }
-  
 }
 
 .copyButton:hover {
@@ -404,4 +419,9 @@
 .stepDesc {
   font-size: 1rem;
   color: #fafafa;
+}
+
+.sectionInline {
+  padding: 2rem 0;
+  background: white;
 }

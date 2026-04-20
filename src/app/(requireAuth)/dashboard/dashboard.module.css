@@ -530,3 +530,7 @@
     margin-left: 0;
   }
 }
+
+.referralWrapper {
+  margin: 0 -3rem; /* -2rem container + -1rem mainContent */
+}

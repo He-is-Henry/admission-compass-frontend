@@ -310,11 +310,14 @@ export default function DashboardHome() {
           )}
         </div>
       </div>
-      <Referral
-        history={history}
-        onLoadMore={loadMoreHistory}
-        loadingMore={loadingMore}
-      />
+      <div className={styles.referralWrapper}>
+        <Referral
+          history={history}
+          onLoadMore={loadMoreHistory}
+          loadingMore={loadingMore}
+          inline={true}
+        />
+      </div>
     </div>
   );
 }

@@ -11,12 +11,14 @@ type ReferralProps = {
   };
   onLoadMore: () => void;
   loadingMore?: boolean;
+  inline?: boolean;
 };
 
 export default function Referral({
   history,
   onLoadMore,
   loadingMore,
+  inline,
 }: ReferralProps) {
   const { user } = useAuth();
 
@@ -33,7 +35,7 @@ export default function Referral({
   };
 
   return (
-    <section className={styles.section}>
+    <section className={inline ? styles.sectionInline : styles.section}>
       <div className={styles.container}>
         <div
           className={`${styles.textCenter} ${styles.mb12} ${styles.fadeIn} fade-in`}
