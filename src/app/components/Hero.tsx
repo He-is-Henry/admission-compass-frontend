@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 type Props = {
   subjects: Subject[];
   leaderboard: LeaderboardEntry[];
-  currentUser: LeaderboardEntry | null;
+  currentUser: LeaderboardEntry;
   loadingMore: boolean;
   onLoadMoreLeaderboard: () => void;
   loadingMoreLb: boolean;
@@ -245,7 +245,13 @@ const HeroSection = ({
                             }}
                           >
                             <span style={{ fontSize: "1.4rem" }}>
-                              {medals[i]}
+                              {currentUser &&
+                              currentUser.position &&
+                              currentUser.position <= 5
+                                ? medals[currentUser.position - 1]
+                                : currentUser.position
+                                  ? `#${currentUser.position}`
+                                  : "—"}{" "}
                             </span>
                             <div>
                               <p style={{ fontWeight: 600, margin: 0 }}>

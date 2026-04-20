@@ -65,13 +65,17 @@ function SignupModal({ closeModal, showLogin }: Props) {
   );
 
   useEffect(() => {
+    console.log(typeof window);
+
     if (typeof window === "undefined") return;
     if (referral)
       localStorage.setItem(
         "ref",
         JSON.stringify({ username: referral, timestamp: Date.now() }),
       );
+    console.log("saved ref to ls");
   }, [referral]);
+
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");

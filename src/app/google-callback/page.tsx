@@ -33,6 +33,7 @@ export default function GoogleCallback() {
             ? stored.username.toLowerCase()
             : null;
         localStorage.removeItem("ref");
+        console.log({ ref });
         const res = await fetch(
           `${process.env.NEXT_PUBLIC_API_URL}/google-callback`,
           {

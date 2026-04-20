@@ -309,12 +309,12 @@ export default function DashboardHome() {
             </div>
           )}
         </div>
-        <Referral
-          history={history}
-          onLoadMore={loadMoreHistory}
-          loadingMore={loadingMore}
-        />
       </div>
+      <Referral
+        history={history}
+        onLoadMore={loadMoreHistory}
+        loadingMore={loadingMore}
+      />
     </div>
   );
 }

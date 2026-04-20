@@ -26,7 +26,7 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
     lead: LeaderboardEntry[];
     leaderboard: { hasMore: boolean; total: number };
     history: { data: ReferralHistory[]; total: number; hasMore: boolean };
-    currentUser: LeaderboardEntry | null;
+    currentUser: LeaderboardEntry;
   } | null>(null);
 
   const loadMoreHistory = async () => {
@@ -88,7 +88,16 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
         <HeroSection
           subjects={subjects}
           leaderboard={[]}
-          currentUser={null}
+          currentUser={{
+            referrer: {
+              _id: " ",
+              firstName: " ",
+              username: " ",
+            },
+            position: 0,
+            isCurrentUser: false,
+            count: 0,
+          }}
           loadingMore={false}
           loadingMoreLb={false}
           onLoadMoreLeaderboard={loadMoreLeaderboard}
