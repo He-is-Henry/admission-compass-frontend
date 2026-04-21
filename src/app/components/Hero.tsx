@@ -21,7 +21,7 @@ const HeroSection = ({
 }: Props) => {
   const router = useRouter();
   const medals = ["🥇", "🥈", "🥉", "4️⃣", "5️⃣"];
-
+  console.log(leaderboard);
   return (
     <section className={styles.hero}>
       <div className={styles.container}>
@@ -215,6 +215,7 @@ const HeroSection = ({
                       const isYou =
                         currentUser &&
                         entry.referrer._id === currentUser.referrer._id;
+                      console.log(entry);
                       return (
                         <div
                           key={entry.referrer._id}
@@ -245,13 +246,9 @@ const HeroSection = ({
                             }}
                           >
                             <span style={{ fontSize: "1.4rem" }}>
-                              {currentUser &&
-                              currentUser.position &&
-                              currentUser.position <= 5
-                                ? medals[currentUser.position - 1]
-                                : currentUser.position
-                                  ? `#${currentUser.position}`
-                                  : "—"}{" "}
+                              {(entry.position ?? 0) <= 5
+                                ? medals[(entry.position ?? 0) - 1]
+                                : `#${entry.position}`}
                             </span>
                             <div>
                               <p style={{ fontWeight: 600, margin: 0 }}>

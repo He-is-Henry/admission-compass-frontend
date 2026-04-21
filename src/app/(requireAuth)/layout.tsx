@@ -24,12 +24,13 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
     //   path: "/dashboard/recommendations",
     // },
     { icon: "👤", label: "Profile", path: "/dashboard/profile" },
+    { icon: "🤝", label: "Affiliates", path: "/dashboard/affiliates" },
     { icon: "❓", label: "Support", path: "/support" },
     { icon: "💬", label: "Messages", path: "/dashboard/messages", admin: true },
     { icon: "🔒", label: "Admins", path: "/dashboard/admins", admin: true },
+
     { icon: "📝", label: "Blog", path: "/dashboard/blog", editor: true },
     { icon: "🈹", label: "Discount", path: "/dashboard/discount", admin: true },
-    { icon: "🤝", label: "Affiliates", path: "/dashboard/affiliates" },
   ];
 
   useEffect(() => {
