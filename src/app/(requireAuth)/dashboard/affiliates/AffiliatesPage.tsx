@@ -6,6 +6,8 @@ import api from "@/app/api/axios";
 import toast from "react-hot-toast";
 import styles from "./AffiliatesPage.module.css";
 import { AxiosError } from "axios";
+import BankDetails from "./BankDetails";
+import WithdrawSection from "./WithdrawSection";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -29,6 +31,7 @@ function AffiliateDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(true);
+  const { user, refreshUser } = useAuth();
 
   const fetch = async (p = 1) => {
     try {
@@ -127,6 +130,17 @@ function AffiliateDashboard() {
           </button>
         )}
       </div>
+      <BankDetails
+        bankAccount={user?.bankAccount}
+        onUpdate={() => refreshUser()}
+        styles={styles}
+      />
+
+      <WithdrawSection
+        balance={data.balance}
+        hasBank={!!user?.bankAccount?.accountNumber}
+        styles={styles}
+      />
     </div>
   );
 }

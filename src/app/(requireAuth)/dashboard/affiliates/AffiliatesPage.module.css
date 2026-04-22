@@ -406,3 +406,89 @@
     transform: rotate(360deg);
   }
 }
+
+/* ── Bank Details ── */
+
+.bankCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: #f9fafb;
+}
+
+.bankLabel {
+  font-size: 0.75rem;
+  color: #6b7280;
+  text-transform: uppercase;
+}
+
+.bankValue {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #1a1a2e;
+}
+
+.bankForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+}
+
+.select {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+  background: white;
+  outline: none;
+}
+
+/* ── Withdraw ── */
+
+.withdrawCard {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  max-width: 420px;
+  background: #f9fafb;
+}
+
+.balanceText {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.withdrawInput {
+  padding: 0.6rem 0.85rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.375rem;
+  font-size: 0.95rem;
+}
+
+.withdrawBtn {
+  padding: 0.55rem 1rem;
+  background: #1a1a2e;
+  color: white;
+  border: none;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+
+.withdrawBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.warningText {
+  font-size: 0.8rem;
+  color: #b45309;
+}

@@ -32,6 +32,13 @@ type User = {
   providers: ("email" | "google")[];
   isAffiliate: boolean;
   balance: number;
+  bankAccount: {
+    accountNumber: string;
+    bankCode: string;
+    bankName: string;
+    accountName: string;
+    recipientCode: string;
+  };
 };
 
 type UserLogin = {
