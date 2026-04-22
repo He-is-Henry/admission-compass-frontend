@@ -25,8 +25,6 @@ type DashboardData = {
   referrals: { data: ReferralEntry[]; page: number; hasMore: boolean };
 };
 
-// ─── Affiliate Dashboard ──────────────────────────────────────────────────────
-
 function AffiliateDashboard() {
   const [data, setData] = useState<DashboardData | null>(null);
   const [page, setPage] = useState(1);
@@ -133,8 +131,6 @@ function AffiliateDashboard() {
   );
 }
 
-// ─── Apply Form ───────────────────────────────────────────────────────────────
-
 function ApplyForm({ onSuccess }: { onSuccess: () => void }) {
   const [whatsapp, setWhatsapp] = useState("");
   const [loading, setLoading] = useState(false);
@@ -184,8 +180,6 @@ function ApplyForm({ onSuccess }: { onSuccess: () => void }) {
   );
 }
 
-// ─── Application History ──────────────────────────────────────────────────────
-
 function ApplicationHistory({ refresh }: { refresh: number }) {
   const [history, setHistory] = useState<AffiliateRequest[]>([]);
 
@@ -216,8 +210,6 @@ function ApplicationHistory({ refresh }: { refresh: number }) {
     </div>
   );
 }
-
-// ─── Admin: Review Requests ───────────────────────────────────────────────────
 
 function ReviewAffiliateRequests() {
   const [requests, setRequests] = useState<AffiliateRequest[]>([]);
@@ -319,8 +311,6 @@ function ReviewAffiliateRequests() {
   );
 }
 
-// ─── Main Page ────────────────────────────────────────────────────────────────
-
 export default function AffiliatesPage() {
   const { user } = useAuth();
   const [historyRefresh, setHistoryRefresh] = useState(0);
@@ -345,7 +335,7 @@ export default function AffiliatesPage() {
         </>
       )}
 
-      <RequireRole>
+      <RequireRole parent={true}>
         <div className={styles.adminSection}>
           <h2 className={styles.adminTitle}>Admin — Affiliate requests</h2>
           <ReviewAffiliateRequests />
