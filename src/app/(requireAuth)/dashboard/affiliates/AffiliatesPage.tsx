@@ -140,6 +140,7 @@ function AffiliateDashboard() {
         balance={data.balance}
         hasBank={!!user?.bankAccount?.accountNumber}
         styles={styles}
+        onWithdraw={() => refreshUser()}
       />
     </div>
   );
@@ -325,6 +326,75 @@ function ReviewAffiliateRequests() {
   );
 }
 
+function ProcessWithdrawals() {
+  const [loading, setLoading] = useState(false);
+  const [results, setResults] = useState<
+    {
+      user: { _id: string; firstName: string; lastName: string };
+      amount: number;
+      status: string;
+      retryCount: number;
+    }[]
+  >([]);
+
+  const handleProcess = async () => {
+    setLoading(true);
+    try {
+      const res = await api.post("/withdrawal/retry");
+      setResults(res.data);
+      if (res.data.length === 0) toast.success("No pending withdrawals");
+      else toast.success(`Processed ${res.data.length} withdrawal(s)`);
+    } catch {
+      toast.error("Failed to process withdrawals");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className={styles.section}>
+      <button
+        className={styles.approveBtn}
+        onClick={handleProcess}
+        disabled={loading}
+      >
+        {loading ? (
+          <span className={styles.spinnerDark} />
+        ) : (
+          "Process withdrawals"
+        )}
+      </button>
+
+      {results.length > 0 && (
+        <div className={styles.reviewList}>
+          {results.map((r) => (
+            <div key={r.user._id} className={styles.reviewCard}>
+              <div className={styles.reviewInfo}>
+                <p className={styles.reviewName}>
+                  {r.user.firstName} {r.user.lastName}
+                </p>
+                <p className={styles.reviewMeta}>
+                  ₦{r.amount.toLocaleString()} · {r.retryCount} retries
+                </p>
+              </div>
+              <span
+                className={`${styles.badge} ${
+                  r.status === "success"
+                    ? styles.approved
+                    : r.status === "failed"
+                      ? styles.rejected
+                      : styles.pending
+                }`}
+              >
+                {r.status}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
 export default function AffiliatesPage() {
   const { user } = useAuth();
   const [historyRefresh, setHistoryRefresh] = useState(0);
@@ -339,7 +409,6 @@ export default function AffiliatesPage() {
             : "Apply to become an affiliate and earn on every referral."}
         </p>
       </div>
-
       {user?.isAffiliate ? (
         <AffiliateDashboard />
       ) : (
@@ -348,11 +417,13 @@ export default function AffiliatesPage() {
           <ApplicationHistory refresh={historyRefresh} />
         </>
       )}
-
       <RequireRole parent={true}>
         <div className={styles.adminSection}>
           <h2 className={styles.adminTitle}>Admin — Affiliate requests</h2>
           <ReviewAffiliateRequests />
+
+          <h2 className={styles.adminTitle}>Admin — Withdrawals</h2>
+          <ProcessWithdrawals />
         </div>
       </RequireRole>
     </div>
