@@ -2,22 +2,18 @@
 
 import { ReportResponse } from "@/app/lib/getReport";
 import styles from "./Methodology.module.css";
-import ReportHeader from "./ReportHeader";
 
 interface Props {
   report: ReportResponse;
 }
 
 export default function Methodology({ report }: Props) {
-  const breakdown = report.report_data?.breakdown;
+  const breakdown = report.report_data.breakdown;
   const cutoff = report.report_data?.cutoff;
+  const limits = report.report_data.limits;
 
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
-
       <div className={styles.section}>Section 3 of 6</div>
       <h2 className={styles.title}>How We Calculated Your Chances</h2>
       <p className={styles.subtitle}>
@@ -46,20 +42,15 @@ export default function Methodology({ report }: Props) {
             {breakdown?.post_utme_score != null && (
               <li>
                 Post-UTME Score: <strong>{breakdown.post_utme_score}</strong> /
-                100
+                {limits.post_utme_max}
               </li>
             )}
             {breakdown?.olevel_points != null && (
               <li>
-                O&apos;Level Points: <strong>{breakdown.olevel_points}</strong>
+                O&apos;Level Points: <strong>{breakdown.olevel_points} / {limits.olevel_max}</strong>
               </li>
             )}
-            {breakdown?.olevel_average != null && (
-              <li>
-                O&apos;Level Average:{" "}
-                <strong>{breakdown.olevel_average}</strong>
-              </li>
-            )}
+
           </ul>
         </div>
 

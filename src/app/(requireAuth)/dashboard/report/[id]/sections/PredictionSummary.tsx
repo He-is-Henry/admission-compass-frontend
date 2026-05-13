@@ -2,7 +2,6 @@
 
 import { ReportResponse } from "@/app/lib/getReport";
 import styles from "./PredictionSummary.module.css";
-import ReportHeader from "./ReportHeader";
 
 interface Props {
   report: ReportResponse;
@@ -25,10 +24,6 @@ export default function PredictionSummary({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
-
       <div className={styles.section}>Section 1 of 6</div>
       <h2 className={styles.title}>Prediction Summary</h2>
 

@@ -2,7 +2,6 @@
 
 import { ReportResponse } from "@/app/lib/getReport";
 import styles from "./ScoreBreakdown.module.css";
-import ReportHeader from "./ReportHeader";
 
 interface Props {
   report: ReportResponse;
@@ -42,22 +41,24 @@ function ScoreCard({ title, description, score, max }: ScoreCardProps) {
 
 export default function ScoreBreakdown({ report }: Props) {
   const breakdown = report.report_data?.breakdown;
+  const limits = report.report_data.limits;
+
   if (!breakdown) return null;
 
   const { utme_score, post_utme_score, olevel_points } = breakdown;
 
-  const utmePct = utme_score ? Math.round((utme_score / 400) * 100) : null;
-  const postPct =
-    post_utme_score != null ? Math.round((post_utme_score / 100) * 100) : null;
-  const olevelPct =
-    olevel_points != null ? Math.round((olevel_points / 50) * 100) : null;
+  const post_utme_max = limits.post_utme_max
+  const olevel_max = limits.olevel_max;
 
+  const utmePct = utme_score ? Math.round((utme_score / 400) * 100) : null;
+  const postPct = post_utme_score != null && post_utme_max != null
+    ? Math.round((post_utme_score / post_utme_max) * 100)
+    : null;
+  const olevelPct = olevel_points != null && olevel_max != null
+    ? Math.round((olevel_points / olevel_max) * 100)
+    : null;
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
-
       <div className={styles.section}>Section 2 of 6</div>
       <h2 className={styles.title}>Score Breakdown</h2>
       <p className={styles.subtitle}>
@@ -74,20 +75,20 @@ export default function ScoreBreakdown({ report }: Props) {
             max={400}
           />
         )}
-        {post_utme_score != null && (
+        {post_utme_score != null && post_utme_max !== null && (
           <ScoreCard
             title="Post-UTME Score"
             description="University screening examination score"
             score={post_utme_score}
-            max={100}
+            max={post_utme_max}
           />
         )}
-        {olevel_points != null && (
+        {olevel_points != null && olevel_max !== null && (
           <ScoreCard
             title="O'Level Performance"
             description="Combined O'level subject points"
             score={olevel_points}
-            max={50}
+            max={olevel_max}
           />
         )}
       </div>

@@ -23,6 +23,7 @@ export interface ReportResponse {
       utme_min: number | null;
       post_utme_max: number | null;
       sittings_max: number | null;
+      olevel_max: number | null
     };
   };
 }

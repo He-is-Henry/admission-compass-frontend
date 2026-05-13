@@ -521,7 +521,9 @@
 }
 
 @media print {
-  .sidebar {
+  .sidebar,
+  .header,
+  .topBar {
     display: none;
     position: static;
     width: 0;

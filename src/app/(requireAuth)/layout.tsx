@@ -153,9 +153,8 @@ function DashboardLayout({ children }: { children: React.ReactNode }) {
         )}
 
         <main
-          className={`${styles.mainContent} ${
-            !isMobile ? styles.withSidebar : ""
-          }`}
+          className={`${styles.mainContent} ${!isMobile ? styles.withSidebar : ""
+            }`}
         >
           {children}
         </main>

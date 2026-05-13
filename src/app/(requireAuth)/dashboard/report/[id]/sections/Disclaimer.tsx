@@ -1,7 +1,6 @@
 "use client";
 import styles from "./Disclaimer.module.css";
 import Image from "next/image";
-import ReportHeader from "./ReportHeader";
 
 interface Props {
   reportId?: string;
@@ -11,21 +10,18 @@ interface Props {
 export default function Disclaimer({ reportId, generatedAt }: Props) {
   const date = generatedAt
     ? new Date(generatedAt).toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : new Date().toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      });
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    });
 
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
 
       <div className={styles.section}>Section 6 of 6</div>
       <h2 className={styles.title}>Important Information</h2>

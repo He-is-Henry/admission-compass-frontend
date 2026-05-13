@@ -2,7 +2,6 @@
 
 import { ReportResponse } from "@/app/lib/getReport";
 import { generateActionPlan, ActionItem } from "@/app/lib/generateActionPlan";
-import ReportHeader from "./ReportHeader";
 import styles from "./ActionPlan.module.css";
 
 interface Props {
@@ -14,10 +13,6 @@ export default function ActionPlan({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
-
       <div className={styles.section}>Section 5 of 6</div>
       <h2 className={styles.title}>Your Action Plan</h2>
       <p className={styles.subtitle}>

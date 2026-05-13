@@ -90,3 +90,15 @@
   background: #e0f2fe;
   color: #075985;
 }
+
+@media print {
+  .page {
+    min-height: unset;
+    height: 297mm;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 5rem 2rem 1.5rem;
+  }
+}

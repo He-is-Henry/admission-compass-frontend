@@ -59,8 +59,8 @@ export default function DashboardHome() {
     if (generatedUsername) {
       toast(
         "We set your username to " +
-          user?.username +
-          ". You can change it in your profile.",
+        user?.username +
+        ". You can change it in your profile.",
         {
           duration: 6000,
           icon: "👋",

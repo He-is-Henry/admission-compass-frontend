@@ -2,7 +2,6 @@
 
 import { ReportResponse } from "@/app/lib/getReport";
 import { generateAlternatives } from "@/app/lib/generateAlternatives";
-import ReportHeader from "./ReportHeader";
 import styles from "./AlternativeRecommendations.module.css";
 
 export type AlternativeType = "course" | "university";
@@ -25,9 +24,7 @@ export default function AlternativeRecommendations({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.logoRow}>
-        <ReportHeader />
-      </div>
+
 
       <div className={styles.section}>Section 4 of 6</div>
       <h2 className={styles.title}>Alternative Recommendations</h2>

@@ -107,6 +107,11 @@
 
 /* ── Print ── */
 @media print {
+  @page {
+    size: A4;
+    margin: 0;
+  }
+
   .toolbar {
     display: none;
   }
@@ -127,5 +132,8 @@
     box-shadow: none;
     page-break-after: always;
     break-after: page;
+    overflow: hidden;
+    height: 297mm;
+    box-sizing: border-box;
   }
 }

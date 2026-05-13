@@ -159,3 +159,15 @@
   font-size: 0.78rem;
   color: #94a3b8;
 }
+
+@media print {
+  .page {
+    min-height: unset;
+    height: 297mm;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    overflow: hidden;
+    box-sizing: border-box;
+    padding: 5rem 2rem 1.5rem;
+  }
+}
