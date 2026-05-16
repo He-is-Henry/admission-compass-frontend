@@ -88,11 +88,11 @@ export default function Disclaimer({ reportId, generatedAt }: Props) {
           <div className={styles.contactGrid}>
             <div className={styles.contactItem}>
               <MailIcon className={styles.contactIcon} />
-              <span>info@admissioncompass.ng</span>
+              <span>info@admissioncompass.com.ng</span>
             </div>
             <div className={styles.contactItem}>
               <GlobeIcon className={styles.contactIcon} />
-              <span>www.admissioncompass.ng</span>
+              <span>www.admissioncompass.com.ng</span>
             </div>
             <div className={styles.contactItem}>
               <SupportIcon className={styles.contactIcon} />

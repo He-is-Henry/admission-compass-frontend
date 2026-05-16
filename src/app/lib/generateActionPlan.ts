@@ -1,5 +1,6 @@
 import { ReportResponse } from "./getReport";
 export type ActionPriority = "high" | "medium" | "low";
+import { universities } from "../data/universities";
 
 export interface ActionItem {
   title: string;
@@ -8,7 +9,7 @@ export interface ActionItem {
 }
 export function generateActionPlan(report: ReportResponse): ActionItem[] {
   const data = report.report_data;
-
+  const selectedUni = universities.find((u) => u.id === report.university);
   if (!data) return [];
 
   const actions: ActionItem[] = [];
@@ -70,7 +71,7 @@ export function generateActionPlan(report: ReportResponse): ActionItem[] {
   }
 
   /* 🔵 POST UTME */
-  if (!postUtme) {
+  if (!postUtme && selectedUni?.requires_post_utme) {
     actions.push({
       title: "Prepare for Post-UTME",
       description:
