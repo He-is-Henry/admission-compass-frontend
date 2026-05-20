@@ -106,7 +106,7 @@ const HeroSection = ({
           </div>
         </div>
 
-        {leaderboard.length > 0 && (
+        {/*   {leaderboard.length > 0 && (
           <div
             className={`${styles.fadeIn} fade-in`}
             style={{ marginTop: "48px" }}
@@ -310,7 +310,7 @@ const HeroSection = ({
               )}
             </div>
           </div>
-        )}
+        )}*/}
       </div>
     </section>
   );

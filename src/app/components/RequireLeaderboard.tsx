@@ -1,4 +1,4 @@
-/* "use client";
+"use client";
 
 import { useEffect, useState } from "react";
 import { getLeaderboard } from "@/app/lib/leaderboard";
@@ -130,4 +130,3 @@ export default function RequireLeaderboard({ children, subjects }: Props) {
     </>
   );
 }
- */
