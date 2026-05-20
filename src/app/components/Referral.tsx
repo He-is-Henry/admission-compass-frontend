@@ -247,7 +247,7 @@ export default function Referral({
                     ? "Send your unique username to friends who need admission guidance"
                     : num === 2
                       ? "When they purchase tokens using your referral, you both benefit"
-                      : "Get 10% discount on next purchase + free tokens every 3 referrals"}
+                      : "Free token on every 3 referrals"}
                 </p>
               </div>
             ))}

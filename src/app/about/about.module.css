@@ -1,25 +1,18 @@
-/* ─── Page Background ─── */
+/*  Page Background  */
 body {
   color: #fff;
-  position: relative;
-  background-image: url('/admissioncompass.jpg');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  min-height: 100vh;
   margin: 0;
 }
 
-body::before {
+/* body::before {
   content: '';
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
   z-index: -1;
-}
+} */
 
-/* ─── Container ─── */
+/*  Container  */
 .container {
   max-width: 80rem;
   margin: 0 auto;
@@ -109,7 +102,7 @@ body::before {
   }
 }
 
-/* ─── Card ─── */
+/* Card */
 .card {
   background: rgba(12, 12, 12, 0.1);
 
@@ -146,7 +139,7 @@ body::before {
   color: #fff;
 }
 
-/* ─── Icon Gradient Backgrounds ─── */
+/*  Icon Gradient Backgrounds*/
 .orangePink {
   background: linear-gradient(135deg, #fb923c, #f472b6);
 }
