@@ -491,7 +491,7 @@ const PredictionForm = () => {
                 </span>
                 <span className={styles.reportCtaDesc}>
                   Get your detailed admission report — score breakdown,
-                  insights, and action plan. Costs 1 token.
+                  insights, and action plan.
                 </span>
               </div>
               {reportError && <p className={styles.errorMsg}>{reportError}</p>}

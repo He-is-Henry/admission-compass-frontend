@@ -22,7 +22,7 @@ export default function Referral({
 }: ReferralProps) {
   const { user } = useAuth();
 
-  if (user?.isAffiliate) return;
+  // if (user?.isAffiliate) return;
   const paidCount = history.data.filter((h) => h.paid).length;
   const progress = Math.min(((paidCount % 3) / 3) * 100, 100);
   const freeTokensEarned = Math.floor(paidCount / 3);
@@ -47,7 +47,7 @@ export default function Referral({
         </div>
 
         <div className={styles.innerContainer}>
-          <div className={`${styles.glassCard} ${styles.fadeIn} fade-in`}>
+          {!user?.isAffiliate && <div className={`${styles.glassCard} ${styles.fadeIn} fade-in`}>
             <div className={styles.grid}>
               <div>
                 <div className={styles.referralHeader}>
@@ -227,7 +227,7 @@ export default function Referral({
                 </div>
               </div>
             </div>
-          </div>
+          </div>}
 
           <div className={`${styles.howItWorks} ${styles.fadeIn} fade-in`}>
             {[1, 2, 3].map((num) => (
@@ -247,7 +247,7 @@ export default function Referral({
                     ? "Send your unique username to friends who need admission guidance"
                     : num === 2
                       ? "When they purchase tokens using your referral, you both benefit"
-                      : "Get 10% discount on next purchase + free tokens every 3 referrals"}
+                      : "Get one free token for every 3 referrals"}
                 </p>
               </div>
             ))}

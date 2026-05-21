@@ -92,7 +92,8 @@
 .brandName {
   color: white;
   font-weight: 650;
-  font-size: 1.2rem;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 /* navigation — hidden on mobile, visible on desktop */

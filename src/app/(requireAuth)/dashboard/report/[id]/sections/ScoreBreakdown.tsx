@@ -59,7 +59,6 @@ export default function ScoreBreakdown({ report }: Props) {
     : null;
   return (
     <div className={styles.page}>
-      <div className={styles.section}>Section 2 of 6</div>
       <h2 className={styles.title}>Score Breakdown</h2>
       <p className={styles.subtitle}>
         Detailed analysis of your academic performance across key admission

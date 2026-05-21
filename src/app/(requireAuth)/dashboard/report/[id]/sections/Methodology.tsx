@@ -14,7 +14,6 @@ export default function Methodology({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.section}>Section 3 of 6</div>
       <h2 className={styles.title}>How We Calculated Your Chances</h2>
       <p className={styles.subtitle}>
         A transparent look at the methodology behind your admission probability.

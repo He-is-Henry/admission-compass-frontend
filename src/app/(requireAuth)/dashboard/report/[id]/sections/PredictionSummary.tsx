@@ -24,7 +24,6 @@ export default function PredictionSummary({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.section}>Section 1 of 6</div>
       <h2 className={styles.title}>Prediction Summary</h2>
 
       <div className={styles.card}>

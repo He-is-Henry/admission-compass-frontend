@@ -13,7 +13,6 @@ export default function ActionPlan({ report }: Props) {
 
   return (
     <div className={styles.page}>
-      <div className={styles.section}>Section 5 of 6</div>
       <h2 className={styles.title}>Your Action Plan</h2>
       <p className={styles.subtitle}>
         Follow these recommended steps to maximise your admission chances.

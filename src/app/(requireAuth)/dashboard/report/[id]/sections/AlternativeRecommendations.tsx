@@ -26,7 +26,6 @@ export default function AlternativeRecommendations({ report }: Props) {
     <div className={styles.page}>
 
 
-      <div className={styles.section}>Section 4 of 6</div>
       <h2 className={styles.title}>Alternative Recommendations</h2>
       <p className={styles.subtitle}>
         Based on your profile, here are alternative paths to strengthen your

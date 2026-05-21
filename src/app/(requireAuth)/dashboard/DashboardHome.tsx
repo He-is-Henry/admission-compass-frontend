@@ -7,6 +7,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import toast from "react-hot-toast";
 import { getLeaderboard } from "@/app/lib/leaderboard";
 import Referral from "@/app/components/Referral";
+import Leaderboard from "@/app/components/Leaderboard";
 
 export default function DashboardHome() {
   const { user } = useAuth();
@@ -17,6 +18,13 @@ export default function DashboardHome() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const router = useRouter();
+
+  const [lbPage, setLbPage] = useState(1);
+  const [loadingMoreLb, setLoadingMoreLb] = useState(false);
+  const [lead, setLead] = useState<LeaderboardEntry[]>([]);
+  const [currentUser, setCurrentUser] = useState<LeaderboardEntry | null>(null);
+  const [hasMoreLb, setHasMoreLb] = useState(false);
+
   const [history, setHistory] = useState<{
     data: ReferralHistory[];
     total: number;
@@ -27,7 +35,12 @@ export default function DashboardHome() {
 
   useEffect(() => {
     getLeaderboard(1, 1)
-      .then((data) => setHistory(data.history))
+      .then((data) => {
+        setLead(data.lead);
+        setCurrentUser(data.currentUser);
+        setHasMoreLb(data.leaderboard.hasMore);
+        setHistory(data.history);
+      })
       .catch(console.error);
   }, []);
 
@@ -35,7 +48,7 @@ export default function DashboardHome() {
     setLoadingMore(true);
     try {
       const next = historyPage + 1;
-      const newData = await getLeaderboard(next, 1);
+      const newData = await getLeaderboard(next, lbPage);
       setHistory((prev) => ({
         ...newData.history,
         data: [...prev.data, ...newData.history.data],
@@ -46,29 +59,31 @@ export default function DashboardHome() {
     }
   };
 
+  const loadMoreLeaderboard = async () => {
+    setLoadingMoreLb(true);
+    try {
+      const next = lbPage + 1;
+      const newData = await getLeaderboard(historyPage, next);
+      setLead((prev) => [...prev, ...newData.lead]);
+      setHasMoreLb(newData.leaderboard.hasMore);
+      setLbPage(next);
+    } finally {
+      setLoadingMoreLb(false);
+    }
+  };
+
   useEffect(() => {
     const clearParam = (name: string) => {
       const params = new URLSearchParams(searchParams);
       params.delete(name);
       router.replace(`${pathname}?${params.toString()}`);
     };
-
     const generatedUsername = searchParams.get("generatedUsername");
     const merged = searchParams.get("merged");
-
     if (generatedUsername) {
-      toast(
-        "We set your username to " +
-        user?.username +
-        ". You can change it in your profile.",
-        {
-          duration: 6000,
-          icon: "👋",
-        },
-      );
+      toast("We set your username to " + user?.username + ". You can change it in your profile.", { duration: 6000, icon: "👋" });
       clearParam("generatedUsername");
     }
-
     if (merged) {
       toast.success("Your Google account has been linked successfully.");
       clearParam("merged");
@@ -76,20 +91,14 @@ export default function DashboardHome() {
   }, [user, searchParams, pathname, router]);
 
   useEffect(() => {
-    const fetchPredictions = async () => {
-      const res = await getAllPredictions();
-      setPredictions(res);
-    };
-    fetchPredictions();
+    getAllPredictions().then(setPredictions).catch(console.error);
   }, []);
 
-  const getStatus = (probability: number) => {
-    return probability >= 70 ? "high" : probability >= 50 ? "medium" : "low";
-  };
+  const getStatus = (probability: number) =>
+    probability >= 70 ? "high" : probability >= 50 ? "medium" : "low";
 
   return (
     <div className={styles.container}>
-      {/* Welcome Header */}
       <div className={styles.header}>
         <h1 className={styles.title}>
           Welcome back, {user?.username.split(" ")[0]}! 👋
@@ -99,88 +108,76 @@ export default function DashboardHome() {
         </p>
       </div>
 
-      {/* Summary Cards */}
-      <div className={styles.cardsGrid}>
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <span>Total Predictions</span>
-          </div>
-          <div className={styles.cardContent}>
-            <div className={styles.largeText}>{predictions.length}</div>
-            <p className={styles.smallText}>
-              {predictions.length > 0
-                ? "Keep exploring options"
-                : "Run your first prediction"}
-            </p>
-          </div>
+      {/* Leaderboard + stat cards side by side */}
+      <div className={styles.topRow}>
+        <div className={styles.lbCol}>
+          <Leaderboard
+            leaderboard={lead}
+            currentUser={currentUser}
+            hasMore={hasMoreLb}
+            onLoadMore={loadMoreLeaderboard}
+            loading={loadingMoreLb}
+          />
         </div>
-
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <span>Token Balance</span>
-          </div>
-          <div className={styles.cardContent}>
-            <div className={styles.largeText}>{tokenBalance}</div>
-            <p className={styles.smallText}>
-              {tokenBalance && tokenBalance > 0
-                ? "Tokens available"
-                : "Purchase tokens to continue"}
-            </p>
-          </div>
-        </div>
-
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <span>Latest Probability</span>
-          </div>
-          <div className={styles.cardContent}>
-            {latestPrediction ? (
-              <>
-                <div className={styles.largeText}>
-                  {latestPrediction.probability}%
-                </div>
-                <div
-                  className={`${styles.badge} ${styles[getStatus(latestPrediction.probability)]}`}
-                >
-                  {latestPrediction.probability >= 70
-                    ? "High Chance"
-                    : latestPrediction.probability >= 50
-                      ? "Medium Chance"
-                      : "Low Chance"}
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={styles.largeText}>--</div>
-                <p className={styles.smallText}>No predictions yet</p>
-              </>
-            )}
-          </div>
-        </div>
-
-        <div className={styles.card}>
-          <div className={styles.cardHeader}>
-            <span>Suggested Course</span>
-          </div>
-          <div className={styles.cardContent}>
-            {latestPrediction ? (
-              <>
-                <div className={styles.course}>{latestPrediction.course}</div>
+        <div className={styles.cardsCol}>
+          <div className={styles.cardsGrid}>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}><span>Total Predictions</span></div>
+              <div className={styles.cardContent}>
+                <div className={styles.largeText}>{predictions.length}</div>
                 <p className={styles.smallText}>
-                  {latestPrediction.university}
+                  {predictions.length > 0 ? "Keep exploring options" : "Run your first prediction"}
                 </p>
-              </>
-            ) : (
-              <>
-                <div className={styles.course}>--</div>
-                <p className={styles.smallText}>Run a prediction first</p>
-              </>
-            )}
+              </div>
+            </div>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}><span>Token Balance</span></div>
+              <div className={styles.cardContent}>
+                <div className={styles.largeText}>{tokenBalance}</div>
+                <p className={styles.smallText}>
+                  {tokenBalance && tokenBalance > 0 ? "Tokens available" : "Purchase tokens to continue"}
+                </p>
+              </div>
+            </div>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}><span>Latest Probability</span></div>
+              <div className={styles.cardContent}>
+                {latestPrediction ? (
+                  <>
+                    <div className={styles.largeText}>{latestPrediction.probability}%</div>
+                    <div className={`${styles.badge} ${styles[getStatus(latestPrediction.probability)]}`}>
+                      {latestPrediction.probability >= 70 ? "High Chance" : latestPrediction.probability >= 50 ? "Medium Chance" : "Low Chance"}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={styles.largeText}>--</div>
+                    <p className={styles.smallText}>No predictions yet</p>
+                  </>
+                )}
+              </div>
+            </div>
+            <div className={styles.card}>
+              <div className={styles.cardHeader}><span>Suggested Course</span></div>
+              <div className={styles.cardContent}>
+                {latestPrediction ? (
+                  <>
+                    <div className={styles.course}>{latestPrediction.course}</div>
+                    <p className={styles.smallText}>{latestPrediction.university.toUpperCase()}</p>
+                  </>
+                ) : (
+                  <>
+                    <div className={styles.course}>--</div>
+                    <p className={styles.smallText}>Run a prediction first</p>
+                  </>
+                )}
+              </div>
+            </div>
           </div>
         </div>
       </div>
 
-      {/* Admission Readiness */}
+      {/* Readiness + quick actions + recent predictions */}
       <div className={styles.readinessCard}>
         <div className={styles.readinessHeader}>
           <span>Your Admission Readiness Score</span>
@@ -189,110 +186,65 @@ export default function DashboardHome() {
         <div className={styles.readinessContent}>
           <div className={styles.flexBetween}>
             <span className={styles.readinessScore}>{readinessScore}%</span>
-            <div
-              className={`${styles.badge} ${readinessScore >= 70 ? styles.high : readinessScore >= 50 ? styles.medium : styles.low}`}
-            >
-              {readinessScore >= 70
-                ? "Strong"
-                : readinessScore >= 50
-                  ? "Moderate"
-                  : "Needs Improvement"}
+            <div className={`${styles.badge} ${readinessScore >= 70 ? styles.high : readinessScore >= 50 ? styles.medium : styles.low}`}>
+              {readinessScore >= 70 ? "Strong" : readinessScore >= 50 ? "Moderate" : "Needs Improvement"}
             </div>
           </div>
           <div className={styles.progressBar}>
-            <div
-              className={styles.progressFill}
-              style={{ width: `${readinessScore}%` }}
-            />
+            <div className={styles.progressFill} style={{ width: `${readinessScore}%` }} />
           </div>
           {readinessScore < 70 && (
             <div className={styles.notice}>
-              <strong>Improve your chances:</strong> Explore alternative courses
-              or universities where you have higher probability.
+              <strong>Improve your chances:</strong> Explore alternative courses or universities where you have higher probability.
             </div>
           )}
-
           <div>
             <h2 className={styles.quickActionsTitle}>Quick Actions</h2>
             <div className={styles.quickActionsGrid}>
               <div className={styles.quickActionCard}>
                 <div className={styles.iconContainer} />
-                <h3 className={styles.quickActionHeading}>
-                  Run New Prediction
-                </h3>
-                <p className={styles.quickActionText}>
-                  Check your admission chances for a new course or university.
-                </p>
+                <h3 className={styles.quickActionHeading}>Run New Prediction</h3>
+                <p className={styles.quickActionText}>Check your admission chances for a new course or university.</p>
                 <button className={styles.quickActionButton}>Start Now</button>
               </div>
-
               <div className={styles.quickActionCard}>
                 <div className={styles.iconContainer} />
                 <h3 className={styles.quickActionHeading}>Buy Tokens</h3>
-                <p className={styles.quickActionText}>
-                  Purchase tokens to unlock detailed reports and past questions.
-                </p>
-                <button className={styles.quickActionButton}>
-                  View Wallet
-                </button>
+                <p className={styles.quickActionText}>Purchase tokens to unlock detailed reports and past questions.</p>
+                <button className={styles.quickActionButton}>View Wallet</button>
               </div>
-
               <div className={styles.quickActionCard}>
                 <div className={styles.iconContainer} />
                 <h3 className={styles.quickActionHeading}>Past Questions</h3>
-                <p className={styles.quickActionText}>
-                  Access past questions and prepare for your exams.
-                </p>
+                <p className={styles.quickActionText}>Access past questions and prepare for your exams.</p>
                 <button className={styles.quickActionButton}>Browse Now</button>
               </div>
             </div>
           </div>
-
-          {/* Recent Predictions */}
           {predictions.length > 0 && (
             <div className={styles.recentActivityCard}>
               <div className={styles.cardHeader}>
                 <h3 className={styles.cardTitle}>Recent Predictions</h3>
-                <p className={styles.cardDescription}>
-                  Your latest admission probability checks
-                </p>
+                <p className={styles.cardDescription}>Your latest admission probability checks</p>
               </div>
               <div className={styles.cardContent}>
                 {predictions.slice(0, 3).map((prediction) => (
                   <div key={prediction._id} className={styles.predictionRow}>
                     <div className={styles.predictionDetails}>
-                      <div className={styles.courseName}>
-                        {prediction.course}
-                      </div>
-                      <div className={styles.universityName}>
-                        {prediction.university}
-                      </div>
-                      <div className={styles.predictionDate}>
-                        {prediction.createdAt.split("T")[0]}
-                      </div>
+                      <div className={styles.courseName}>{prediction.course}</div>
+                      <div className={styles.universityName}>{prediction.university.toUpperCase()}</div>
+                      <div className={styles.predictionDate}>{prediction.createdAt.split("T")[0]}</div>
                     </div>
-
                     <div className={styles.predictionStatus}>
                       <div>
-                        <div className={styles.probability}>
-                          {prediction.probability}%
-                        </div>
-                        <div
-                          className={`${styles.status} ${styles[getStatus(prediction.probability)]}`}
-                        >
-                          {prediction.probability >= 70
-                            ? "High Chance"
-                            : prediction.probability >= 50
-                              ? "Medium Chance"
-                              : "Low Chance"}
+                        <div className={styles.probability}>{prediction.probability}%</div>
+                        <div className={`${styles.status} ${styles[getStatus(prediction.probability)]}`}>
+                          {prediction.probability >= 70 ? "High Chance" : prediction.probability >= 50 ? "Medium Chance" : "Low Chance"}
                         </div>
                       </div>
-
                       <button
                         className={styles.reportRowBtn}
-                        onClick={() =>
-                          router.push(`dashboard/report/${prediction._id}`)
-                        }
+                        onClick={() => router.push(`dashboard/report/${prediction._id}`)}
                         title="Get full report — 1 token"
                       >
                         Report
@@ -302,14 +254,13 @@ export default function DashboardHome() {
                 ))}
               </div>
               {predictions.length > 3 && (
-                <button className={styles.viewAllButton}>
-                  View All Predictions
-                </button>
+                <button className={styles.viewAllButton}>View All Predictions</button>
               )}
             </div>
           )}
         </div>
       </div>
+
       <div className={styles.referralWrapper}>
         <Referral
           history={history}

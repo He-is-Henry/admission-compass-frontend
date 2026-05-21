@@ -23,7 +23,6 @@ export default function Disclaimer({ reportId, generatedAt }: Props) {
   return (
     <div className={styles.page}>
 
-      <div className={styles.section}>Section 6 of 6</div>
       <h2 className={styles.title}>Important Information</h2>
 
       <div className={styles.container}>

@@ -1,0 +1,119 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 480px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #1a1a2e;
+  margin: 0 0 4px;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-radius: 12px;
+  background: #fff;
+  border: 1px solid #f0f0f0;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+}
+
+.entry.first {
+  background: #fffbe6;
+  border-color: #ffe066;
+}
+
+.entry.you {
+  background: #f0f4ff;
+  border: 2px solid #d0d9f7;
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.position {
+  font-size: 1.2rem;
+  min-width: 28px;
+  text-align: center;
+  font-weight: 700;
+  color: #3520ac;
+}
+
+.username {
+  font-weight: 600;
+  margin: 0;
+  font-size: 0.95rem;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.name {
+  font-size: 0.82rem;
+  color: #888;
+  margin: 0;
+}
+
+.youBadge {
+  font-size: 0.7rem;
+  background: #3520ac;
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.right {
+  text-align: right;
+}
+
+.count {
+  font-weight: 700;
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.label {
+  font-size: 0.78rem;
+  color: #888;
+  margin: 0;
+}
+
+.loadMore {
+  margin-top: 4px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  border: 1px solid #d0d9f7;
+  background: #f0f4ff;
+  color: #3520ac;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  align-self: center;
+}
+
+.loadMore:hover:not(:disabled) {
+  background: #e0e8ff;
+}
+
+.loadMore:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

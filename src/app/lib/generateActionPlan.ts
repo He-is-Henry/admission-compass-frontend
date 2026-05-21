@@ -9,7 +9,10 @@ export interface ActionItem {
 }
 export function generateActionPlan(report: ReportResponse): ActionItem[] {
   const data = report.report_data;
-  const selectedUni = universities.find((u) => u.id === report.university);
+  const selectedUni = universities.find(
+    (u) => u.id === report.university.toLowerCase(),
+  );
+  console.log(selectedUni);
   if (!data) return [];
 
   const actions: ActionItem[] = [];
@@ -27,7 +30,7 @@ export function generateActionPlan(report: ReportResponse): ActionItem[] {
       description: `You are ${Math.abs(
         diff,
       )} points below the required aggregate. Consider improving your scores or choosing safer alternatives.`,
-      priority: Math.abs(diff) > 15 ? "high" : "medium",
+      priority: "high",
     });
   }
 

@@ -44,6 +44,8 @@ export default function ReportView({ id }: Props) {
         return;
       }
 
+      data.university = data.university.toUpperCase()
+
       sessionStorage.setItem(cacheKey, JSON.stringify(data));
       setReport(data);
       setLoading(false);
