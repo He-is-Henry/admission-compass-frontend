@@ -106,92 +106,98 @@ const Header: React.FC = () => {
             />
             {<span className={styles.brandName}>ADMISSION COMPASS</span>}{" "}
           </div>
-          <button
-            className={`${styles.hamburger} ${drawerOpen ? styles.hamburgerOpen : ""}`}
-            onClick={() => setDrawerOpen(true)}
-            aria-label="Open menu"
-          >
-            <span />
-            <span />
-            <span />
-          </button>
 
-          {/* Backdrop */}
-          <div
-            className={`${styles.backdrop} ${drawerOpen ? styles.backdropOpen : ""}`}
-            onClick={() => setDrawerOpen(false)}
-          />
-
-          {/* Drawer */}
-          <div
-            className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
-          >
+          {!user && (
             <button
-              className={styles.drawerClose}
-              onClick={() => setDrawerOpen(false)}
+              className={`${styles.hamburger} ${drawerOpen ? styles.hamburgerOpen : ""}`}
+              onClick={() => setDrawerOpen(true)}
+              aria-label="Open menu"
             >
-              ✕
+              <span />
+              <span />
+              <span />
             </button>
-            <nav className={styles.drawerNav}>
-              <a
-                href="#features"
-                className={styles.drawerLink}
+          )}
+          {/* Backdrop */}
+          {!user && (
+            <>
+              <div
+                className={`${styles.backdrop} ${drawerOpen ? styles.backdropOpen : ""}`}
                 onClick={() => setDrawerOpen(false)}
+              />
+
+              {/* Drawer */}
+              <div
+                className={`${styles.drawer} ${drawerOpen ? styles.drawerOpen : ""}`}
               >
-                Features
-              </a>
-              <a
-                href="#pricing"
-                className={styles.drawerLink}
-                onClick={() => setDrawerOpen(false)}
-              >
-                Pricing
-              </a>
-              <a
-                href="/about"
-                className={styles.drawerLink}
-                onClick={() => setDrawerOpen(false)}
-              >
-                About
-              </a>
-              <Link
-                href="/support"
-                className={styles.drawerLink}
-                onClick={() => setDrawerOpen(false)}
-              >
-                Contact
-              </Link>
-              <Link
-                href="/blog"
-                className={styles.drawerLink}
-                onClick={() => setDrawerOpen(false)}
-              >
-                Blog
-              </Link>
-            </nav>
-            {!user && (
-              <div className={styles.drawerActions}>
                 <button
-                  onClick={() => {
-                    openLogin();
-                    setDrawerOpen(false);
-                  }}
-                  className={styles.drawerLoginButton}
+                  className={styles.drawerClose}
+                  onClick={() => setDrawerOpen(false)}
                 >
-                  Login
+                  ✕
                 </button>
-                <button
-                  onClick={() => {
-                    openSignup();
-                    setDrawerOpen(false);
-                  }}
-                  className={styles.drawerSignupButton}
-                >
-                  Sign up
-                </button>
+                <nav className={styles.drawerNav}>
+                  <a
+                    href="#features"
+                    className={styles.drawerLink}
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Features
+                  </a>
+                  <a
+                    href="#pricing"
+                    className={styles.drawerLink}
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Pricing
+                  </a>
+                  <a
+                    href="/about"
+                    className={styles.drawerLink}
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    About
+                  </a>
+                  <Link
+                    href="/support"
+                    className={styles.drawerLink}
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Contact
+                  </Link>
+                  <Link
+                    href="/blog"
+                    className={styles.drawerLink}
+                    onClick={() => setDrawerOpen(false)}
+                  >
+                    Blog
+                  </Link>
+                </nav>
+                {!user && (
+                  <div className={styles.drawerActions}>
+                    <button
+                      onClick={() => {
+                        openLogin();
+                        setDrawerOpen(false);
+                      }}
+                      className={styles.drawerLoginButton}
+                    >
+                      Login
+                    </button>
+                    <button
+                      onClick={() => {
+                        openSignup();
+                        setDrawerOpen(false);
+                      }}
+                      className={styles.drawerSignupButton}
+                    >
+                      Sign up
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
           {/* Nav */}
           <nav className={styles.nav} aria-label="Main navigation">
             {isHome && (
