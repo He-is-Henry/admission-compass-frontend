@@ -35,15 +35,7 @@ export default async function Home() {
       <StatsSection />
       <Pricing />
       <DiscountBanner />
-      <Referral
-        history={
-          {
-            data: [],
-            total: 0,
-            hasMore: false
-          }
-        }
-        onLoadMore={() => { }} />
+      <Referral />
       <Footer />
     </main>
   );

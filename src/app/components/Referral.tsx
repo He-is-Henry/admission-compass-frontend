@@ -4,21 +4,25 @@ import toast from "react-hot-toast";
 import { useAuth } from "../hooks/useAuth";
 
 type ReferralProps = {
-  history: {
+  history?: {
     data: ReferralHistory[];
     total: number;
     hasMore: boolean;
   };
-  onLoadMore: () => void;
+  onLoadMore?: () => void;
   loadingMore?: boolean;
   inline?: boolean;
 };
 
 export default function Referral({
-  history,
-  onLoadMore,
-  loadingMore,
-  inline,
+  history = {
+    data: [],
+    total: 0,
+    hasMore: false,
+  },
+  onLoadMore = () => { },
+  loadingMore = false,
+  inline = false,
 }: ReferralProps) {
   const { user } = useAuth();
 
